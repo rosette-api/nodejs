@@ -7,5 +7,3 @@ before_install:
   - npm install -g npm
 before_script:
   - npm install grunt-cli -g
-  - npm uninstall grunt # https://github.com/npm/npm/issues/3958
-  
