@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: DocumentParameters.js</title>
+    <title>JSDoc: Source: RelationshipsParameters.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: DocumentParameters.js</h1>
+    <h1 class="page-title">Source: RelationshipsParameters.js</h1>
 
     
 
@@ -27,9 +27,9 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * class DocumentParameters.
+ * class RelationshipsParameters.
  *
- * Parameter class for the standard Rosette API endpoints.  Does not include Name Translation
+ * Parameter class for the Rosette API relationships endpoints.  Based on the RelationshipsParameters
  *
  * @copyright 2014-2015 Basis Technology Corporation.
  *
@@ -58,13 +58,31 @@ var RosetteException = require("./RosetteException");
  * @license http://www.apache.org/licenses/LICENSE-2.0
  * @throws RosetteException
  */
-function DocumentParameters() {
-  DocumentParamSetBase.call(this, ["content", "contentUri", "contentType", "unit", "language"]); //super constructor
+function RelationshipsParameters() {
+  DocumentParamSetBase.call(this, ["content", "contentUri", "contentType", "unit", "language", "options"]); //super constructor
   this.setItem("unit", rosetteConstants.inputUnit.DOC);
+  this.setItem("options", { accuracyMode: "PRECISION" });
 }
 
 // inherit from DocumentParamSetBase
-util.inherits(DocumentParameters, DocumentParamSetBase);
+util.inherits(RelationshipsParameters, DocumentParamSetBase);
+
+/**
+ * Setter for the options parameter
+ * @param {string} key
+ * @param value
+ *
+ * @throws RosetteException
+ */
+RelationshipsParameters.prototype.setOption = function(key, value) {
+    if (!("options" in this.params)) {
+        this.params["options"] = { accuracyMode: "PRECISION" };
+    }
+    if (!(key in this.params.options)) {
+        throw new RosetteException("badKey", "Unknown Rosette parameter options key", key);
+    }
+    this.params.options[key] = value;
+};
 
 /**
  * Loads a string into the object.
@@ -78,7 +96,7 @@ util.inherits(DocumentParameters, DocumentParamSetBase);
  *
  * @throws RosetteException
  */
-DocumentParameters.prototype.loadDocumentString = function(stringData, dataType) {
+RelationshipsParameters.prototype.loadDocumentString = function(stringData, dataType) {
   if (!dataType) { dataType = rosetteConstants.dataFormat.UNSPECIFIED; }
   this.setItem("content", stringData);
   this.setItem("contentType", dataType);
@@ -95,7 +113,7 @@ DocumentParameters.prototype.loadDocumentString = function(stringData, dataType)
  * @param {string} path - Path to a file
  * @param {string} [dataType]
  */
-DocumentParameters.prototype.loadDocumentFile = function(path, dataType) {
+RelationshipsParameters.prototype.loadDocumentFile = function(path, dataType) {
   if (!dataType) { dataType = rosetteConstants.dataFormat.UNSPECIFIED; }
   if ([rosetteConstants.dataFormat.HTML, rosetteConstants.dataFormat.XHTML,
       rosetteConstants.dataFormat.UNSPECIFIED].indexOf(dataType) === -1) {
@@ -109,17 +127,20 @@ DocumentParameters.prototype.loadDocumentFile = function(path, dataType) {
  * Validates parameters
  * @throws RosetteException
  */
-DocumentParameters.prototype.validate = function() {
+RelationshipsParameters.prototype.validate = function() {
   if (!this.okayString(this.params.content) &amp;&amp; !this.okayString(this.params.contentUri)) {
     throw new RosetteException("badArgument", "Must supply one of Content or ContentUri", "bad arguments");
   }
   if (this.okayString(this.params.content) &amp;&amp; this.okayString(this.params.contentUri)) {
     throw new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments");
   }
+  if (this.params.options.accuracyMode !== "PRECISION" &amp;&amp; this.params.options.accuracyMode !== "RECALL") {
+    throw new RosetteException("badOption", "accuracyMode must be either PRECISION or RECALL", "bad options");
+  }
 };
 
 //Export the constructor function as the export of this module file.
-module.exports = DocumentParameters;
+module.exports = RelationshipsParameters;
 </code></pre>
         </article>
     </section>
