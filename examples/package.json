@@ -1,7 +1,7 @@
 {
   "name": "rosette-api-examples",
   "description": "Usage examples for Rosette API Node.JS client SDK",
-  "version": "0.7.1",
+  "version": "0.7.5",
   "homepage": "https://developer.rosette.com",
   "author": {
     "name": "Basis Technology Corp.",
@@ -22,7 +22,7 @@
   ],
   "main": "index",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">= 0.12.0"
   },
   "scripts": {
     "test": "grunt nodeunit"
