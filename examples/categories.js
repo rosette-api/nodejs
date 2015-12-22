@@ -14,7 +14,7 @@ var parser = new ArgumentParser({
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 parser.addArgument(["--url"], {help: "Optional URL for data",
-    defaultValue: "https://en.wikipedia.org/wiki/Basis_Technology_Corp."});
+    defaultValue: "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/"});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();

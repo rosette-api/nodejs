@@ -16,7 +16,7 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var relationshipsParams = new RelationshipsParameters();
-var content = "Yesterday in Guatemala, the Supreme Court approved the attorney general's request to impeach President Otto Pérez Molina.";
+var content = "Bill Murray is in the new Ghostbusters film!";
 
 relationshipsParams.setItem("content", content);
 
