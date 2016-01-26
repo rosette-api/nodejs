@@ -15,8 +15,10 @@ var parser = new ArgumentParser({
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
-var name1 = {"text": "Michael Jackson", "language": "eng", "entityType": "PERSON"};
-var name2 = {"text": "迈克尔·杰克逊", "entityType": "PERSON"};
+var matched_name_data1 = "Michael Jackson";
+var matched_name_data2 = "迈克尔·杰克逊";
+var name1 = {"text": matched_name_data1, "language": "eng", "entityType": "PERSON"};
+var name2 = {"text": matched_name_data2, "entityType": "PERSON"};
 var matchParams = new NameMatchingParameters(name1, name2);
 
 var api = new Api(args.key);
@@ -25,6 +27,6 @@ api.matchedName(matchParams, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

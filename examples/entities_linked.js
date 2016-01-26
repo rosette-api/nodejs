@@ -16,7 +16,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-var content = "Last month director Paul Feig announced the movie will have an all-star female cast including Kristen Wiig, Melissa McCarthy, Leslie Jones and Kate McKinnon.";
+var entities_linked_text_data = "Last month director Paul Feig announced the movie will have an all-star female cast including Kristen Wiig, Melissa McCarthy, Leslie Jones and Kate McKinnon.";
+var content = entities_linked_text_data;
 docParams.setItem("content", content);
 
 var api = new Api(args.key);
@@ -25,6 +26,6 @@ api.entities(docParams, true, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

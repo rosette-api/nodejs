@@ -16,7 +16,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var relationshipsParams = new RelationshipsParameters();
-var content = "Bill Murray is in the new Ghostbusters film!";
+var relationships_text_data = "Bill Murray is in the new Ghostbusters film!";
+var content = relationships_text_data;
 
 relationshipsParams.setItem("content", content);
 
@@ -26,6 +27,6 @@ api.relationships(relationshipsParams, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

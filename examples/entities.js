@@ -16,7 +16,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-var content = "Bill Murray will appear in new Ghostbusters film: Dr. Peter Venkman was spotted filming a cameo in Boston this… http://dlvr.it/BnsFfS ";
+var entities_text_data = "Bill Murray will appear in new Ghostbusters film: Dr. Peter Venkman was spotted filming a cameo in Boston this… http://dlvr.it/BnsFfS";
+var content = entities_text_data;
 
 docParams.setItem("content", content);
 
@@ -26,6 +27,6 @@ api.entities(docParams, false, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

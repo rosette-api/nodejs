@@ -12,9 +12,10 @@ var parser = new ArgumentParser({
   addHelp: true,
   description: "Get the category of a piece of a document at a URL"
 });
+var categories_url_data = "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 parser.addArgument(["--url"], {help: "Optional URL for data",
-    defaultValue: "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/"});
+    defaultValue: categories_url_data});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -26,6 +27,6 @@ api.categories(docParams, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

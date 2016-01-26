@@ -17,7 +17,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-var content = "Rechtsschutzversicherungsgesellschaften";
+var morphology_compound_components_data = "Rechtsschutzversicherungsgesellschaften";
+var content = morphology_compound_components_data;
 docParams.setItem("content", content);
 
 var api = new Api(args.key);
@@ -26,6 +27,6 @@ api.morphology(docParams, rosetteConstants.morpholoyOutput.COMPOUND_COMPONENTS, 
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });
