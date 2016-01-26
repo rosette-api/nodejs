@@ -17,7 +17,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-var content = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";
+var morphology_parts_of_speech_data = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";
+var content = morphology_parts_of_speech_data;
 docParams.setItem("content", content);
 
 var api = new Api(args.key);
@@ -26,6 +27,6 @@ api.morphology(docParams, rosetteConstants.morpholoyOutput.PARTS_OF_SPEECH, func
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });

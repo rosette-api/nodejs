@@ -16,7 +16,8 @@ parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-var content = "北京大学生物系主任办公室内部会议";
+var tokens_data = "北京大学生物系主任办公室内部会议";
+var content = tokens_data;
 docParams.setItem("content", content);
 
 var api = new Api(args.key);
@@ -25,6 +26,6 @@ api.tokens(docParams, function(err, res) {
     throw err;
   }
   else {
-    console.log(res);
+    console.log(JSON.stringify(res, null, 2));
   }
 });
