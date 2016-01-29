@@ -13,6 +13,7 @@ var parser = new ArgumentParser({
   description: "Get the similarity score of two names"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var matched_name_data1 = "Michael Jackson";
@@ -21,7 +22,7 @@ var name1 = {"text": matched_name_data1, "language": "eng", "entityType": "PERSO
 var name2 = {"text": matched_name_data2, "entityType": "PERSON"};
 var matchParams = new NameMatchingParameters(name1, name2);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.matchedName(matchParams, function(err, res) {
   if (err) {
     throw err;

@@ -13,6 +13,7 @@ var parser = new ArgumentParser({
   description: "Translate a name from one language to another"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var translationParams = new NameTranslationParameters();
@@ -21,7 +22,7 @@ translationParams.setItem("name", translated_name_data);
 translationParams.setItem("entityType", "PERSON");
 translationParams.setItem("targetLanguage", "eng");
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.translatedName(translationParams, function(err, res) {
   if (err) {
     throw err;

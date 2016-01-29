@@ -14,14 +14,13 @@ var parser = new ArgumentParser({
 });
 var categories_url_data = "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
-parser.addArgument(["--url"], {help: "Optional URL for data",
-    defaultValue: categories_url_data});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
-docParams.setItem("contentUri", args.url);
+docParams.setItem("contentUri", categories_url_data);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.categories(docParams, function(err, res) {
   if (err) {
     throw err;

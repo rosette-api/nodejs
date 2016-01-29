@@ -14,6 +14,7 @@ var parser = new ArgumentParser({
   description: "Get the sentiment of the text in a local file"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -27,7 +28,7 @@ file.writeFileSync(fileContents);
 docParams.loadDocumentFile(file.path);
 file.unlink();
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.sentiment(docParams, function(err, res) {
   if (err) {
     throw err;

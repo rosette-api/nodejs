@@ -14,6 +14,7 @@ var parser = new ArgumentParser({
   description: "Get part-of-speech tags for words in text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -21,7 +22,7 @@ var morphology_parts_of_speech_data = "The fact is that the geese just went back
 var content = morphology_parts_of_speech_data;
 docParams.setItem("content", content);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.morphology(docParams, rosetteConstants.morpholoyOutput.PARTS_OF_SPEECH, function(err, res) {
   if (err) {
     throw err;

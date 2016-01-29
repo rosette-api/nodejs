@@ -12,9 +12,10 @@ var parser = new ArgumentParser({
   description: "Get information about Rosette API"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.info(function(err, res) {
   if (err) {
     throw err;

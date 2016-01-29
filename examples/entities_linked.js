@@ -13,6 +13,7 @@ var parser = new ArgumentParser({
   description: "Get linked entities from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -20,7 +21,7 @@ var entities_linked_text_data = "Last month director Paul Feig announced the mov
 var content = entities_linked_text_data;
 docParams.setItem("content", content);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.entities(docParams, true, function(err, res) {
   if (err) {
     throw err;

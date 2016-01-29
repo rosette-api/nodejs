@@ -14,6 +14,7 @@ var parser = new ArgumentParser({
   description: "Get the entities from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -23,7 +24,7 @@ var content = new Buffer(entities_text_data).toString('base64');
 docParams.setItem("content", content);
 docParams.setItem("contentType", rosetteConstants.dataFormat.UNSPECIFIED);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.entities(docParams, false, function(err, res) {
   if (err) {
     throw err;
