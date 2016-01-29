@@ -14,6 +14,7 @@ var parser = new ArgumentParser({
   description: "Get de-compounded words from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
 var args = parser.parseArgs();
 
 var docParams = new DocumentParameters();
@@ -21,7 +22,7 @@ var morphology_compound_components_data = "Rechtsschutzversicherungsgesellschaft
 var content = morphology_compound_components_data;
 docParams.setItem("content", content);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 api.morphology(docParams, rosetteConstants.morpholoyOutput.COMPOUND_COMPONENTS, function(err, res) {
   if (err) {
     throw err;
