@@ -11,6 +11,8 @@ If you would like to run against an alternate url, you can use the optional --ur
 
 To run all of the examples, use the command line:
 `find -maxdepth 1 -name "*.js" -exec node {} --key api_key --url alt_url \;`
+or execute:
+`run_all.sh`
 
 All files require you to input your Rosette API User Key after `--key` to run.
 For example: `node ping.js --key 1234567890`  
