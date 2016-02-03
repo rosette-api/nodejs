@@ -37,7 +37,7 @@ var checkVersion = require("./checkVersion");
  *
  * @type string
  */
-var BINDING_VERSION = "0.7";
+var BINDING_VERSION = "0.8";
 
 // need to test with serviceURL
 function Api(userKey, serviceURL) {

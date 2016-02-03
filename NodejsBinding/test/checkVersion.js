@@ -26,7 +26,7 @@ var RosetteException = require("./rosetteExceptions");
  *
  * @type string
  */
-var BINDING_VERSION = "0.7";
+var BINDING_VERSION = "0.8";
 
 function checkVersion() {
 
