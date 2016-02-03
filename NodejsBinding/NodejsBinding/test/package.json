@@ -1,0 +1,35 @@
+{
+  "name": "rosette-api",
+  "version": "0.8.0",
+  "description": "Rosette API Node.js client SDK",
+  "main": "index",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rosette-api/nodejs.git"
+  },
+  "keywords": [
+    "rosette",
+    "basis",
+    "nlp",
+    "text analytics"
+  ],
+  "author": {
+    "name": "Basis Technology Corp",
+    "email": "rosette_api@basistech.com"
+  },
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=0.12.0",
+    "iojs": "*"
+  },
+  "bugs": {
+    "url": "https://github.com/rosette-api/nodejs/issues"
+  },
+  "homepage": "https://developer.rosette.com"
+}
