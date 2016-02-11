@@ -17,7 +17,7 @@ parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "
 var args = parser.parseArgs();
 
 var relationshipsParams = new RelationshipsParameters();
-var relationships_text_data = "Bill Murray is in the new Ghostbusters film!";
+var relationships_text_data = "The Ghostbusters movie was filmed in Boston.";
 var content = relationships_text_data;
 
 relationshipsParams.setItem("content", content);
