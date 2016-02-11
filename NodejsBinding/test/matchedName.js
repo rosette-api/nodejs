@@ -95,6 +95,8 @@ matchedName.prototype.getResults = function(parameters, userKey, serviceURL, cal
 
                 if (res.statusCode === 200) {
                     return callback(err, JSON.parse(result.toString()));
+                } else if(res.statusCode != 200){
+                    return callback(err, JSON.parse(result.toString()));
                 }
             });
         });

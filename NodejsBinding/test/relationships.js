@@ -46,9 +46,12 @@ relationships.prototype.getResults = function(parameters, userKey, serviceURL, c
     }
 
     // validate parameters
-    if (parameters.loadParams().accuracyMode.toUpperCase() != "PRECISION" && parameters.loadParams().accuracyMode.toUpperCase() != "RECALL") {
-        throw new RosetteException("badArgument", "Accuracy mode parameter must be set to either PRECISION or RECALL");
-    } else {
+    if(parameters.loadParams().accuracyMode != undefined){
+        if (parameters.loadParams().accuracyMode.toUpperCase() != "PRECISION" && parameters.loadParams().accuracyMode.toUpperCase() != "RECALL") {
+            throw new RosetteException("badArgument", "Accuracy mode parameter must be set to either PRECISION or RECALL");
+        }
+    }
+
         // configure URL
         var urlParts = URL.parse(serviceURL + "relationships");
         var protocol = https;
@@ -95,6 +98,8 @@ relationships.prototype.getResults = function(parameters, userKey, serviceURL, c
 
                 if (res.statusCode === 200) {
                     return callback(err, JSON.parse(result.toString()));
+                } else if(res.statusCode != 200){
+                    return callback(err, JSON.parse(result.toString()));
                 }
             });
         });
@@ -107,8 +112,6 @@ relationships.prototype.getResults = function(parameters, userKey, serviceURL, c
         req.write(JSON.stringify(parameters.loadParams()));
 
         req.end();
-
-    }
 
 };
 

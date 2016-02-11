@@ -97,6 +97,8 @@ categories.prototype.getResults = function(parameters, userKey, serviceURL, call
 
                 if (res.statusCode === 200) {
                     return callback(err, JSON.parse(result.toString()));
+                } else if(res.statusCode != 200){
+                    return callback(err, JSON.parse(result.toString()));
                 }
             });
         });

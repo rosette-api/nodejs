@@ -97,6 +97,8 @@ language.prototype.getResults = function(parameters, userKey, serviceURL, callba
 
                 if (res.statusCode === 200) {
                     return callback(err, JSON.parse(result.toString()));
+                } else if(res.statusCode != 200){
+                    return callback(err, JSON.parse(result.toString()));
                 }
             });
         });
