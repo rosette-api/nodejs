@@ -86,11 +86,14 @@ checkVersion.prototype.check = function(userKey, serviceURL, callback) {
 
             if (res.statusCode === 200) {
                 return callback(err, JSON.parse(result.toString()));
+            }else if(res.statusCode != 200){
+                return callback(err, JSON.parse(result.toString()));
             }
         });
     });
 
     req.on("error", function(e) {
+        console.log(e)
         return callback(e);
     });
 

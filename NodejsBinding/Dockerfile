@@ -7,9 +7,16 @@ RUN apt-get -y update && apt-get install -y git && apt-get install -y vim && apt
 #install necesary npm packages
 RUN npm install -g mocha
 
-#set the working directory
-WORKDIR /source
+#move mock data files
 
-CMD /bin/bash
+#set the working directory
+WORKDIR /source/NodejsBinding
+
+# copy move files script
+COPY moveFiles.sh /source/NodejsBinding/moveFiles.sh 
+RUN chmod 755 /source/NodejsBinding/moveFiles.sh
+
+CMD ./moveFiles.sh; /bin/bash
 
 VOLUME ["/source"]
+

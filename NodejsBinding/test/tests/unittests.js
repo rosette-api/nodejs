@@ -15,6 +15,9 @@ var entities = require("../entities");
 var morphology = require("../morphology");
 var tokens = require("../tokens");
 var sentences = require("../sentences");
+var checkVersion = require("../checkVersion");
+var info = require("../info");
+var ping = require("../ping");
 var paramObj = require("../parameters");
 //nock.recorder.rec();
 
@@ -321,7 +324,7 @@ function entitiesLinkedTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/entities', JSON.parse(request.toString()))
+                .post('/rest/v1/entities/linked', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -331,14 +334,15 @@ function entitiesLinkedTests(index, done) {
             }
             param.unit = request.unit;
             param.language = request.language;
+            param.linked = true;
 
-            entity.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            entity.getResults(param, '7323bf299f9f593cb1d7e267e5bdc34a', 'https://api.rosette.com/rest/v1/', function(err, res) {
                 index++;
                 console.log(index);
                 //console.log(JSON.stringify(expected, null, 1));
                 //console.log(JSON.stringify(res, null, 1))
                 //console.log(expected)
-                console.log(res)
+                //console.log(res)
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
@@ -513,7 +517,7 @@ function translatedNameTests(index, done) {
                 //console.log(JSON.stringify(expected, null, 1));
                 //console.log(JSON.stringify(res, null, 1))
                 //console.log(expected)
-                console.log(res)
+                //console.log(res)
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
@@ -524,6 +528,132 @@ function translatedNameTests(index, done) {
         } else {
             index++;
             return translatedNameTests(index, done);
+        }
+    } else {
+        console.log("done");
+        done();
+    }
+
+}
+
+// recursion function
+function sentencesTests(index, done) {
+    var substring = "sentences";
+
+    if (index < requestArray.length) {
+        if (requestArray[index].indexOf(substring) > -1) {
+
+            var sentence = new sentences();
+            var param = new paramObj();
+            var request = fs.readFileSync('../../../mock-data/request/' + requestArray[index]);
+            var status = fs.readFileSync('../../../mock-data/status/' + statusArray[index]);
+            var response = fs.readFileSync('../../../mock-data/response/' + responseArray[index]);
+            var expected = JSON.parse(response.toString());
+
+            // nock interceptor for endpoint 
+            nock('https://api.rosette.com', {
+                    "encodedQueryParams": true
+                })
+                .persist()
+                .post('/rest/v1/sentences', JSON.parse(request.toString()))
+                .reply(status, response);
+
+            request = JSON.parse(request);
+            param.content = request.content;
+            if (request.contentUri != undefined) {
+                param.contentUri = request.contentUri;
+            }
+            param.unit = request.unit;
+            param.language = request.language;
+            param.entityType = request.entityType;
+            param.name = request.name;
+            param.sourceLanguageOfOrigin = request.sourceLanguageOfOrigin;
+            param.sourceLanguageOfUse = request.sourceLanguageOfUse;
+            param.sourceScript = request.sourceScript;
+            param.targetLanguage = request.targetLanguage;
+            param.targetScheme = request.targetScheme;
+            param.targetScript = request.targetScript;
+
+            sentence.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+                index++;
+                console.log(index);
+                //console.log(JSON.stringify(expected, null, 1));
+                //console.log(JSON.stringify(res, null, 1))
+                //console.log(expected)
+                //console.log(res)
+                //assert.deepEqual(expected, res);
+                assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+                setTimeout(function() {
+                    return sentencesTests(index, done);
+                }, 700);
+            });
+
+        } else {
+            index++;
+            return sentencesTests(index, done);
+        }
+    } else {
+        console.log("done");
+        done();
+    }
+
+}
+
+// recursion function
+function tokensTests(index, done) {
+    var substring = "tokens";
+
+    if (index < requestArray.length) {
+        if (requestArray[index].indexOf(substring) > -1) {
+
+            var token = new tokens();
+            var param = new paramObj();
+            var request = fs.readFileSync('../../../mock-data/request/' + requestArray[index]);
+            var status = fs.readFileSync('../../../mock-data/status/' + statusArray[index]);
+            var response = fs.readFileSync('../../../mock-data/response/' + responseArray[index]);
+            var expected = JSON.parse(response.toString());
+
+            // nock interceptor for endpoint 
+            nock('https://api.rosette.com', {
+                    "encodedQueryParams": true
+                })
+                .persist()
+                .post('/rest/v1/tokens', JSON.parse(request.toString()))
+                .reply(status, response);
+
+            request = JSON.parse(request);
+            param.content = request.content;
+            if (request.contentUri != undefined) {
+                param.contentUri = request.contentUri;
+            }
+            param.unit = request.unit;
+            param.language = request.language;
+            param.entityType = request.entityType;
+            param.name = request.name;
+            param.sourceLanguageOfOrigin = request.sourceLanguageOfOrigin;
+            param.sourceLanguageOfUse = request.sourceLanguageOfUse;
+            param.sourceScript = request.sourceScript;
+            param.targetLanguage = request.targetLanguage;
+            param.targetScheme = request.targetScheme;
+            param.targetScript = request.targetScript;
+
+            token.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+                index++;
+                console.log(index);
+                //console.log(JSON.stringify(expected, null, 1));
+                //console.log(JSON.stringify(res, null, 1))
+                //console.log(expected)
+                //console.log(res)
+                //assert.deepEqual(expected, res);
+                assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+                setTimeout(function() {
+                    return tokensTests(index, done);
+                }, 700);
+            });
+
+        } else {
+            index++;
+            return tokensTests(index, done);
         }
     } else {
         console.log("done");
@@ -610,6 +740,90 @@ describe('Rosette API translated name endpoint', function() {
     this.timeout(150000);
     it('should make a request and return a response', function(done) {
         translatedNameTests(0, function() {
+            done();
+        });
+    });
+});
+
+describe('Rosette API check version endpoint', function() {
+    this.timeout(150000);
+    it('should return a response', function(done) {
+        var c = new checkVersion();
+        var status = fs.readFileSync('../../../mock-data/status/' + 'checkVersion.status');
+        var response = fs.readFileSync('../../../mock-data/other/' + 'checkVersion.json');
+        var expected = JSON.parse(response.toString());
+        
+        // nock interceptor for endpoint 
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .persist()
+           .post('/rest/v1/info')
+           .query({"clientVersion":"0.8"})
+           .reply(status, response);
+        
+        c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+            setTimeout(function(){done();}, 300)
+        });
+    });
+});
+
+describe('Rosette API info endpoint', function() {
+    this.timeout(150000);
+    it('should return a response', function(done) {
+        var i = new info();
+        var param = new paramObj();
+        var status = fs.readFileSync('../../../mock-data/status/' + 'info.status');
+        var response = fs.readFileSync('../../../mock-data/other/' + 'info.json');
+        var expected = JSON.parse(response.toString());
+        
+        // nock interceptor for endpoint 
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .persist()
+           .get('/rest/v1/info')
+           .reply(status, response);
+        
+        i.getResults(param, '7323bf299f9f593cb1d7e267e5bdc34a', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+            setTimeout(function(){done();}, 300)
+        });
+    });
+});
+
+describe('Rosette API ping endpoint', function() {
+    this.timeout(150000);
+    it('should return a response', function(done) {
+        var p = new ping();
+        var param = new paramObj();
+        var status = fs.readFileSync('../../../mock-data/status/' + 'ping.status');
+        var response = fs.readFileSync('../../../mock-data/other/' + 'ping.json');
+        var expected = JSON.parse(response.toString());
+        
+        // nock interceptor for endpoint 
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .persist()
+           .get('/rest/v1/ping')
+           .reply(status, response);
+        
+        p.getResults(param, '7323bf299f9f593cb1d7e267e5bdc34a', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+            setTimeout(function(){done();}, 300)
+        });
+    });
+});
+
+describe('Rosette API sentences endpoint', function() {
+    this.timeout(150000);
+    it('should make a request and return a response', function(done) {
+        sentencesTests(0, function() {
+            done();
+        });
+    });
+});
+
+describe('Rosette API tokens endpoint', function() {
+    this.timeout(150000);
+    it('should make a request and return a response', function(done) {
+        tokensTests(0, function() {
             done();
         });
     });

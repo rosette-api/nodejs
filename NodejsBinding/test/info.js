@@ -93,6 +93,7 @@ info.prototype.getResults = function(parameters, userKey, serviceURL, callback) 
 
     // error catching for request
     req.on("error", function(e) {
+        console.log(e)
         return callback(e);
     });
 
