@@ -7,7 +7,7 @@
     "example": "examples"
   },
   "scripts": {
-    "test": "grunt nodeunit"
+    "test": "grunt mochaTest"
   },
   "repository": {
     "type": "git",
