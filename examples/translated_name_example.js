@@ -5,18 +5,17 @@ var ArgumentParser = require("argparse").ArgumentParser;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get the complete morphological analysis of a piece of text"
+  description: "Translate a name from one language to another"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 var api = new Api(args.key);
-var endpoint = "morphology";
+var endpoint = "translatedName";
 
-var morphology_parts_of_speech_data = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";
-var content = morphology_parts_of_speech_data;
-
-api.parameters.content = content;
-api.parameters.morphology = "parts-of-speech";
+var translated_name_data = "معمر محمد أبو منيار القذاف";
+api.parameters.name = translated_name_data;
+api.parameters.entityType = "PERSON";
+api.parameters.targetLanguage = "eng";
 
 api.rosette(endpoint, function(err, res){
 	if(err){

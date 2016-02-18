@@ -5,8 +5,15 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     clean: ["node_modules", "target"],
-    nodeunit: {
-      all: ["tests/**/*Test.js"]
+    mochaTest: {
+      test: {
+        options: {
+          reporter: 'spec',
+          quiet: false, // Optionally suppress output to standard out (defaults to false) 
+          clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false) 
+        },
+        src: ['test/**/*.js']
+      }
     },
     eslint: {
       lib: {
@@ -73,6 +80,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks("grunt-eslint");
   grunt.loadNpmTasks("grunt-istanbul");
   grunt.loadNpmTasks("grunt-jsdoc");
+  grunt.loadNpmTasks('grunt-mocha-test');
 
   // Task definitions.
   // run `grunt <task>` in command line and it will run the sequence in brackets
@@ -81,4 +89,5 @@ module.exports = function(grunt) {
   grunt.registerTask("lint", ["eslint"]);
   grunt.registerTask("test", ["instrument", "nodeunit", "storeCoverage", "makeReport"]); // with coverage report
   grunt.registerTask("nock", ["instrument", "nodeunit:nock", "storeCoverage", "makeReport"]);
+  grunt.registerTask('default', 'mochaTest');
 };

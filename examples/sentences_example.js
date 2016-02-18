@@ -5,18 +5,18 @@ var ArgumentParser = require("argparse").ArgumentParser;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get the complete morphological analysis of a piece of text"
+  description: "Get sentences from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
-var api = new Api(args.key);
-var endpoint = "morphology";
 
-var morphology_parts_of_speech_data = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";
-var content = morphology_parts_of_speech_data;
+var api = new Api(args.key);
+var endpoint = "sentences";
+
+var sentences_data = "This land is your land. This land is my land\nFrom California to the New York island;\nFrom the red wood forest to the Gulf Stream waters\n\nThis land was made for you and Me.\n\nAs I was walking that ribbon of highway,\nI saw above me that endless skyway:\nI saw below me that golden valley:\nThis land was made for you and me.";
+var content = sentences_data;
 
 api.parameters.content = content;
-api.parameters.morphology = "parts-of-speech";
 
 api.rosette(endpoint, function(err, res){
 	if(err){

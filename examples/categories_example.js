@@ -5,18 +5,15 @@ var ArgumentParser = require("argparse").ArgumentParser;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get the complete morphological analysis of a piece of text"
+  description: "Get the category of a piece of a document at a URL"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 var args = parser.parseArgs();
 var api = new Api(args.key);
-var endpoint = "morphology";
+var endpoint = "categories";
 
-var morphology_parts_of_speech_data = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";
-var content = morphology_parts_of_speech_data;
-
-api.parameters.content = content;
-api.parameters.morphology = "parts-of-speech";
+var categories_url_data = "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
+api.parameters.contentUri = categories_url_data;
 
 api.rosette(endpoint, function(err, res){
 	if(err){
