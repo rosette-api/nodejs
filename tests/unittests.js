@@ -845,7 +845,7 @@ describe('Rosette API load paramters function', function() {
 describe('Rosette API function', function() {
     this.timeout(150000);
     it('should run an endpoint function', function(done) {
-        var api = new Api('7323bf299f9f593cb1d7e267e5bdc34a');
+        var api = new Api('1234567890');
         var endpoint = "language";
         api.parameters.content = "Bonjour";
         api.checkVersion = true;

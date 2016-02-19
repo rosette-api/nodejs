@@ -4,23 +4,10 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    clean: ["node_modules", "target"],
-    mochaTest: {
-      test: {
-        options: {
-          reporter: 'spec',
-          quiet: false, // Optionally suppress output to standard out (defaults to false) 
-          clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false) 
-        },
-        src: ['test/**/*.js']
-      }
-    },
+    clean: ["target"],
     eslint: {
       lib: {
         src: ["lib/**/*.js"]
-      },
-      test: {
-        src: ["tests/**/*.js"]
       },
       options: {
         configFile: "conf/eslint.json"
@@ -44,19 +31,6 @@ module.exports = function(grunt) {
         basePath: "target/instrumented"
       }
     },
-    storeCoverage: {
-      options: {
-        dir: "target"
-      }
-    },
-    makeReport: {
-      src: "target/coverage.json",
-      options: {
-        type: "lcov",
-        dir: "target/reports",
-        print: "detail"
-      }
-    },
     watch: {
       gruntfile: {
         files: "<%= eslint.gruntfile.lib %>",
@@ -64,30 +38,20 @@ module.exports = function(grunt) {
       },
       lib: {
         files: "<%= eslint.lib.src %>",
-        tasks: ["eslint:lib", "nodeunit"]
-      },
-      test: {
-        files: "<%= eslint.test.src %>",
-        tasks: ["eslint:test", "nodeunit"]
+        tasks: ["eslint:lib"]
       }
     }
   });
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks("grunt-contrib-clean");
-  grunt.loadNpmTasks("grunt-contrib-nodeunit");
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-eslint");
-  grunt.loadNpmTasks("grunt-istanbul");
   grunt.loadNpmTasks("grunt-jsdoc");
-  grunt.loadNpmTasks('grunt-mocha-test');
 
   // Task definitions.
   // run `grunt <task>` in command line and it will run the sequence in brackets
-  grunt.registerTask("default", ["jsdoc", "eslint", "test"]);
+  grunt.registerTask("default", ["clean","jsdoc", "eslint"]);
   grunt.registerTask("doc", ["jsdoc"]);
   grunt.registerTask("lint", ["eslint"]);
-  grunt.registerTask("test", ["instrument", "nodeunit", "storeCoverage", "makeReport"]); // with coverage report
-  grunt.registerTask("nock", ["instrument", "nodeunit:nock", "storeCoverage", "makeReport"]);
-  grunt.registerTask('default', 'mochaTest');
 };

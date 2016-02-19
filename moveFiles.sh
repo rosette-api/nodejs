@@ -12,4 +12,7 @@ find . -name "checkVersion.json" -exec mv {} ../other \;
 find . -name "retry-fail.json" -exec mv {} ../other \;
 find . -name "bad_info.json" -exec mv {} ../other \;
 cd ../../tests
-mocha unittests.js
+istanbul cover _mocha unittests.js
+mv coverage ../target
+cd ..
+grunt
