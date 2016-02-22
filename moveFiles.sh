@@ -21,4 +21,3 @@ cd tests
 mv coverage ../target
 cd ..
 eslint lib/**
-
