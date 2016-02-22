@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: rosetteConstants.js</title>
+    <title>JSDoc: Source: languageInfo.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: rosetteConstants.js</h1>
+    <h1 class="page-title">Source: languageInfo.js</h1>
 
     
 
@@ -27,7 +27,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>/**
- * Container for the Rosette Constants.
+ * Rosette API.
  *
  * @copyright 2014-2015 Basis Technology Corporation.
  *
@@ -39,45 +39,89 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  **/
-
 "use strict";
 
-/**
- * @desc Accepted data formats
- * @type {JSON}
- */
-var dataFormat = {
-    "SIMPLE": "text/plain",
-    "JSON": "application/json",
-    "HTML": "text/html",
-    "XHTML": "application/xhtml+xml",
-    "UNSPECIFIED": "application/octet-stream"
-};
+var http = require("http");
+var https = require("https");
+var URL = require("url");
+var zlib = require("zlib");
+
+var rosetteConstants = require("./rosetteConstants");
+var RosetteException = require("./rosetteExceptions");
 
 /**
- * @desc Accepted input units
- * @type {JSON}
+ * Compatible server version.
+ *
+ * @type string
  */
-var inputUnit = {
-    "DOC": "doc",
-    "SENTENCE": "sentence"
+var BINDING_VERSION = "0.8";
+
+function languageInfo() {
+
 };
 
-/**
- * @desc Accepted morphology output types
- * @type {JSON}
- */
-var morphologyOutput = {
-    "LEMMAS": "lemmas",
-    "PARTS_OF_SPEECH": "parts-of-speech",
-    "COMPOUND_COMPONENTS": "compound-components",
-    "HAN_READINGS": "han-readings",
-    "COMPLETE": "complete"
+languageInfo.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
+
+    // configure URL
+    var urlParts = URL.parse(serviceURL + "language/info");
+    var protocol = https;
+    if (urlParts.protocol === "http") {
+        protocol = http;
+    }
+
+    var headers = {
+        "accept": "application/json",
+        "accept-encoding": "gzip",
+        "content-type": "application/json",
+        "user-agent": "rosetteapinode/" + BINDING_VERSION
+    }
+    headers["user_key"] = userKey;
+
+    var result = new Buffer("");
+
+    var options = {
+        hostname: urlParts.hostname,
+        path: urlParts.path,
+        method: 'GET',
+        headers: headers,
+        agent: false
+    };
+
+    if (urlParts.port) {
+        options.port = urlParts.port;
+    }
+
+    // execute the http/https request
+    var req = protocol.request(options, function(res) {
+        res.on("data", function(docs) {
+            result = Buffer.concat([result, docs]);
+        });
+
+        res.on("end", function(err) {
+            if (err) {
+                return callback(err)
+            }
+            // will need for other endpoints
+            if (res.headers["content-encoding"] === "gzip") {
+                result = zlib.gunzipSync(result);
+            }
+
+            if (res.statusCode === 200) {
+                return callback(err, JSON.parse(result.toString()));
+            }
+        });
+    });
+
+    // error catching for request
+    req.on("error", function(e) {
+        return callback(e);
+    });
+
+    req.end();
+
 };
 
-exports.dataFormat = dataFormat;
-exports.inputUnit = inputUnit;
-exports.morpholoyOutput = morphologyOutput;</code></pre>
+module.exports = languageInfo;</code></pre>
         </article>
     </section>
 
