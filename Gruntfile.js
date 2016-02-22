@@ -45,13 +45,11 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks("grunt-contrib-clean");
-  grunt.loadNpmTasks("grunt-contrib-watch");
-  grunt.loadNpmTasks("grunt-eslint");
+  grunt.loadNpmTasks("grunt-contrib-watch");;
   grunt.loadNpmTasks("grunt-jsdoc");
 
   // Task definitions.
   // run `grunt <task>` in command line and it will run the sequence in brackets
-  grunt.registerTask("default", ["clean","jsdoc", "eslint"]);
+  grunt.registerTask("default", ["clean","jsdoc"]);
   grunt.registerTask("doc", ["jsdoc"]);
-  grunt.registerTask("lint", ["eslint"]);
 };

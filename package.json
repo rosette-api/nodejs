@@ -1,13 +1,13 @@
 {
   "name": "rosette-api",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "grunt": "grunt"
+
   },
   "repository": {
     "type": "git",
@@ -34,16 +34,15 @@
   "homepage": "https://developer.rosette.com",
   "devDependencies": {
     "argparse": "^1.0.6",
-    "balanced-match": "^0.3.0",
     "chai": "^3.5.0",
-    "concat-map": "0.0.1",
     "grunt": "^0.4.5",
     "grunt-cli": "^0.1.13",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-watch": "^0.6.1",
-    "grunt-eslint": "^18.0.0",
     "grunt-jsdoc": "^1.1.0",
     "grunt-jslint": "^1.1.14",
+    "istanbul": "^0.4.2",
+    "mocha": "^2.4.5",
     "nock": "^7.2.1",
     "temporary": "0.0.8"
   }

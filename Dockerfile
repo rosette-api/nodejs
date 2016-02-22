@@ -6,8 +6,11 @@ RUN apt-get -y update && apt-get install -y git && apt-get install -y vim && apt
 
 #install necesary npm packages
 RUN npm install -g mocha
+RUN npm install -g chai
+RUN npm install -g nock
 RUN npm install -g istanbul
 RUN npm install -g grunt-cli
+RUN npm install -g eslint
 
 #set the working directory
 WORKDIR /source

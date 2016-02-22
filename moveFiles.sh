@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # create a folder for the .status files and move them
+npm install
 cd mock-data
 mkdir status
 mkdir other
@@ -9,10 +10,15 @@ find . -name "*.status" -exec mv {} ../status \;
 find . -name "info.json" -exec mv {} ../other \;
 find . -name "ping.json" -exec mv {} ../other \;
 find . -name "checkVersion.json" -exec mv {} ../other \;
+find . -name "checkVersion1.json" -exec mv {} ../other \;
 find . -name "retry-fail.json" -exec mv {} ../other \;
 find . -name "bad_info.json" -exec mv {} ../other \;
 cd ../../tests
 istanbul cover _mocha unittests.js
-mv coverage ../target
 cd ..
 grunt
+cd tests
+mv coverage ../target
+cd ..
+eslint lib/**
+
