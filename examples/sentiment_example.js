@@ -9,6 +9,7 @@ var parser = new ArgumentParser({
   description: "Get the sentiment of the text in a local file"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
 
 var file = new tmp.File();

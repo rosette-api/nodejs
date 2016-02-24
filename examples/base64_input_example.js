@@ -8,8 +8,10 @@ var parser = new ArgumentParser({
   description: "Determine the language of a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
+
 var args = parser.parseArgs();
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 var endpoint = "language";
 
 var content = new Buffer("Por favor Señorita, says the man.").toString('base64');

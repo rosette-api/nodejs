@@ -8,6 +8,7 @@ var parser = new ArgumentParser({
   description: "Get the relationships from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
+parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
 
 var api = new Api(args.key);
