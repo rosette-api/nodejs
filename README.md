@@ -38,7 +38,7 @@ api.rosette(endpoint, function(err, res){
 | name    | name translation     | Yes |
 | targetLanguage           | name translation           | Yes |
 | entityType                 | name translation         | No |
-| sourceLanguageOfOrigin        | name translation | 
+| sourceLanguageOfOrigin        | name translation | No |
 | sourceLanguageOfUse                         | name translation       | No |
 | sourceScript                     | name translation               | No |
 | targetScript                     | name translation                    | No |
