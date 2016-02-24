@@ -1,14 +1,12 @@
 {
   "name": "rosette-api",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
     "example": "examples"
   },
-  "scripts": {
-
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git://github.com/rosette-api/nodejs.git"
