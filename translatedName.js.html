@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: Api.js</title>
+    <title>JSDoc: Source: translatedName.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: Api.js</h1>
+    <h1 class="page-title">Source: translatedName.js</h1>
 
     
 
@@ -41,24 +41,13 @@
  **/
 "use strict";
 
+var http = require("http");
+var https = require("https");
+var URL = require("url");
+var zlib = require("zlib");
+
 var rosetteConstants = require("./rosetteConstants");
 var RosetteException = require("./rosetteExceptions");
-var paramObj = require("./parameters");
-
-var relationships = require("./relationships");
-var matchedName = require("./matchedName");
-var translatedName = require("./translatedName");
-var sentiment = require("./sentiment");
-var categories = require("./categories");
-var entities = require("./entities");
-var morphology = require("./morphology");
-var tokens = require("./tokens");
-var sentences = require("./sentences");
-var languageInfo = require("./languageInfo");
-var language = require("./language");
-var ping = require("./ping");
-var info = require("./info");
-var checkVersion = require("./checkVersion");
 
 /**
  * Compatible server version.
@@ -70,76 +59,98 @@ var BINDING_VERSION = "0.8";
 /**
  * @class
  *
- * Node.js Client Binding API; representation of a Api server.
- * Call instance methods upon this object to communicate with particular
- * Api server endpoints.
- *
- * @example var api = new API(userKey, serviceUrl);
  * @copyright 2014-2015 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function Api(userKey, serviceURL) {
-    /**
-     * @type {string}
-     * @desc The Rosette API key used for authentication
-     */
-    this.userKey = userKey;
-
-    /**
-     * @type {object}
-     * @desc The Rosette API endpoint parameters
-     */
-    this.parameters = new paramObj();
-
-    /**
-     * @type {string}
-     * @desc URL of the API
-     * @default
-     */
-    this.serviceURL = "https://api.rosette.com/rest/v1/";
-    if (serviceURL) {
-        this.serviceURL = serviceURL;
-    }
-
-    this.versionChecked = false;
+function nameTranslation() {
 
 };
 
 /**
- * @type {string}
- * @desc Accepts a Rosette API endpoint name and forwards user parameters to the endpoint
- * @param {string} endpoint - The Rosette API endpoint to be utilized
+ * Makes an HTTP request to the specified Rosette API endpoint and returns the result
+ * @param {string} parameters - The Rosette API endpoint parameters
+ * @param {string} userKey - The Rosette API user access key
+ * @param {string} serviceURL - The base service URL to be used to access the Rosette API
+ * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-Api.prototype.rosette = function(endpoint, callback) {
+nameTranslation.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
 
-    var api = this;
-    endpoint = require("./" + endpoint);
-    var e = new endpoint();
-    var c = new checkVersion();
+    if (parameters.loadParams().documentFile != null) {
+        parameters.loadFile(parameters.loadParams().documentFile);
+    }
 
-    // check if server and client API versions match
-    c.check(this.userKey, this.serviceURL, function(err, res) {
-        if (err) {
-            throw err;
-        } else if (!res.versionChecked) {
-            throw new RosetteException("incompatibleVersion", "The server version is not compatible with binding version " + BINDING_VERSION, res.Version);
-        } else {
-            // mark api binding version as checked
-            api.versionChecked = true;
+    // validate parameters
+    if (parameters.loadParams.name === null) {
+        throw new RosetteException("badArgument", "Must name parameter", "bad arguments");
+    } else if (parameters.loadParams.targetLanguage === null) {
+        throw new RosetteException("badArgument", "Must supply target language parameter", "bad arguments");
+    } else {
+        // configure URL
+        var urlParts = URL.parse(serviceURL + "translated-name");
+        var protocol = https;
+        if (urlParts.protocol === "http") {
+            protocol = http;
+        }
 
-            // send parameters to the specified endpoint
-            e.getResults(api.parameters, api.userKey, api.serviceURL, function(err, res) {
+        var headers = {
+            "accept": "application/json",
+            "accept-encoding": "gzip",
+            "content-type": "application/json",
+            "user-agent": "rosetteapinode/" + BINDING_VERSION
+        }
+        headers["user_key"] = userKey;
+
+        var result = new Buffer("");
+
+        var options = {
+            hostname: urlParts.hostname,
+            path: urlParts.path,
+            method: 'POST',
+            headers: headers,
+            agent: false
+        };
+
+        if (urlParts.port) {
+            options.port = urlParts.port;
+        }
+
+        // execute the http/https request
+        var req = protocol.request(options, function(res) {
+            res.on("data", function(docs) {
+                result = Buffer.concat([result, docs]);
+            });
+
+            res.on("end", function(err) {
                 if (err) {
-                    return callback(err);
-                } else {
-                    return callback(null, res);
+                    return callback(err)
+                }
+                // will need for other endpoints
+                if (res.headers["content-encoding"] === "gzip") {
+                    result = zlib.gunzipSync(result);
+                }
+
+                if (res.statusCode === 200) {
+                    return callback(err, JSON.parse(result.toString()));
+                } else if (res.statusCode != 200) {
+                    return callback(err, JSON.parse(result.toString()));
                 }
             });
-        }
-    });
+        });
+
+        // error catching for request
+        req.on("error", function(e) {
+            return callback(e);
+        });
+
+        req.write(JSON.stringify(parameters.loadParams()));
+
+        req.end();
+
+    }
+
 };
 
-module.exports = Api;</code></pre>
+module.exports = nameTranslation;</code></pre>
         </article>
     </section>
 
