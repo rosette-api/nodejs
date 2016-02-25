@@ -13,11 +13,11 @@ var args = parser.parseArgs();
 var api = new Api(args.key);
 var endpoint = "morphology";
 
-var morphology_han_readings_data = "北京大学生物系主任办公室内部会议";
-var content = morphology_han_readings_data;
+var morphology_complete_data = "The quick brown fox jumped over the lazy dog. Yes he did.";
+var content = morphology_complete_data;
 
 api.parameters.content = content;
-api.parameters.morphology = "han-readings";
+api.parameters.morphology = "complete";
 
 api.rosette(endpoint, function(err, res){
 	if(err){

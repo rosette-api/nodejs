@@ -1,16 +1,34 @@
 module.exports.Api = require('./lib/Api');
 
-module.exports.DocumentParameters = require('./lib/DocumentParameters');
+module.exports.categories = require('./lib/categories');
 
-module.exports.RelationshipsParameters = require('./lib/RelationshipsParameters');
+module.exports.checkVersion = require('./lib/checkVersion');
 
-module.exports.NameMatchingParameters = require("./lib/NameMatchingParameters");
+module.exports.entities = require("./lib/entities");
 
-module.exports.Name = require("./lib/Name");
+module.exports.info = require("./lib/info");
 
-module.exports.NameTranslationParameters = require("./lib/NameTranslationParameters");
+module.exports.languageInfo = require("./lib/languageInfo");
+
+module.exports.matchedName = require("./lib/matchedName");
+
+module.exports.morphology = require("./lib/morphology");
+
+module.exports.parameters = require("./lib/parameters");
+
+module.exports.ping = require("./lib/ping");
+
+module.exports.relationships = require("./lib/relationships");
 
 module.exports.rosetteConstants = require("./lib/rosetteConstants");
 
-module.exports.RosetteException = require("./lib/RosetteException");
+module.exports.rosetteException = require("./lib/rosetteException");
+
+module.exports.sentences = require("./lib/sentences");
+
+module.exports.sentiment = require("./lib/sentiment");
+
+module.exports.tokens = require("./lib/tokens");
+
+module.exports.translatedName = require("./lib/translatedName");
 
