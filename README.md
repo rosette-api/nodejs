@@ -7,11 +7,50 @@ Rosette API binding for node.js
 ## Getting Started
 Install the module with: `npm install rosette-api`
 
+
+## Example using the Rosette API language detection endpoint
 ```javascript
 var rosette-api = require('rosette-api');
-```
 
-## Examples
+var api = new Api(API_KEY);
+var endpoint = "language";
+var content = "Por favor Señorita, says the man.";
+api.parameters.content = content;
+
+api.rosette(endpoint, function(err, res){
+	if(err){
+		console.log(err);
+	} else {
+		console.log(JSON.stringify(res, null, 2));
+	}
+});
+```
+## API Parameters
+| Parameter                     | Endpoint                                            | Required
+| -------------                 |-------------                                        |------------- 
+| content                    | categories, entities, language, morphology, relationships, sentences, sentiment, tokens            | Either content or contentUri required |
+| contentUri                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens       | Either content or contentUri required |
+| contentType               | categories, entities, language, morphology, relationships, sentences, sentiment, tokens | No |
+| language                          | categories, entities, language, morphology, relationships, sentences, sentiment, tokens, matchedName                    | No |
+| documentFile                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens                  | No |
+| name1                 | name matching               | Yes |
+| name2               | name matching| Yes |
+| name    | name translation     | Yes |
+| targetLanguage           | name translation           | Yes |
+| entityType                 | name translation         | No |
+| sourceLanguageOfOrigin        | name translation | No |
+| sourceLanguageOfUse                         | name translation       | No |
+| sourceScript                     | name translation               | No |
+| targetScript                     | name translation                    | No |
+| targetScheme                        | name translation          | No |
+| options              | relationships        | No |
+| accuracyMode              | relationships        | Yes |
+| linked              | entities        | No |
+| explain              | sentiment        | No |
+| shortString              | sentiment        | No |
+| morphology             | morphology        | Yes |
+
+## Additional Examples
 See [examples](examples).
 
 ## Additional Information
