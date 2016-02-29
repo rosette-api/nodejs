@@ -8,8 +8,6 @@ module.exports.entities = require("./lib/entities");
 
 module.exports.info = require("./lib/info");
 
-module.exports.languageInfo = require("./lib/languageInfo");
-
 module.exports.matchedName = require("./lib/matchedName");
 
 module.exports.morphology = require("./lib/morphology");
@@ -22,7 +20,7 @@ module.exports.relationships = require("./lib/relationships");
 
 module.exports.rosetteConstants = require("./lib/rosetteConstants");
 
-module.exports.rosetteException = require("./lib/rosetteException");
+module.exports.rosetteExceptions = require("./lib/rosetteExceptions");
 
 module.exports.sentences = require("./lib/sentences");
 
