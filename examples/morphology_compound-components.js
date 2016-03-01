@@ -1,33 +1,28 @@
-/*
- * Example code to call Rosette API to get de-compounded words from a piece of text.
- */
-
 "use strict";
 
-var Api = require("rosette-api").Api;
+var Api = require("../lib/Api");
 var ArgumentParser = require("argparse").ArgumentParser;
-var DocumentParameters = require("rosette-api").DocumentParameters;
-var rosetteConstants = require("rosette-api").rosetteConstants;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get de-compounded words from a piece of text"
+  description: "Get the complete morphological analysis of a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
-parser.addArgument(["--url"], {help: "Alternate URL (optional)", defaultValue: "https://api.rosette.com/rest/v1"}); 
+parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
+var api = new Api(args.key);
+var endpoint = "morphology";
 
-var docParams = new DocumentParameters();
 var morphology_compound_components_data = "Rechtsschutzversicherungsgesellschaften";
 var content = morphology_compound_components_data;
-docParams.setItem("content", content);
 
-var api = new Api(args.key, args.url);
-api.morphology(docParams, rosetteConstants.morpholoyOutput.COMPOUND_COMPONENTS, function(err, res) {
-  if (err) {
-    throw err;
-  }
-  else {
-    console.log(JSON.stringify(res, null, 2));
-  }
+api.parameters.content = content;
+api.parameters.morphology = "compound-components";
+
+api.rosette(endpoint, function(err, res){
+	if(err){
+		console.log(err);
+	}
+		console.log(JSON.stringify(res, null, 2));
+
 });
