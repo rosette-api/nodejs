@@ -10,7 +10,7 @@ var parser = new ArgumentParser({
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 var endpoint = "morphology";
 
 var morphology_complete_data = "The quick brown fox jumped over the lazy dog. Yes he did.";
