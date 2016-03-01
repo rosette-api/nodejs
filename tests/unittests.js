@@ -8,8 +8,8 @@ var fs = require('fs');
 var Api = require("../lib/Api");
 var language = require("../lib/language");
 var relationships = require("../lib/relationships");
-var matchedName = require("../lib/matchedName");
-var translatedName = require("../lib/translatedName");
+var nameSimilarity = require("../lib/nameSimilarity");
+var nameTranslation = require("../lib/nameTranslation");
 var sentiment = require("../lib/sentiment");
 var categories = require("../lib/categories");
 var entities = require("../lib/entities");
@@ -418,13 +418,13 @@ function relationshipsTests(index, done) {
 }
 
 // recursion function
-function matchedNameTests(index, done) {
-    var substring = "matched-name";
+function nameSimilarityTests(index, done) {
+    var substring = "name-similarity";
 
     if (index < requestArray.length) {
         if (requestArray[index].indexOf(substring) > -1) {
 
-            var name = new matchedName();
+            var name = new nameSimilarity();
             var param = new paramObj();
             var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
             var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
@@ -436,7 +436,7 @@ function matchedNameTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/matched-name', JSON.parse(request.toString()))
+                .post('/rest/v1/name-similarity', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -459,13 +459,13 @@ function matchedNameTests(index, done) {
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
-                    return matchedNameTests(index, done);
+                    return nameSimilarityTests(index, done);
                 }, 700);
             });
 
         } else {
             index++;
-            return matchedNameTests(index, done);
+            return nameSimilarityTests(index, done);
         }
     } else {
         console.log("done");
@@ -475,13 +475,13 @@ function matchedNameTests(index, done) {
 }
 
 // recursion function
-function translatedNameTests(index, done) {
-    var substring = "translated-name";
+function nameTranslationTests(index, done) {
+    var substring = "name-translation";
 
     if (index < requestArray.length) {
         if (requestArray[index].indexOf(substring) > -1) {
 
-            var name = new translatedName();
+            var name = new nameTranslation();
             var param = new paramObj();
             var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
             var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
@@ -493,7 +493,7 @@ function translatedNameTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/translated-name', JSON.parse(request.toString()))
+                .post('/rest/v1/name-translation', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -522,13 +522,13 @@ function translatedNameTests(index, done) {
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
-                    return translatedNameTests(index, done);
+                    return nameTranslationTests(index, done);
                 }, 700);
             });
 
         } else {
             index++;
-            return translatedNameTests(index, done);
+            return nameTranslationTests(index, done);
         }
     } else {
         console.log("done");
@@ -727,19 +727,19 @@ describe('Rosette API relationships endpoint', function() {
     });
 });
 
-describe('Rosette API matched name endpoint', function() {
+describe('Rosette API name similarity endpoint', function() {
     this.timeout(150000);
     it('should make a request and return a response', function(done) {
-        matchedNameTests(0, function() {
+        nameSimilarityTests(0, function() {
             done();
         });
     });
 });
 
-describe('Rosette API translated name endpoint', function() {
+describe('Rosette API name translation endpoint', function() {
     this.timeout(150000);
     it('should make a request and return a response', function(done) {
-        translatedNameTests(0, function() {
+        nameTranslationTests(0, function() {
             done();
         });
     });

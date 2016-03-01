@@ -18,7 +18,7 @@ var fileContents = sentiment_file_data;
 
 file.writeFileSync(fileContents);
 
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 var endpoint = "sentiment";
 
 api.parameters.documentFile = file.path;
