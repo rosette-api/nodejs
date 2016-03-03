@@ -59,7 +59,6 @@ function langTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
             param.language = request.language;
 
             lang.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -114,7 +113,7 @@ function sentTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             sent.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -169,7 +168,7 @@ function catTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             cat.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -224,7 +223,7 @@ function morphTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             morph.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -234,7 +233,7 @@ function morphTests(index, done) {
                 //console.log(JSON.stringify(res, null, 1))
                 //console.log(res)
                 //assert.deepEqual(expected, res);
-                //assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+                assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return morphTests(index, done);
                 }, 700);
@@ -278,7 +277,7 @@ function entitiesTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             entity.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -333,7 +332,7 @@ function entitiesLinkedTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.linked = true;
 
@@ -389,7 +388,7 @@ function relationshipsTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             relationship.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -444,7 +443,7 @@ function nameSimilarityTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.name1 = request.name1;
             param.name2 = request.name2;
@@ -501,7 +500,7 @@ function nameTranslationTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
@@ -564,7 +563,7 @@ function sentencesTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
@@ -627,7 +626,7 @@ function tokensTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
