@@ -8,7 +8,7 @@ module.exports.entities = require("./lib/entities");
 
 module.exports.info = require("./lib/info");
 
-module.exports.matchedName = require("./lib/matchedName");
+module.exports.matchedName = require("./lib/nameSimilarity");
 
 module.exports.morphology = require("./lib/morphology");
 
@@ -28,5 +28,5 @@ module.exports.sentiment = require("./lib/sentiment");
 
 module.exports.tokens = require("./lib/tokens");
 
-module.exports.translatedName = require("./lib/translatedName");
+module.exports.translatedName = require("./lib/nameTranslation");
 
