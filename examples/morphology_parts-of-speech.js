@@ -10,7 +10,7 @@ var parser = new ArgumentParser({
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
-var api = new Api(args.key);
+var api = new Api(args.key, args.url);
 var endpoint = "morphology";
 
 var morphology_parts_of_speech_data = "The fact is that the geese just went back to get a rest and I'm not banking on their return soon";

@@ -8,8 +8,8 @@ var fs = require('fs');
 var Api = require("../lib/Api");
 var language = require("../lib/language");
 var relationships = require("../lib/relationships");
-var matchedName = require("../lib/matchedName");
-var translatedName = require("../lib/translatedName");
+var nameSimilarity = require("../lib/nameSimilarity");
+var nameTranslation = require("../lib/nameTranslation");
 var sentiment = require("../lib/sentiment");
 var categories = require("../lib/categories");
 var entities = require("../lib/entities");
@@ -59,7 +59,6 @@ function langTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
             param.language = request.language;
 
             lang.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -114,7 +113,7 @@ function sentTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             sent.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -169,7 +168,7 @@ function catTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             cat.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -224,7 +223,7 @@ function morphTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             morph.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -234,7 +233,7 @@ function morphTests(index, done) {
                 //console.log(JSON.stringify(res, null, 1))
                 //console.log(res)
                 //assert.deepEqual(expected, res);
-                //assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
+                assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return morphTests(index, done);
                 }, 700);
@@ -278,7 +277,7 @@ function entitiesTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             entity.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -333,7 +332,7 @@ function entitiesLinkedTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.linked = true;
 
@@ -389,7 +388,7 @@ function relationshipsTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
 
             relationship.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
@@ -418,13 +417,13 @@ function relationshipsTests(index, done) {
 }
 
 // recursion function
-function matchedNameTests(index, done) {
-    var substring = "matched-name";
+function nameSimilarityTests(index, done) {
+    var substring = "name-similarity";
 
     if (index < requestArray.length) {
         if (requestArray[index].indexOf(substring) > -1) {
 
-            var name = new matchedName();
+            var name = new nameSimilarity();
             var param = new paramObj();
             var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
             var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
@@ -436,7 +435,7 @@ function matchedNameTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/matched-name', JSON.parse(request.toString()))
+                .post('/rest/v1/name-similarity', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -444,7 +443,7 @@ function matchedNameTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.name1 = request.name1;
             param.name2 = request.name2;
@@ -459,13 +458,13 @@ function matchedNameTests(index, done) {
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
-                    return matchedNameTests(index, done);
+                    return nameSimilarityTests(index, done);
                 }, 700);
             });
 
         } else {
             index++;
-            return matchedNameTests(index, done);
+            return nameSimilarityTests(index, done);
         }
     } else {
         console.log("done");
@@ -475,13 +474,13 @@ function matchedNameTests(index, done) {
 }
 
 // recursion function
-function translatedNameTests(index, done) {
-    var substring = "translated-name";
+function nameTranslationTests(index, done) {
+    var substring = "name-translation";
 
     if (index < requestArray.length) {
         if (requestArray[index].indexOf(substring) > -1) {
 
-            var name = new translatedName();
+            var name = new nameTranslation();
             var param = new paramObj();
             var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
             var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
@@ -493,7 +492,7 @@ function translatedNameTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/translated-name', JSON.parse(request.toString()))
+                .post('/rest/v1/name-translation', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -501,7 +500,7 @@ function translatedNameTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
@@ -522,13 +521,13 @@ function translatedNameTests(index, done) {
                 //assert.deepEqual(expected, res);
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
-                    return translatedNameTests(index, done);
+                    return nameTranslationTests(index, done);
                 }, 700);
             });
 
         } else {
             index++;
-            return translatedNameTests(index, done);
+            return nameTranslationTests(index, done);
         }
     } else {
         console.log("done");
@@ -564,7 +563,7 @@ function sentencesTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
@@ -627,7 +626,7 @@ function tokensTests(index, done) {
             if (request.contentUri != undefined) {
                 param.contentUri = request.contentUri;
             }
-            param.unit = request.unit;
+
             param.language = request.language;
             param.entityType = request.entityType;
             param.name = request.name;
@@ -727,19 +726,19 @@ describe('Rosette API relationships endpoint', function() {
     });
 });
 
-describe('Rosette API matched name endpoint', function() {
+describe('Rosette API name similarity endpoint', function() {
     this.timeout(150000);
     it('should make a request and return a response', function(done) {
-        matchedNameTests(0, function() {
+        nameSimilarityTests(0, function() {
             done();
         });
     });
 });
 
-describe('Rosette API translated name endpoint', function() {
+describe('Rosette API name translation endpoint', function() {
     this.timeout(150000);
     it('should make a request and return a response', function(done) {
-        translatedNameTests(0, function() {
+        nameTranslationTests(0, function() {
             done();
         });
     });
