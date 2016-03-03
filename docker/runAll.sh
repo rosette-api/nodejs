@@ -37,10 +37,27 @@ while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
             ;;
     esac
 done
+ping_url="https://api.rosette.com/rest/v1/"
+
+# add the trailing slash of the alt_url if necessary
+if [ ! -z "${ALT_URL}" ]; then
+    if [[ ! ${ALT_URL} == */ ]]; then
+        ALT_URL="${ALT_URL}/"
+        echo "No Slash detected"
+    fi
+    ping_url=${ALT_URL}
+fi
+
+#Checks for valid url
+match=$(curl "${ping_url}ping" -H "user_key: ${API_KEY}" |  grep -o "Rosette API")
+if [ "${match}" = "" ]; then
+    echo -e "\n${ping_url} server not responding\n"
+    exit 1
+fi  
 
 #Checks if Rosette API key is valid
 function checkAPI {
-    match=$(curl "https://api.rosette.com/rest/v1/ping" -H "user_key: ${API_KEY}" |  grep -o "forbidden")
+    match=$(curl "${ping_url}ping" -H "user_key: ${API_KEY}" |  grep -o "forbidden")
     if [ ! -z $match ]; then
         echo -e "\nInvalid Rosette API Key"
         exit 1
