@@ -69,6 +69,7 @@ function langTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return langTests(index, done);
@@ -124,6 +125,7 @@ function sentTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return sentTests(index, done);
@@ -179,6 +181,7 @@ function catTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return catTests(index, done);
@@ -215,7 +218,7 @@ function morphTests(index, done) {
                     "encodedQueryParams": true
                 })
                 .persist()
-                .post('/rest/v1/morphology', JSON.parse(request.toString()))
+                .post('/rest/v1/morphology/complete', JSON.parse(request.toString()))
                 .reply(status, response);
 
             request = JSON.parse(request);
@@ -225,6 +228,7 @@ function morphTests(index, done) {
             }
 
             param.language = request.language;
+            param.morphology = 'complete'
 
             morph.getResults(param, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
                 index++;
@@ -233,6 +237,7 @@ function morphTests(index, done) {
                 //console.log(JSON.stringify(res, null, 1))
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return morphTests(index, done);
@@ -288,6 +293,7 @@ function entitiesTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return entitiesTests(index, done);
@@ -344,6 +350,7 @@ function entitiesLinkedTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return entitiesLinkedTests(index, done);
@@ -399,6 +406,7 @@ function relationshipsTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return relationshipsTests(index, done);
@@ -456,6 +464,7 @@ function nameSimilarityTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return nameSimilarityTests(index, done);
@@ -519,6 +528,7 @@ function nameTranslationTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return nameTranslationTests(index, done);
@@ -582,6 +592,7 @@ function sentencesTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return sentencesTests(index, done);
@@ -645,6 +656,7 @@ function tokensTests(index, done) {
                 //console.log(expected)
                 //console.log(res)
                 //assert.deepEqual(expected, res);
+                expected.headers = {};
                 assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
                 setTimeout(function() {
                     return tokensTests(index, done);
@@ -759,6 +771,7 @@ describe('Rosette API check version endpoint', function() {
            .reply(status, response);
         
         c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            expected.headers = {};
             assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
             setTimeout(function(){console.log("done"); done();}, 300)
         });
@@ -781,6 +794,7 @@ describe('Rosette API info endpoint', function() {
            .reply(status, response);
         
         i.getResults(param, '01234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            expected.headers = {};
             assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
             setTimeout(function(){console.log("done"); done();}, 300)
         });
@@ -803,6 +817,7 @@ describe('Rosette API ping endpoint', function() {
            .reply(status, response);
         
         p.getResults(param, '01234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+            expected.headers = {};
             assert.deepEqual(JSON.stringify(expected, null, 1), JSON.stringify(res, null, 1));
             setTimeout(function(){console.log("done"); done();}, 300)
         });
