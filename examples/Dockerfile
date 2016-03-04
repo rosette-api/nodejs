@@ -9,6 +9,6 @@ ENV API_KEY api_key
 #set the working directory
 WORKDIR /source/examples
 
-CMD chmod 0755 ./runAll.sh && ./runAll.sh $API_KEY $FILENAME $ALT_URL; /bin/bash
+CMD chmod 0755 ./runAll.sh && ./runAll.sh $API_KEY $FILENAME $ALT_URL
 
 VOLUME ["/source"]
