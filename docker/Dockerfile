@@ -12,6 +12,6 @@ RUN chmod 755 /nodejs-dev/runAll.sh
 #set the working directory
 WORKDIR /nodejs-dev
 
-CMD chmod 0755 ./runAll.sh && ./runAll.sh $API_KEY $FILENAME $ALT_URL $GIT_USERNAME $VERSION
+CMD ./runAll.sh $API_KEY $FILENAME $ALT_URL $GIT_USERNAME $VERSION
 
 VOLUME ["/source"]
