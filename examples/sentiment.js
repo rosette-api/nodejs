@@ -22,6 +22,7 @@ var api = new Api(args.key, args.url);
 var endpoint = "sentiment";
 
 api.parameters.documentFile = file.path;
+api.parameters.language = "eng";
 
 api.rosette(endpoint, function(err, res){
 	if(err){
