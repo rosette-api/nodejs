@@ -30,7 +30,6 @@ api.rosette(endpoint, function(err, res){
 | -------------                 |-------------                                        |------------- 
 | content                    | categories, entities, language, morphology, relationships, sentences, sentiment, tokens            | Either content or contentUri required |
 | contentUri                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens       | Either content or contentUri required |
-| contentType               | categories, entities, language, morphology, relationships, sentences, sentiment, tokens | No |
 | language                          | categories, entities, language, morphology, relationships, sentences, sentiment, tokens, name similarity                    | No |
 | documentFile                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens                  | No |
 | name1                 | name similarity               | Yes |
