@@ -86,7 +86,30 @@ npm install mocha
 npm install -g istanbul
 npm install chai
 npm install nock
+npm install -g eslint
+npm install multipart-stream
 istanbul cover _mocha unittests.js
+#run eslint
+eslint ../lib/**
+
+retcode=0
+
+function runExample() {
+    echo -e "\n---------- ${1} start -------------"
+    result=""
+    if [ -z ${ALT_URL} ]; then
+        result="$(node ${1} --key ${API_KEY})"
+    else
+        result="$(node ${1} --key ${API_KEY} --url ${ALT_URL})"
+    fi
+    echo ${result}
+    echo -e "\n---------- ${1} end -------------"
+    if [[ $result == *"Exception"* ]]; then
+        retcode=1
+    elif [[ $result == *"processingFailure"* ]]; then
+        retcode=1
+    fi
+}
 
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
@@ -96,23 +119,16 @@ if [ ! -z ${API_KEY} ]; then
     npm install argparse
     npm install temporary
     if [ ! -z ${FILENAME} ]; then
-        if [ ! -z ${ALT_URL} ]; then
-	    node ${FILENAME} --key ${API_KEY} --url ${ALT_URL} 
-	else
-	   node ${FILENAME} --key ${API_KEY} 
-   	fi
-    elif [ ! -z ${ALT_URL} ]; then
-    	find . -name '*.js' -exec node {} --key ${API_KEY} --url ${ALT_URL} \;
+        runExample ${FILENAME}
     else
-	find . -name '*.js' -exec node {} --key ${API_KEY} \;
+        for file in *.js; do
+            runExample $file
+        done
     fi
 else 
     HELP
+    retcode=1
 fi
-
-#run eslint
-npm install -g eslint
-eslint ../lib/**
 
 #Generate gh-pages and push them to git account (if git username is provided)
 if [ ! -z ${GIT_USERNAME} ] && [ ! -z ${VERSION} ]; then
@@ -134,3 +150,6 @@ if [ ! -z ${GIT_USERNAME} ] && [ ! -z ${VERSION} ]; then
    git commit -a -m "publish grunt apidocs ${VERSION}"
    git push
 fi
+
+exit ${retcode}
+
