@@ -18,7 +18,6 @@ api.parameters.name = name_translation_data;
 api.parameters.entityType = "PERSON";
 api.parameters.targetLanguage = "eng";
 api.parameters.targetScript = "Latn";
-api.parameters.targetScheme = "IC";
 
 api.rosette(endpoint, function(err, res){
 	if(err){
