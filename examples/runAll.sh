@@ -1,19 +1,72 @@
 #!/bin/bash
 
+ping_url="https://api.rosette.com/rest/v1/"
+retcode=0
+
+#------------------- Functions -------------------------------------
+
 #Gets called when the user doesn't provide any args
 function HELP {
     echo -e "\nusage: source_file.py --key API_KEY [--url ALT_URL]"
     echo "  API_KEY       - Rosette API key (required)"
     echo "  FILENAME      - Python source file (optional)"
     echo "  ALT_URL       - Alternate service URL (optional)"
-    echo "  GIT_USERNAME  - Git username where you would like to push regenerated gh-pages (optional)"
-    echo "  VERSION       - Build version (optional)"
-    echo "Compiles and runs the source file(s) using the local development source."
+    echo "Runs the examples using the NPM package."
     exit 1
 }
 
+#Checks if Rosette API key is valid
+function checkAPI() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "forbidden")
+    if [ ! -z $match ]; then
+        echo -e "\nInvalid Rosette API Key"
+        exit 1
+    fi  
+}
+
+# add the trailing slash of the alt_url if necessary
+function cleanURL() {
+    if [ ! -z "${ALT_URL}" ]; then
+        if [[ ! ${ALT_URL} == */ ]]; then
+            ALT_URL="${ALT_URL}/"
+            echo "No Slash detected"
+        fi
+        ping_url=${ALT_URL}
+    fi
+}
+
+#Checks for valid url
+function validateURL() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" -H "user_key: ${API_KEY}" |  grep -o "Rosette API")
+    if [ "${match}" = "" ]; then
+        echo -e "\n${ping_url} server not responding\n"
+        exit 1
+    fi  
+}
+
+function runExample() {
+    echo -e "\n---------- ${1} start -------------"
+    result=""
+    if [ -z ${ALT_URL} ]; then
+        result="$(node ${1} --key ${API_KEY} 2>&1 )"
+    else
+        result="$(node ${1} --key ${API_KEY} --url ${ALT_URL} 2>&1 )"
+    fi
+    echo "${result}"
+    echo -e "\n---------- ${1} end -------------"
+    if [[ $result == *"Exception"* ]]; then
+        retcode=1
+    elif [[ $result == *"processingFailure"* ]]; then
+        retcode=1
+    fi
+}
+
+
+#------------------- Functions End ----------------------------------
+
+
 #Gets API_KEY, FILENAME and ALT_URL if present
-while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
+while getopts ":API_KEY:FILENAME:ALT_URL" arg; do
     case "${arg}" in
         API_KEY)
             API_KEY=${OPTARG}
@@ -27,42 +80,12 @@ while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
             FILENAME=${OPTARG}
             usage
             ;;
-        GIT_USERNAME)
-            GIT_USERNAME=${OPTARG}
-            usage
-            ;;
-        VERSION)
-            VERSION={OPTARG}
-            usage
-            ;;
     esac
 done
-ping_url="https://api.rosette.com/rest/v1/"
 
-# add the trailing slash of the alt_url if necessary
-if [ ! -z "${ALT_URL}" ]; then
-    if [[ ! ${ALT_URL} == */ ]]; then
-        ALT_URL="${ALT_URL}/"
-        echo "No Slash detected"
-    fi
-    ping_url=${ALT_URL}
-fi
+cleanURL
 
-#Checks for valid url
-match=$(curl "${ping_url}ping" -H "user_key: ${API_KEY}" |  grep -o "Rosette API")
-if [ "${match}" = "" ]; then
-    echo -e "\n${ping_url} server not responding\n"
-    exit 1
-fi  
-
-#Checks if Rosette API key is valid
-function checkAPI {
-    match=$(curl "${ping_url}ping" -H "user_key: ${API_KEY}" |  grep -o "forbidden")
-    if [ ! -z $match ]; then
-        echo -e "\nInvalid Rosette API Key"
-        exit 1
-    fi  
-}
+validateURL
 
 #Copy the mounted content in /source to current WORKDIR
 cp -r -n /source/. .
@@ -74,17 +97,16 @@ if [ ! -z ${API_KEY} ]; then
     cd ../examples
     npm install argparse
     npm install temporary
+    npm install multipart-stream
     if [ ! -z ${FILENAME} ]; then
-        if [ ! -z ${ALT_URL} ]; then
-      node ${FILENAME} --key ${API_KEY} --url ${ALT_URL} 
-  else
-     node ${FILENAME} --key ${API_KEY} 
-    fi
-    elif [ ! -z ${ALT_URL} ]; then
-      find . -name '*.js' -exec node {} --key ${API_KEY} --url ${ALT_URL} \;
+        runExample ${FILENAME}
     else
-  find . -name '*.js' -exec node {} --key ${API_KEY} \;
+        for file in *.js; do
+            runExample ${file}
+        done
     fi
 else 
     HELP
 fi
+
+exit ${retcode}
