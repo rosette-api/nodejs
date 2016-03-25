@@ -94,7 +94,7 @@ cp -r -n /source/. .
 if [ ! -z ${API_KEY} ]; then
     checkAPI
     #Prerequisite
-    cd ../examples
+    cd ./examples
     npm install argparse
     npm install temporary
     npm install multipart-stream
