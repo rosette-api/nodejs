@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ping_url="https://api.rosette.com/rest/v1/"
+retcode=0
+
+#------------------- Functions -------------------------------------
+
 #Gets called when the user doesn't provide any args
 function HELP {
     echo -e "\nusage: source_file.py --key API_KEY [--url ALT_URL]"
@@ -11,6 +16,55 @@ function HELP {
     echo "Compiles and runs the source file(s) using the local development source."
     exit 1
 }
+
+#Checks if Rosette API key is valid
+function checkAPI() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "forbidden")
+    if [ ! -z $match ]; then
+        echo -e "\nInvalid Rosette API Key"
+        exit 1
+    fi  
+}
+
+# add the trailing slash of the alt_url if necessary
+function cleanURL() {
+    if [ ! -z "${ALT_URL}" ]; then
+        if [[ ! ${ALT_URL} == */ ]]; then
+            ALT_URL="${ALT_URL}/"
+            echo "No Slash detected"
+        fi
+        ping_url=${ALT_URL}
+    fi
+}
+
+#Checks for valid url
+function validateURL() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "Rosette API")
+    if [ "${match}" = "" ]; then
+        echo -e "\n${ping_url} server not responding\n"
+        exit 1
+    fi  
+}
+
+function runExample() {
+    echo -e "\n---------- ${1} start -------------"
+    result=""
+    if [ -z ${ALT_URL} ]; then
+        result="$(node ${1} --key ${API_KEY})"
+    else
+        result="$(node ${1} --key ${API_KEY} --url ${ALT_URL})"
+    fi
+    echo ${result}
+    echo -e "\n---------- ${1} end -------------"
+    if [[ $result == *"Exception"* ]]; then
+        retcode=1
+    elif [[ $result == *"processingFailure"* ]]; then
+        retcode=1
+    fi
+}
+
+
+#------------------- Functions End ----------------------------------
 
 #Gets API_KEY, FILENAME and ALT_URL if present
 while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
@@ -37,32 +91,10 @@ while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
             ;;
     esac
 done
-ping_url="https://api.rosette.com/rest/v1/"
 
-# add the trailing slash of the alt_url if necessary
-if [ ! -z "${ALT_URL}" ]; then
-    if [[ ! ${ALT_URL} == */ ]]; then
-        ALT_URL="${ALT_URL}/"
-        echo "No Slash detected"
-    fi
-    ping_url=${ALT_URL}
-fi
+cleanURL
 
-#Checks for valid url
-match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "Rosette API")
-if [ "${match}" = "" ]; then
-    echo -e "\n${ping_url} server not responding\n"
-    exit 1
-fi  
-
-#Checks if Rosette API key is valid
-function checkAPI {
-    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "forbidden")
-    if [ ! -z $match ]; then
-        echo -e "\nInvalid Rosette API Key"
-        exit 1
-    fi  
-}
+validateURL
 
 #Copy the mounted content in /source to current WORKDIR
 cp -r -n /source/. .
@@ -92,24 +124,7 @@ istanbul cover _mocha unittests.js
 #run eslint
 eslint ../lib/**
 
-retcode=0
 
-function runExample() {
-    echo -e "\n---------- ${1} start -------------"
-    result=""
-    if [ -z ${ALT_URL} ]; then
-        result="$(node ${1} --key ${API_KEY})"
-    else
-        result="$(node ${1} --key ${API_KEY} --url ${ALT_URL})"
-    fi
-    echo ${result}
-    echo -e "\n---------- ${1} end -------------"
-    if [[ $result == *"Exception"* ]]; then
-        retcode=1
-    elif [[ $result == *"processingFailure"* ]]; then
-        retcode=1
-    fi
-}
 
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
