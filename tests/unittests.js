@@ -767,7 +767,7 @@ describe('Rosette API check version endpoint', function() {
         // nock interceptor for endpoint 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"0.8"})
+           .query({"clientVersion":"1.0"})
            .reply(status, response);
         
         c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {

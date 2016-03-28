@@ -101,18 +101,7 @@ cp -r -n /source/. .
 
 #Run unit tests
 
-cd mock-data
-mkdir status
-mkdir other
-cd response
-find . -name "*.status" -exec mv {} ../status \;
-find . -name "info.json" -exec mv {} ../other \;
-find . -name "ping.json" -exec mv {} ../other \;
-find . -name "checkVersion.json" -exec mv {} ../other \;
-find . -name "retry-fail.json" -exec mv {} ../other \;
-find . -name "bad_info.json" -exec mv {} ../other \;
-
-cd ../../tests
+cd tests
 npm install -g mocha
 npm install mocha
 npm install -g istanbul
