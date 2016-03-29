@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "0.8.3",
+  "version": "1.0.0",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
@@ -43,5 +43,8 @@
     "mocha": "^2.4.5",
     "nock": "^7.2.1",
     "temporary": "0.0.8"
+  },
+  "dependencies": {
+    "multipart-stream": "^2.0.1"
   }
 }

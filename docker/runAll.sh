@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ping_url="https://api.rosette.com/rest/v1/"
+retcode=0
+
+#------------------- Functions -------------------------------------
+
 #Gets called when the user doesn't provide any args
 function HELP {
     echo -e "\nusage: source_file.py --key API_KEY [--url ALT_URL]"
@@ -11,6 +16,55 @@ function HELP {
     echo "Compiles and runs the source file(s) using the local development source."
     exit 1
 }
+
+#Checks if Rosette API key is valid
+function checkAPI() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "forbidden")
+    if [ ! -z $match ]; then
+        echo -e "\nInvalid Rosette API Key"
+        exit 1
+    fi  
+}
+
+# add the trailing slash of the alt_url if necessary
+function cleanURL() {
+    if [ ! -z "${ALT_URL}" ]; then
+        if [[ ! ${ALT_URL} == */ ]]; then
+            ALT_URL="${ALT_URL}/"
+            echo "No Slash detected"
+        fi
+        ping_url=${ALT_URL}
+    fi
+}
+
+#Checks for valid url
+function validateURL() {
+    match=$(curl "${ping_url}ping" -H "X-RosetteAPI-Key: ${API_KEY}" |  grep -o "Rosette API")
+    if [ "${match}" = "" ]; then
+        echo -e "\n${ping_url} server not responding\n"
+        exit 1
+    fi  
+}
+
+function runExample() {
+    echo -e "\n---------- ${1} start -------------"
+    result=""
+    if [ -z ${ALT_URL} ]; then
+        result="$(node ${1} --key ${API_KEY} 2>&1 )"
+    else
+        result="$(node ${1} --key ${API_KEY} --url ${ALT_URL} 2>&1 )"
+    fi
+    echo "${result}"
+    echo -e "\n---------- ${1} end -------------"
+    if [[ $result == *"Exception"* ]]; then
+        retcode=1
+    elif [[ $result == *"processingFailure"* ]]; then
+        retcode=1
+    fi
+}
+
+
+#------------------- Functions End ----------------------------------
 
 #Gets API_KEY, FILENAME and ALT_URL if present
 while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
@@ -38,38 +92,28 @@ while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
     esac
 done
 
-#Checks if Rosette API key is valid
-function checkAPI {
-    match=$(curl "https://api.rosette.com/rest/v1/ping" -H "user_key: ${API_KEY}" |  grep -o "forbidden")
-    if [ ! -z $match ]; then
-        echo -e "\nInvalid Rosette API Key"
-        exit 1
-    fi  
-}
+cleanURL
+
+validateURL
 
 #Copy the mounted content in /source to current WORKDIR
-cp -r -n /source/* .
+cp -r -n /source/. .
 
 #Run unit tests
 
-cd mock-data
-mkdir status
-mkdir other
-cd response
-find . -name "*.status" -exec mv {} ../status \;
-find . -name "info.json" -exec mv {} ../other \;
-find . -name "ping.json" -exec mv {} ../other \;
-find . -name "checkVersion.json" -exec mv {} ../other \;
-find . -name "retry-fail.json" -exec mv {} ../other \;
-find . -name "bad_info.json" -exec mv {} ../other \;
-
-cd ../../tests
+cd tests
 npm install -g mocha
 npm install mocha
 npm install -g istanbul
 npm install chai
 npm install nock
+npm install -g eslint
+npm install multipart-stream
 istanbul cover _mocha unittests.js
+#run eslint
+eslint ../lib/**
+
+
 
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
@@ -79,23 +123,16 @@ if [ ! -z ${API_KEY} ]; then
     npm install argparse
     npm install temporary
     if [ ! -z ${FILENAME} ]; then
-        if [ ! -z ${ALT_URL} ]; then
-	    node ${FILENAME} --key ${API_KEY} --url ${ALT_URL} 
-	else
-	   node ${FILENAME} --key ${API_KEY} 
-   	fi
-    elif [ ! -z ${ALT_URL} ]; then
-    	find . -name '*.js' -exec node {} --key ${API_KEY} --url ${ALT_URL} \;
+        runExample ${FILENAME}
     else
-	find . -name '*.js' -exec node {} --key ${API_KEY} \;
+        for file in *.js; do
+            runExample $file
+        done
     fi
 else 
     HELP
+    retcode=1
 fi
-
-#run eslint
-npm install -g eslint
-eslint ../lib/**
 
 #Generate gh-pages and push them to git account (if git username is provided)
 if [ ! -z ${GIT_USERNAME} ] && [ ! -z ${VERSION} ]; then
@@ -117,3 +154,6 @@ if [ ! -z ${GIT_USERNAME} ] && [ ! -z ${VERSION} ]; then
    git commit -a -m "publish grunt apidocs ${VERSION}"
    git push
 fi
+
+exit ${retcode}
+

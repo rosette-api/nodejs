@@ -6,6 +6,7 @@ RUN apt-get -y update && apt-get install -y git && apt-get install -y vim && apt
 
 ENV API_KEY api_key
 
+RUN mkdir /nodejs-dev
 COPY runAll.sh /nodejs-dev/runAll.sh
 RUN chmod 755 /nodejs-dev/runAll.sh
 
