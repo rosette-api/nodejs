@@ -2,7 +2,7 @@
 
 # rosette-api
 
-Rosette API binding for node.js
+This is the Rosette API client binding for node.js.
 
 ## Getting Started
 Install the module with: `npm install rosette-api`
