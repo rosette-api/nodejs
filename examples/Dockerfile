@@ -9,9 +9,10 @@ ENV API_KEY api_key
 #set the working directory
 RUN mkdir /nodejs-dev
 WORKDIR /nodejs-dev
-COPY runAll.sh /nodejs-dev/runAll.sh
+COPY runAll.sh runAll.sh
+RUN chmod0755 runAll.sh
 
-CMD chmod 0755 ./runAll.sh && ./runAll.sh $API_KEY $FILENAME $ALT_URL
+CMD ./runAll.sh $API_KEY $FILENAME $ALT_URL
 
 VOLUME ["/source"]
 
