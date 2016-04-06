@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ping.js</title>
+    <title>JSDoc: Source: nameSimilarity.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: ping.js</h1>
+    <h1 class="page-title">Source: nameSimilarity.js</h1>
 
     
 
@@ -62,7 +62,7 @@ var BINDING_VERSION = "1.0";
  * @copyright 2014-2015 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function ping() {
+function nameSimilarity() {
 
 };
 
@@ -73,72 +73,88 @@ function ping() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-ping.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
+nameSimilarity.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
 
-    // configure URL
-    var urlParts = URL.parse(serviceURL + "ping");
-    var protocol = https;
-    if (urlParts.protocol === "http:") {
-        protocol = http;
-    }
+    if (parameters.loadParams().documentFile != null) {
+        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, serviceURL, callback);
+    } else {
 
-    var headers = {
-        "accept": "application/json",
-        "accept-encoding": "gzip",
-        "content-type": "application/json",
-        "user-agent": "rosetteapinode/" + BINDING_VERSION
-    }
-    headers["X-RosetteAPI-Key"] = userKey;
-
-    var result = new Buffer("");
-
-    var options = {
-        hostname: urlParts.hostname,
-        path: urlParts.path,
-        method: 'GET',
-        headers: headers,
-        agent: false
-    };
-
-    if (urlParts.port) {
-        options.port = urlParts.port;
-    }
-
-    // execute the http/https request
-    var req = protocol.request(options, function(res) {
-        res.on("data", function(docs) {
-            result = Buffer.concat([result, docs]);
-        });
-
-        res.on("end", function(err) {
-            if (err) {
-                return callback(err)
-            }
-            // will need for other endpoints
-            if (res.headers["content-encoding"] === "gzip") {
-                result = zlib.gunzipSync(result);
+        // validate parameters
+        if (parameters.loadParams().name1 == null || parameters.loadParams().name2 == null) {
+            throw new RosetteException("badArgument", "Must supply both name1 and name2 parameters to be matched.");
+        } else {
+            // configure URL
+            var urlParts = URL.parse(serviceURL + "name-similarity");
+            var protocol = https;
+            if (urlParts.protocol == "http:") {
+                protocol = http;
             }
 
-            result = JSON.parse(result);
-            result.headers = res.headers;
-            result = JSON.stringify(result);
-
-            if (res.statusCode === 200) {
-                return callback(err, JSON.parse(result.toString()));
+            var headers = {
+                "accept": "application/json",
+                "accept-encoding": "gzip",
+                "content-type": "application/json",
+                "user-agent": "rosetteapinode/" + BINDING_VERSION
             }
-        });
-    });
+            headers["X-RosetteAPI-Key"] = userKey;
 
-    // error catching for request
-    req.on("error", function(e) {
-        return callback(e);
-    });
+            var result = new Buffer("");
 
-    req.end();
+            var options = {
+                hostname: urlParts.hostname,
+                path: urlParts.path,
+                method: 'POST',
+                headers: headers,
+                agent: false
+            };
+
+            if (urlParts.port) {
+                options.port = urlParts.port;
+            }
+
+            // execute the http/https request
+            var req = protocol.request(options, function(res) {
+                res.on("data", function(docs) {
+                    result = Buffer.concat([result, docs]);
+                });
+
+                res.on("end", function(err) {
+                    if (err) {
+                        return callback(err)
+                    }
+                    // will need for other endpoints
+                    if (res.headers["content-encoding"] === "gzip") {
+                        result = zlib.gunzipSync(result);
+                    }
+
+                    result = JSON.parse(result);
+                    result.headers = res.headers;
+                    result = JSON.stringify(result);
+
+                    if (res.statusCode === 200) {
+                        return callback(err, JSON.parse(result.toString()));
+                    } else if (res.statusCode != 200) {
+                        return callback(err, JSON.parse(result.toString()));
+                    }
+                });
+            });
+
+            // error catching for request
+            req.on("error", function(e) {
+                return callback(e);
+            });
+
+            req.write(JSON.stringify(parameters.loadParams()));
+
+            req.end();
+
+        }
+    }
 
 };
 
-module.exports = ping;</code></pre>
+module.exports = nameSimilarity;
+</code></pre>
         </article>
     </section>
 

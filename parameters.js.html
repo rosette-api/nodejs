@@ -44,6 +44,19 @@
 var RosetteException = require("./rosetteExceptions");
 var RosetteConstants = require("./rosetteConstants");
 var fs = require("fs");
+var path = require("path");
+var Multipart = require('multipart-stream')
+var URL = require("url");
+var http = require("http");
+var https = require("https");
+var zlib = require("zlib");
+
+/**
+ * Compatible server version.
+ *
+ * @type string
+ */
+var BINDING_VERSION = "1.0";
 
 /**
  * @class
@@ -56,8 +69,6 @@ function parameters() {
     // generic parameters
     this.content = null;
     this.contentUri = null;
-    this.contentType = null;
-    this.unit = null;
     this.language = null;
     this.documentFile = null;
 
@@ -99,8 +110,6 @@ parameters.prototype.loadParams = function() {
     var paramJSON = {
         "content": this.content,
         "contentUri": this.contentUri,
-        "contentType": this.contentType,
-        "unit": this.unit,
         "language": this.language,
         "documentFile": this.documentFile,
         "name1": this.name1,
@@ -131,18 +140,104 @@ parameters.prototype.loadParams = function() {
 };
 
 /**
- * Reads a file and sets the content, contentType, and unit parameters accordingly
+ * Reads a file and sets the content, and unit parameters accordingly
  *@param {file} filePath - The file path from which the desired file will be loaded
  */
-parameters.prototype.loadFile = function(filePath) {
-    var str = fs.readFileSync(filePath, "base64");
+parameters.prototype.loadFile = function(filePath, loadedParameters, userKey, serviceURL, callback) {
+    var str = fs.readFileSync(filePath, "utf8");
+    var mp = new Multipart()
 
-    this.content = str;
-    this.contentType = RosetteConstants.dataFormat.UNSPECIFIED;
-    this.unit = RosetteConstants.inputUnit.DOC;
+    mp.addPart({
+        headers: {
+            "Content-Type": "application/json",
+            "Content-Disposition": "mixed; name=\"request\""
+        },
+        body: JSON.stringify(loadedParameters.loadParams())
+    })
+
+    mp.addPart({
+        headers: {
+            "Content-Type": "text/plain",
+            "Content-Disposition": "mixed; name=\"content\"; filename=\"" + path.basename(filePath) + "\""
+        },
+        body: str.toString()
+    })
+
+    var data = ''
+    mp.on('data', function(d) {
+        data += d
+    }).on('end', function() {
+
+        var urlParts = URL.parse(serviceURL + "sentiment");
+        var protocol = https;
+        if (urlParts.protocol === "http:") {
+            protocol = http;
+        }
+
+        var headers = {
+            "accept": 'application/json',
+            "accept-encoding": "gzip",
+            "content-type": 'multipart/mixed',
+            "user-agent": "rosetteapinode/" + BINDING_VERSION
+        }
+        headers["X-RosetteAPI-Key"] = userKey;
+
+        var result = new Buffer("");
+
+        var options = {
+            hostname: urlParts.hostname,
+            path: urlParts.path,
+            method: 'POST',
+            headers: headers,
+            agent: false
+        };
+
+        if (urlParts.port) {
+            options.port = urlParts.port;
+        }
+
+        // execute the http/https request
+        var req = protocol.request(options, function(res) {
+            res.on("data", function(docs) {
+                result = Buffer.concat([result, docs]);
+            });
+
+            res.on("end", function(err) {
+                if (err) {
+                    console.log(err)
+                }
+                // will need for other endpoints
+                if (res.headers["content-encoding"] === "gzip") {
+                    result = zlib.gunzipSync(result);
+                }
+
+                result = JSON.parse(result);
+                result.headers = res.headers;
+                result = JSON.stringify(result);
+
+                if (res.statusCode === 200) {
+                    return callback(err, JSON.parse(result.toString()));
+                } else if (res.statusCode != 200) {
+                    return callback(err, JSON.parse(result.toString()));
+                }
+            });
+        });
+
+        // error catching for request
+        req.on("error", function(e) {
+            return console.log(e)
+        });
+
+        req.write(data);
+
+        req.end();
+
+    })
+
 }
 
-module.exports = parameters;</code></pre>
+module.exports = parameters;
+</code></pre>
         </article>
     </section>
 
@@ -152,13 +247,13 @@ module.exports = parameters;</code></pre>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="checkVersion.html">checkVersion</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="languageInfo.html">languageInfo</a></li><li><a href="matchedName.html">matchedName</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#inputUnit">inputUnit</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="checkVersion.html">checkVersion</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#inputUnit">inputUnit</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Feb 22 2016 20:07:01 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Wed Apr 06 2016 11:29:08 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>
