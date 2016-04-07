@@ -100,18 +100,12 @@ validateURL
 cp -r -n /source/. .
 
 #Run unit tests
-
-cd tests
-npm install -g mocha
-npm install mocha
-npm install -g istanbul
-npm install chai
-npm install nock
+npm install -g grunt-cli
 npm install -g eslint
-npm install multipart-stream
-istanbul cover _mocha unittests.js
+npm install
+grunt test
 #run eslint
-eslint ../lib/**
+eslint lib/*.js
 
 
 
@@ -119,7 +113,7 @@ eslint ../lib/**
 if [ ! -z ${API_KEY} ]; then
     checkAPI
     #Prerequisite
-    cd ../examples
+    cd examples
     npm install argparse
     npm install temporary
     if [ ! -z ${FILENAME} ]; then
@@ -135,24 +129,9 @@ else
 fi
 
 #Generate gh-pages and push them to git account (if git username is provided)
-if [ ! -z ${GIT_USERNAME} ] && [ ! -z ${VERSION} ]; then
-   #clone nodejs git repo
-   cd /
-   git clone git@github.com:${GIT_USERNAME}/nodejs.git
-   cd nodejs
-   git checkout origin/gh-pages -b gh-pages
-   git branch -d develop
-   #generate gh-pages and set ouput dir to git repo (gh-pages branch)
-   cd ../nodejs-dev
-   npm install -g grunt-cli
-   npm install grunt
-   npm install
-   grunt
-   cd ../nodejs
-   rm -rf node_modules
-   git add .
-   git commit -a -m "publish grunt apidocs ${VERSION}"
-   git push
+if [ ! -z ${GIT_USERNAME} ]; then
+
+grunt doc
 fi
 
 exit ${retcode}
