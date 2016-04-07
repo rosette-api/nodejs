@@ -26,9 +26,9 @@ var requestArray, statusArray, responseArray;
 
 before(function() {
     // get the names of all the mock data files
-    requestArray = fs.readdirSync('../mock-data/request/');
-    statusArray = fs.readdirSync('../mock-data/status/');
-    responseArray = fs.readdirSync('../mock-data/response/');
+    requestArray = fs.readdirSync(__dirname + '/../mock-data/request/');
+    statusArray = fs.readdirSync(__dirname + '/../mock-data/status/');
+    responseArray = fs.readdirSync(__dirname + '/../mock-data/response/');
 
 });
 
@@ -41,9 +41,9 @@ function langTests(index, done) {
 
             var lang = new language();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -96,9 +96,9 @@ function sentTests(index, done) {
 
             var sent = new sentiment();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -152,9 +152,9 @@ function catTests(index, done) {
 
             var cat = new categories();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -208,9 +208,9 @@ function morphTests(index, done) {
 
             var morph = new morphology();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -264,9 +264,9 @@ function entitiesTests(index, done) {
 
             var entity = new entities();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -320,9 +320,9 @@ function entitiesLinkedTests(index, done) {
 
             var entity = new entities();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -377,9 +377,9 @@ function relationshipsTests(index, done) {
 
             var relationship = new relationships();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -433,9 +433,9 @@ function nameSimilarityTests(index, done) {
 
             var name = new nameSimilarity();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -491,9 +491,9 @@ function nameTranslationTests(index, done) {
 
             var name = new nameTranslation();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -555,9 +555,9 @@ function sentencesTests(index, done) {
 
             var sentence = new sentences();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -619,9 +619,9 @@ function tokensTests(index, done) {
 
             var token = new tokens();
             var param = new paramObj();
-            var request = fs.readFileSync('../mock-data/request/' + requestArray[index]);
-            var status = fs.readFileSync('../mock-data/status/' + statusArray[index]);
-            var response = fs.readFileSync('../mock-data/response/' + responseArray[index]);
+            var request = fs.readFileSync(__dirname + '/../mock-data/request/' + requestArray[index], 'utf8');
+            var status = fs.readFileSync(__dirname + '/../mock-data/status/' + statusArray[index], 'utf8');
+            var response = fs.readFileSync(__dirname + '/../mock-data/response/' + responseArray[index], 'utf8');
             var expected = JSON.parse(response.toString());
 
             // nock interceptor for endpoint 
@@ -760,8 +760,8 @@ describe('Rosette API check version endpoint', function() {
     this.timeout(150000);
     it('should return a response', function(done) {
         var c = new checkVersion();
-        var status = fs.readFileSync('../mock-data/status/' + 'checkVersion.status');
-        var response = fs.readFileSync('../mock-data/other/' + 'checkVersion.json');
+        var status = fs.readFileSync(__dirname + '/../mock-data/status/' + 'checkVersion.status', 'utf8');
+        var response = fs.readFileSync(__dirname + '/../mock-data/other/' + 'checkVersion.json', 'utf8');
         var expected = JSON.parse(response.toString());
         
         // nock interceptor for endpoint 
@@ -783,8 +783,8 @@ describe('Rosette API info endpoint', function() {
     it('should return a response', function(done) {
         var i = new info();
         var param = new paramObj();
-        var status = fs.readFileSync('../mock-data/status/' + 'info.status');
-        var response = fs.readFileSync('../mock-data/other/' + 'info.json');
+        var status = fs.readFileSync(__dirname + '/../mock-data/status/' + 'info.status', 'utf8');
+        var response = fs.readFileSync(__dirname + '/../mock-data/other/' + 'info.json', 'utf8');
         var expected = JSON.parse(response.toString());
         
         // nock interceptor for endpoint 
@@ -806,8 +806,8 @@ describe('Rosette API ping endpoint', function() {
     it('should return a response', function(done) {
         var p = new ping();
         var param = new paramObj();
-        var status = fs.readFileSync('../mock-data/status/' + 'ping.status');
-        var response = fs.readFileSync('../mock-data/other/' + 'ping.json');
+        var status = fs.readFileSync(__dirname + '/../mock-data/status/' + 'ping.status', 'utf8');
+        var response = fs.readFileSync(__dirname + '/../mock-data/other/' + 'ping.json', 'utf8');
         var expected = JSON.parse(response.toString());
         
         // nock interceptor for endpoint 
