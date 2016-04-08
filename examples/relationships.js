@@ -14,7 +14,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "relationships";
 
-var relationships_text_data = "Bill Murray is in the new Ghostbusters film!";
+var relationships_text_data = "The Ghostbusters movie was filmed in Boston.";
 var content = relationships_text_data;
 
 api.parameters.content = content;
