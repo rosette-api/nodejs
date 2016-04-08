@@ -3,6 +3,8 @@ node_modules
 
 target
 
+.grunt
+
 # Instrumented versions of lib/ files
 instrumented
 
