@@ -46,6 +46,7 @@
     "temporary": "0.0.8"
   },
   "dependencies": {
-    "multipart-stream": "^2.0.1"
+    "multipart-stream": "^2.0.1",
+    "sleep": "^3.0.1"
   }
 }
