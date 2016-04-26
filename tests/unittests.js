@@ -37,8 +37,9 @@ describe("Check Version", function() {
            .query({"clientVersion":"1.0"})
            .reply(200, JSON.parse(mockResponse));
         
+        var params = new paramObj();
         var c = new checkVersion();
-        c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
             chai.expect(res).to.have.property('name');
             chai.expect(res.name).to.equal('Rosette API');
             done();
@@ -55,7 +56,8 @@ describe("Check Version", function() {
            .reply(200, JSON.parse(mockResponse));
 
         var c = new checkVersion();
-        c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+        var params = new paramObj();
+        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
             chai.expect(res).to.have.property('versionChecked');
             chai.expect(res.versionChecked).to.be.false;
             done();
