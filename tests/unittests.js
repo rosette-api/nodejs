@@ -34,11 +34,12 @@ describe("Check Version", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         
+        var params = new paramObj();
         var c = new checkVersion();
-        c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
             chai.expect(res).to.have.property('name');
             chai.expect(res.name).to.equal('Rosette API');
             done();
@@ -51,11 +52,12 @@ describe("Check Version", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         var c = new checkVersion();
-        c.check('1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
+        var params = new paramObj();
+        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
             chai.expect(res).to.have.property('versionChecked');
             chai.expect(res.versionChecked).to.be.false;
             done();
@@ -68,7 +70,7 @@ describe("Check Version", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
@@ -87,12 +89,12 @@ describe("Language Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/language')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -146,12 +148,12 @@ describe("Relationships Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/relationships')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -194,12 +196,12 @@ describe("Name Similarity Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-similarity')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -247,12 +249,12 @@ describe("Name Translation Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-translation')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -310,12 +312,12 @@ describe("Sentiment Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentiment')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -369,12 +371,12 @@ describe("Categories Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/categories')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -428,12 +430,12 @@ describe("Entities Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/entities')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -487,12 +489,12 @@ describe("Entities Linked Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/entities/linked')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -549,12 +551,12 @@ describe("Morphology Endpoint (suite covers all features)", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/morphology/complete')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -625,12 +627,12 @@ describe("Tokens Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/tokens')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -684,12 +686,12 @@ describe("Sentences Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentences')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -743,7 +745,7 @@ describe("Info Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com')
@@ -776,7 +778,7 @@ describe("Ping Endpoint", function() {
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.0"})
+           .query({"clientVersion":"1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com')
