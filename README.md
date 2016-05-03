@@ -44,7 +44,7 @@ api.rosette(endpoint, function(err, res){
 | targetScheme                        | name translation          | No |
 | options              | relationships        | No |
 | accuracyMode              | relationships        | Yes |
-| linked              | entities        | No |
+| resolveEntities              | entities        | No |
 | explain              | sentiment        | No |
 | shortString              | sentiment        | No |
 | morphology             | morphology        | Yes |

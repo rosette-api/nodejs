@@ -508,7 +508,7 @@ describe("Entities Linked Endpoint", function() {
     it("successfully calls the entities linked endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
-        api.parameters.linked = true;
+        api.parameters.resolveEntities = true;
 
         api.rosette("entities", function(err, res) {
             chai.expect(err).to.be.null;
@@ -522,7 +522,7 @@ describe("Entities Linked Endpoint", function() {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Sample Content";
         api.parameters.contentUri = "http://some.url.com";
-        api.parameters.linked = true;
+        api.parameters.resolveEntities = true;
 
         api.rosette("entities", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -534,7 +534,7 @@ describe("Entities Linked Endpoint", function() {
 
     it("detects neither content nor contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-        api.parameters.linked = true;
+        api.parameters.resolveEntities = true;
 
         api.rosette("entities", function(err, res) {
             chai.expect(err).to.not.be.null;
