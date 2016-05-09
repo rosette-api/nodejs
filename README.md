@@ -10,7 +10,7 @@ Install the module with: `npm install rosette-api`
 
 ## Example using the Rosette API language detection endpoint
 ```javascript
-var rosette-api = require('rosette-api');
+var Api = require('rosette-api');
 
 var api = new Api(API_KEY);
 var endpoint = "language";
@@ -27,7 +27,7 @@ api.rosette(endpoint, function(err, res){
 ```
 ## API Parameters
 | Parameter                     | Endpoint                                            | Required
-| -------------                 |-------------                                        |------------- 
+| -------------                 |-------------                                        |-------------
 | content                    | categories, entities, language, morphology, relationships, sentences, sentiment, tokens            | Either content or contentUri required |
 | contentUri                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens       | Either content or contentUri required |
 | language                          | categories, entities, language, morphology, relationships, sentences, sentiment, tokens, name similarity                    | No |
@@ -46,7 +46,6 @@ api.rosette(endpoint, function(err, res){
 | accuracyMode              | relationships        | Yes |
 | linked              | entities        | No |
 | explain              | sentiment        | No |
-| shortString              | sentiment        | No |
 | morphology             | morphology        | Yes |
 
 ## Additional Examples
