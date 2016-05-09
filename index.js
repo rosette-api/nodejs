@@ -1,4 +1,4 @@
-module.exports.Api = require('./lib/Api');
+module.exports = require('./lib/Api');
 
 module.exports.categories = require('./lib/categories');
 
