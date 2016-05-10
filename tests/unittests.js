@@ -16,72 +16,10 @@ var entities = require("../lib/entities");
 var morphology = require("../lib/morphology");
 var tokens = require("../lib/tokens");
 var sentences = require("../lib/sentences");
-var checkVersion = require("../lib/checkVersion");
 var info = require("../lib/info");
 var ping = require("../lib/ping");
 var paramObj = require("../lib/parameters");
 var rosetteException = require("../lib/rosetteExceptions");
-
-describe("Check Version", function() {
-
-    afterEach(function(done) {
-        nock.cleanAll();
-        done();
-    });
-
-    it("passes the check version", function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
-
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
-           .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
-           .reply(200, JSON.parse(mockResponse));
-        
-        var params = new paramObj();
-        var c = new checkVersion();
-        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
-            chai.expect(res).to.have.property('name');
-            chai.expect(res.name).to.equal('Rosette API');
-            done();
-        });
-
-    });
-    
-    it("fails the version check", function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':false});
-
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
-           .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
-           .reply(200, JSON.parse(mockResponse));
-
-        var c = new checkVersion();
-        var params = new paramObj();
-        c.check(params, '1234567890', 'https://api.rosette.com/rest/v1/', function(err, res) {
-            chai.expect(res).to.have.property('versionChecked');
-            chai.expect(res.versionChecked).to.be.false;
-            done();
-        });
-
-    });
-
-    it("fails the API version check", function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':false});
-
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
-           .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
-           .reply(200, JSON.parse(mockResponse));
-
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-        api.rosette("info", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            done();
-        });
-         
-    });
-});
 
 describe("Language Endpoint", function() {
     beforeEach(function(done) {

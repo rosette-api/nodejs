@@ -2,8 +2,6 @@ module.exports = require('./lib/Api');
 
 module.exports.categories = require('./lib/categories');
 
-module.exports.checkVersion = require('./lib/checkVersion');
-
 module.exports.entities = require("./lib/entities");
 
 module.exports.info = require("./lib/info");
