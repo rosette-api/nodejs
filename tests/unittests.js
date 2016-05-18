@@ -116,12 +116,12 @@ describe("Relationships Endpoint", function() {
     it("detects correct accuracy mode", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.accuracyMode = "BOGUS";
+        var option = { accuracyMode: "PRECISION" };
+        api.parameters.options = JSON.stringify(option);
 
         api.rosette("relationships", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            chai.expect(err.message).to.contain('badArgument');
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
             done();
         });
     });
