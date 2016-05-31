@@ -16,6 +16,10 @@ var endpoint = "language";
 var content = "Por favor Señorita, says the man.";
 
 api.parameters.content = content;
+var appHeader = [];
+appHeader[0] = "X-RosetteAPI-App"
+appHeader[1] = "app";
+api.parameters.customHeaders = [appHeader];
 
 api.rosette(endpoint, function(err, res){
 	if(err){
