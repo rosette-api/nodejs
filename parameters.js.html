@@ -56,7 +56,7 @@ var zlib = require("zlib");
  *
  * @type string
  */
-var BINDING_VERSION = "1.0";
+var BINDING_VERSION = "1.1";
 
 /**
  * @class
@@ -71,6 +71,7 @@ function parameters() {
     this.contentUri = null;
     this.language = null;
     this.documentFile = null;
+    this.genre = null;
 
     // name matching parameters
     this.name1 = null;
@@ -104,6 +105,7 @@ function parameters() {
 
 /**
  * Loads all non-null parameters into a new JSON that will be used as parameters for a Rosette API endpoint
+ * Parameters that start with '_' are internal and not included in the endpoint request
  */
 parameters.prototype.loadParams = function() {
     var tempJSON = {};
@@ -112,6 +114,7 @@ parameters.prototype.loadParams = function() {
         "contentUri": this.contentUri,
         "language": this.language,
         "documentFile": this.documentFile,
+        "genre": this.genre,
         "name1": this.name1,
         "name2": this.name2,
         "name": this.name,
@@ -123,15 +126,16 @@ parameters.prototype.loadParams = function() {
         "targetScript": this.targetScript,
         "targetScheme": this.targetScheme,
         "options": this.options,
-        "accuracyMode": this.accuracyMode,
         "linked": this.linked,
         "explain": this.explain,
         "short-string": this.shortString,
-        "morphology": this.morphology
+        "morphology": this.morphology,
+        "_maxRetries": this.maxRetries,
+        "_msInterval": this.msInterval
     };
 
     for (var key in paramJSON) {
-        if (paramJSON[key] != null) {
+        if (key.substring(0, 1) !== '_' &amp;&amp; paramJSON[key] != null) {
             tempJSON[key] = paramJSON[key];
         }
     }
@@ -143,7 +147,7 @@ parameters.prototype.loadParams = function() {
  * Reads a file and sets the content, and unit parameters accordingly
  *@param {file} filePath - The file path from which the desired file will be loaded
  */
-parameters.prototype.loadFile = function(filePath, loadedParameters, userKey, serviceURL, callback) {
+parameters.prototype.loadFile = function(filePath, loadedParameters, userKey, serviceURL, endpoint, callback) {
     var str = fs.readFileSync(filePath, "utf8");
     var mp = new Multipart()
 
@@ -168,7 +172,7 @@ parameters.prototype.loadFile = function(filePath, loadedParameters, userKey, se
         data += d
     }).on('end', function() {
 
-        var urlParts = URL.parse(serviceURL + "sentiment");
+        var urlParts = URL.parse(serviceURL + endpoint);
         var protocol = https;
         if (urlParts.protocol === "http:") {
             protocol = http;
@@ -178,7 +182,9 @@ parameters.prototype.loadFile = function(filePath, loadedParameters, userKey, se
             "accept": 'application/json',
             "accept-encoding": "gzip",
             "content-type": 'multipart/mixed',
-            "user-agent": "rosetteapinode/" + BINDING_VERSION
+            "user-agent": "rosetteapinode/" + BINDING_VERSION, 
+            "X-RosetteAPI-Binding": "nodejs",
+            "X-RosetteAPI-Binding-Version": BINDING_VERSION
         }
         headers["X-RosetteAPI-Key"] = userKey;
 
@@ -247,13 +253,13 @@ module.exports = parameters;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="checkVersion.html">checkVersion</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#inputUnit">inputUnit</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="rosetteRequest.html">rosetteRequest</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Apr 07 2016 15:03:24 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue May 31 2016 19:25:38 GMT+0000 (UTC)
 </footer>
 
 <script> prettyPrint(); </script>

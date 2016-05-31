@@ -41,20 +41,11 @@
  **/
 "use strict";
 
-var http = require("http");
-var https = require("https");
 var URL = require("url");
-var zlib = require("zlib");
 
 var RosetteConstants = require("./rosetteConstants");
 var RosetteException = require("./rosetteExceptions");
-
-/**
- * Compatible server version.
- *
- * @type string
- */
-var BINDING_VERSION = "1.0";
+var rosetteRequest = require("./rosetteRequest");
 
 /**
  * @class
@@ -76,79 +67,19 @@ function categories() {
 categories.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
 
     if (parameters.loadParams().documentFile != null) {
-        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, serviceURL, callback);
+        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, serviceURL, "categories", callback);
     } else {
 
     // validate parameters
-        if (parameters.loadParams().content === null &amp;&amp; parameters.loadParams().contentUri === null) {
-            throw new RosetteException("badArgument", "Must supply one of contentor contentUri", "bad arguments");
+        if (parameters.loadParams().content == null &amp;&amp; parameters.loadParams().contentUri == null) {
+            return callback(new RosetteException("badArgument", "Must supply one of content or contentUri", "bad arguments"));
         } else if (parameters.loadParams().content != null &amp;&amp; parameters.loadParams().contentUri != null) {
-            throw new RosetteException("badArgument", "Cannot supply content and contentUri", "bad arguments");
+            return callback(new RosetteException("badArgument", "Cannot supply content and contentUri", "bad arguments"));
         } else {
             // configure URL
             var urlParts = URL.parse(serviceURL + "categories");
-            var protocol = https;
-            if (urlParts.protocol === "http:") {
-                protocol = http;
-            }
-
-            var headers = {
-                "accept": "application/json",
-                "accept-encoding": "gzip",
-                "content-type": "application/json",
-                "user-agent": "rosetteapinode/" + BINDING_VERSION
-            }
-            headers["X-RosetteAPI-Key"] = userKey;
-
-            var result = new Buffer("");
-
-            var options = {
-                hostname: urlParts.hostname,
-                path: urlParts.path,
-                method: 'POST',
-                headers: headers,
-                agent: false
-            };
-
-            if (urlParts.port) {
-                options.port = urlParts.port;
-            }
-
-            // execute the http/https request
-            var req = protocol.request(options, function(res) {
-                res.on("data", function(docs) {
-                    result = Buffer.concat([result, docs]);
-                });
-
-                res.on("end", function(err) {
-                    if (err) {
-                        return callback(err)
-                    }
-
-                    if (res.headers["content-encoding"] === "gzip") {
-                        result = zlib.gunzipSync(result);
-                    }
-
-                    result = JSON.parse(result);
-                    result.headers = res.headers;
-                    result = JSON.stringify(result);
-
-                    if (res.statusCode === 200) {
-                        return callback(err, JSON.parse(result.toString()));
-                    } else if (res.statusCode != 200) {
-                        return callback(err, JSON.parse(result.toString()));
-                    }
-                });
-            });
-
-            req.on("error", function(e) {
-                return callback(e);
-            });
-
-            req.write(JSON.stringify(parameters.loadParams()));
-
-            req.end();
-
+            var req = new rosetteRequest();
+            req.makeRequest('POST', userKey, urlParts, parameters, callback);
         }
     }
 
@@ -165,13 +96,13 @@ module.exports = categories;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="checkVersion.html">checkVersion</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#inputUnit">inputUnit</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="rosetteRequest.html">rosetteRequest</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="tokens.html">tokens</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Thu Apr 07 2016 15:03:24 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Tue May 31 2016 19:25:38 GMT+0000 (UTC)
 </footer>
 
 <script> prettyPrint(); </script>

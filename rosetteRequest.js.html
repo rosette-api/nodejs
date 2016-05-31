@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: sentences.js</title>
+    <title>JSDoc: Source: rosetteRequest.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: sentences.js</h1>
+    <h1 class="page-title">Source: rosetteRequest.js</h1>
 
     
 
@@ -41,11 +41,20 @@
  **/
 "use strict";
 
+var http = require("http");
+var https = require("https");
 var URL = require("url");
+var zlib = require("zlib");
 
 var rosetteConstants = require("./rosetteConstants");
 var RosetteException = require("./rosetteExceptions");
-var rosetteRequest = require("./rosetteRequest");
+
+/**
+ * Compatible server version.
+ *
+ * @type string
+ */
+var BINDING_VERSION = "1.1";
 
 /**
  * @class
@@ -53,39 +62,111 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2014-2015 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function sentences() {
+function rosetteRequest() {
 
 };
+
+rosetteRequest.prototype.bindingVersion = function() { return BINDING_VERSION; }
 
 /**
  * Makes an HTTP request to the specified Rosette API endpoint and returns the result
- * @param {string} parameters - The Rosette API endpoint parameters
+ * @param {string} requestType - GET/POST
  * @param {string} userKey - The Rosette API user access key
- * @param {string} serviceURL - The base service URL to be used to access the Rosette API
+ * @param {object} urlParts - Structure containing the url parameters
+ * @param {object} parameters - Structure containing the API parameters
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-sentences.prototype.getResults = function(parameters, userKey, serviceURL, callback) {
-
-    if (parameters.loadParams().documentFile != null) {
-        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, serviceURL, "sentences", callback);
-    } else {
-
-        // validate parameters
-        if (parameters.loadParams().content == null &amp;&amp; parameters.loadParams().contentUri == null) {
-            return callback(new RosetteException("badArgument", "Must supply one of Content or ContentUri", "bad arguments"));
-        } else if (parameters.loadParams().content != null &amp;&amp; parameters.loadParams().contentUri != null) {
-            return callback(new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments"));
-        } else {
-            // configure URL
-            var urlParts = URL.parse(serviceURL + "sentences");
-            var req = new rosetteRequest();
-            req.makeRequest('POST', userKey, urlParts, parameters, callback);
-        }
+rosetteRequest.prototype.makeRequest = function(requestType, userKey, urlParts, parameters, callback) {
+    // configure URL
+    var protocol = https;
+    if (urlParts.protocol === "http:") {
+        protocol = http;
     }
+
+    var maxRetries = 5;
+    var interval = 500;
+
+    if (parameters != null) {
+        maxRetries = parameters._maxRetries || maxRetries;
+        interval = parameters._microInterval || interval;
+    }
+
+    var headers = {
+        "accept": "application/json",
+        "accept-encoding": "gzip",
+        "content-type": "application/json",
+        "user-agent": "rosetteapinode/" + BINDING_VERSION,
+        "X-RosetteAPI-Binding": "nodejs",
+        "X-RosetteAPI-Binding-Version": BINDING_VERSION
+    }
+    if (userKey != null) {
+        headers["X-RosetteAPI-Key"] = userKey;
+    }
+
+    var options = {
+        hostname: urlParts.hostname,
+        path: urlParts.path,
+        method: requestType,
+        headers: headers,
+        agent: false 
+    };
+
+    if (urlParts.port) {
+        options.port = urlParts.port;
+    }
+
+    var retries = 5;
+    var retry = 0;
+
+    var requestTask = function(callback) {
+        var result = new Buffer("");
+        // execute the http/https request
+        var req = protocol.request(options, function(res) {
+            res.on("data", function(docs) {
+                result = Buffer.concat([result, docs]);
+            });
+
+            res.on("end", function(err) {
+                if (err) {
+                    return callback(err)
+                }
+
+                if (res.headers["content-encoding"] === "gzip") {
+                    result = zlib.gunzipSync(result);
+                }
+
+                result = JSON.parse(result);
+                result.headers = res.headers;
+                result = JSON.stringify(result);
+
+                if (res.statusCode === 200) {
+                    return callback(null, JSON.parse(result.toString()));
+                } else if (res.statusCode === 429 &amp;&amp; retry++ &lt; maxRetries) {
+                    req.end();
+                    setTimeout(requestTask(callback), interval);
+                } else if (res.statusCode != 200) {
+                    return callback(new RosetteException(res.statusCode, result.toString()));
+                }
+            });
+        });
+
+        req.on("error", function(e) {
+            console.log(e)
+            return callback(e);
+        });
+
+        if (parameters !== null) {
+            req.write(JSON.stringify(parameters.loadParams()));
+        }
+
+        req.end();
+    };
+
+    requestTask(callback);
 
 };
 
-module.exports = sentences;
+module.exports = rosetteRequest;
 </code></pre>
         </article>
     </section>
