@@ -71,23 +71,18 @@ while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
     case "${arg}" in
         API_KEY)
             API_KEY=${OPTARG}
-            usage
             ;;
         ALT_URL)
             ALT_URL=${OPTARG}
-            usage
             ;;
         FILENAME)
             FILENAME=${OPTARG}
-            usage
             ;;
         GIT_USERNAME)
             GIT_USERNAME=${OPTARG}
-            usage
             ;;
         VERSION)
             VERSION={OPTARG}
-            usage
             ;;
     esac
 done
@@ -126,12 +121,6 @@ if [ ! -z ${API_KEY} ]; then
 else 
     HELP
     retcode=1
-fi
-
-#Generate gh-pages and push them to git account (if git username is provided)
-if [ ! -z ${GIT_USERNAME} ]; then
-
-grunt doc
 fi
 
 exit ${retcode}
