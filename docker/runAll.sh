@@ -2,7 +2,7 @@
 
 ping_url="https://api.rosette.com/rest/v1/"
 retcode=0
-errors=( "Exception" "processingFailure" "badRequest" "ParseError" "ValueError" "SyntaxError" )
+errors=( "Exception" "processingFailure" "badRequest" "ParseError" "ValueError" "SyntaxError" "AttributeError" "ImportError" )
 
 #------------------- Functions -------------------------------------
 
