@@ -4,6 +4,8 @@ MAINTAINER Sam Hausmann
 #install necessary packages
 RUN apt-get -y update && apt-get install -y git && apt-get install -y vim && apt-get install -y curl
 
+RUN npm install -g grunt-cli && npm install -g eslint
+
 ENV API_KEY api_key
 
 RUN mkdir /nodejs-dev

@@ -2,6 +2,7 @@
 
 ping_url="https://api.rosette.com/rest/v1/"
 retcode=0
+errors=( "Exception" "processingFailure" "badRequest" "ParseError" "ValueError" "SyntaxError" )
 
 #------------------- Functions -------------------------------------
 
@@ -14,6 +15,10 @@ function HELP {
     echo "Compiles and runs the source file(s) using the local development source."
     exit 1
 }
+
+if [ ! -z ${ALT_URL} ]; then
+    ping_url=${ALT_URL}
+fi
 
 #Checks if Rosette API key is valid
 function checkAPI() {
@@ -54,11 +59,11 @@ function runExample() {
     fi
     echo "${result}"
     echo -e "\n---------- ${1} end -------------"
-    if [[ $result == *"Exception"* ]]; then
-        retcode=1
-    elif [[ $result == *"processingFailure"* ]]; then
-        retcode=1
-    fi
+    for err in "${errors[@]}"; do 
+        if [[ ${result} == *"${err}"* ]]; then
+            retcode=1
+        fi
+    done
 }
 
 
@@ -87,14 +92,10 @@ validateURL
 cp -r -n /source/. .
 
 #Run unit tests
-npm install -g grunt-cli
-npm install -g eslint
 npm install
 grunt test
 #run eslint
 eslint lib/*.js
-
-
 
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
@@ -104,8 +105,10 @@ if [ ! -z ${API_KEY} ]; then
     npm install argparse
     npm install temporary
     if [ ! -z ${FILENAME} ]; then
+        echo -e "\nRunning example against: ${ping_url}\n"
         runExample ${FILENAME}
     else
+        echo -e "\nRunning examples against: ${ping_url}\n"
         for file in *.js; do
             runExample $file
         done
