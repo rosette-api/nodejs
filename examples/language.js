@@ -12,10 +12,18 @@ parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "language";
+var appHeader = [];
+appHeader[0] = "X-RosetteAPI-App"
+appHeader[1] = "app";
+api.parameters.customHeaders = [appHeader];
 
 var content = "Por favor Señorita, says the man.";
 
 api.parameters.content = content;
+var appHeader = [];
+appHeader[0] = "X-RosetteAPI-App"
+appHeader[1] = "app";
+api.parameters.customHeaders = [appHeader];
 
 api.rosette(endpoint, function(err, res){
 	if(err){
