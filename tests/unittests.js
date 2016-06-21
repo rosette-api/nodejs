@@ -23,16 +23,16 @@ var rosetteException = require("../lib/rosetteExceptions");
 
 describe("Language Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/language')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -82,16 +82,16 @@ describe("Language Endpoint", function() {
 
 describe("Relationships Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/relationships')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -130,16 +130,16 @@ describe("Relationships Endpoint", function() {
 
 describe("Name Similarity Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-similarity')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -183,16 +183,16 @@ describe("Name Similarity Endpoint", function() {
 
 describe("Name Translation Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-translation')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -246,16 +246,16 @@ describe("Name Translation Endpoint", function() {
 
 describe("Sentiment Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentiment')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -305,16 +305,16 @@ describe("Sentiment Endpoint", function() {
 
 describe("Categories Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/categories')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -364,16 +364,16 @@ describe("Categories Endpoint", function() {
 
 describe("Entities Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/entities')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -423,16 +423,16 @@ describe("Entities Endpoint", function() {
 
 describe("Morphology Endpoint (suite covers all features)", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/morphology/complete')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -499,16 +499,16 @@ describe("Morphology Endpoint (suite covers all features)", function() {
 
 describe("Tokens Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/tokens')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -558,16 +558,16 @@ describe("Tokens Endpoint", function() {
 
 describe("Sentences Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentences')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -617,11 +617,11 @@ describe("Sentences Endpoint", function() {
 
 describe("Info Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com')
@@ -650,11 +650,11 @@ describe("Info Endpoint", function() {
 
 describe("Ping Endpoint", function() {
     beforeEach(function(done) {
-        var mockResponse = JSON.stringify({'name':'Rosette API', 'versionChecked':true});
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion":"1.1"})
+           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
         nock('https://api.rosette.com')
@@ -678,5 +678,37 @@ describe("Ping Endpoint", function() {
         });
 
     });
+});
+
+describe("Error 409 Incompatible Binding Check", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'code': 'incompatibleBindingVersion', 'message': 'some message'});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .query({"clientVersion": "1.1"})
+           .reply(409, JSON.parse(mockResponse));
+
+        nock('https://api.rosette.com')
+           .get('/rest/v1/info')
+           .reply(409, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+    
+    it("successfully handles the error", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.rosette("info", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('incompatibleBindingVersion');
+            done();
+        });
+    });
 
 });
+
