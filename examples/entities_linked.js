@@ -14,7 +14,7 @@ var api = new Api(args.key, args.url);
 var endpoint  = "entities";
 
 api.parameters.content = "Last month director Paul Feig announced the movie will have an all-star female cast including Kristen Wiig, Melissa McCarthy, Leslie Jones and Kate McKinnon.";
-//this parameter is deprecated
+// this parameter is deprecated
 api.parameters.linked = true;
 api.parameters.genre = "social-media";
 
