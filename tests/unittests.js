@@ -711,4 +711,3 @@ describe("Error 409 Incompatible Binding Check", function() {
     });
 
 });
-
