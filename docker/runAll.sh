@@ -2,6 +2,7 @@
 
 ping_url="https://api.rosette.com/rest/v1/"
 retcode=0
+errors=( "Exception" "processingFailure" "badRequest" "ParseError" "ValueError" "SyntaxError" "AttributeError" "ImportError" )
 
 #------------------- Functions -------------------------------------
 
@@ -11,11 +12,13 @@ function HELP {
     echo "  API_KEY       - Rosette API key (required)"
     echo "  FILENAME      - Python source file (optional)"
     echo "  ALT_URL       - Alternate service URL (optional)"
-    echo "  GIT_USERNAME  - Git username where you would like to push regenerated gh-pages (optional)"
-    echo "  VERSION       - Build version (optional)"
     echo "Compiles and runs the source file(s) using the local development source."
     exit 1
 }
+
+if [ ! -z ${ALT_URL} ]; then
+    ping_url=${ALT_URL}
+fi
 
 #Checks if Rosette API key is valid
 function checkAPI() {
@@ -56,38 +59,27 @@ function runExample() {
     fi
     echo "${result}"
     echo -e "\n---------- ${1} end -------------"
-    if [[ $result == *"Exception"* ]]; then
-        retcode=1
-    elif [[ $result == *"processingFailure"* ]]; then
-        retcode=1
-    fi
+    for err in "${errors[@]}"; do 
+        if [[ ${result} == *"${err}"* ]]; then
+            retcode=1
+        fi
+    done
 }
 
 
 #------------------- Functions End ----------------------------------
 
 #Gets API_KEY, FILENAME and ALT_URL if present
-while getopts ":API_KEY:FILENAME:ALT_URL:GIT_USERNAME:VERSION" arg; do
+while getopts ":API_KEY:FILENAME:ALT_URL" arg; do
     case "${arg}" in
         API_KEY)
             API_KEY=${OPTARG}
-            usage
             ;;
         ALT_URL)
             ALT_URL=${OPTARG}
-            usage
             ;;
         FILENAME)
             FILENAME=${OPTARG}
-            usage
-            ;;
-        GIT_USERNAME)
-            GIT_USERNAME=${OPTARG}
-            usage
-            ;;
-        VERSION)
-            VERSION={OPTARG}
-            usage
             ;;
     esac
 done
@@ -100,14 +92,10 @@ validateURL
 cp -r -n /source/. .
 
 #Run unit tests
-npm install -g grunt-cli
-npm install -g eslint
 npm install
 grunt test
 #run eslint
 eslint lib/*.js
-
-
 
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
@@ -117,8 +105,10 @@ if [ ! -z ${API_KEY} ]; then
     npm install argparse
     npm install temporary
     if [ ! -z ${FILENAME} ]; then
+        echo -e "\nRunning example against: ${ping_url}\n"
         runExample ${FILENAME}
     else
+        echo -e "\nRunning examples against: ${ping_url}\n"
         for file in *.js; do
             runExample $file
         done
@@ -126,12 +116,6 @@ if [ ! -z ${API_KEY} ]; then
 else 
     HELP
     retcode=1
-fi
-
-#Generate gh-pages and push them to git account (if git username is provided)
-if [ ! -z ${GIT_USERNAME} ]; then
-
-grunt doc
 fi
 
 exit ${retcode}
