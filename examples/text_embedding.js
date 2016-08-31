@@ -12,7 +12,7 @@ parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
 
 var api = new Api(args.key, args.url);
-var endpoint = "text-embedding";
+var endpoint = "textEmbedding";
 var embeddings_data = 'Cambridge, Massachusetts'
 
 api.parameters.content = embeddings_data;
