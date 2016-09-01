@@ -17,9 +17,9 @@ appHeader[0] = "X-RosetteAPI-App"
 appHeader[1] = "app";
 api.parameters.customHeaders = [appHeader];
 
-var content = "Por favor Señorita, says the man.";
+var language_data = "Por favor Señorita, says the man.";
 
-api.parameters.content = content;
+api.parameters.content = language_data;
 var appHeader = [];
 appHeader[0] = "X-RosetteAPI-App"
 appHeader[1] = "app";

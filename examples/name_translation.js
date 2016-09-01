@@ -13,8 +13,8 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "nameTranslation";
 
-var name_translation_data = "معمر محمد أبو منيار القذاف";
-api.parameters.name = name_translation_data;
+var translated_name_data = "معمر محمد أبو منيار القذاف";
+api.parameters.name = translated_name_data;
 api.parameters.entityType = "PERSON";
 api.parameters.targetLanguage = "eng";
 api.parameters.targetScript = "Latn";
