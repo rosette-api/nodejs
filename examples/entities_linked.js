@@ -12,8 +12,9 @@ parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
 var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint  = "entities";
+var entities_linked_text_data = "Last month director Paul Feig announced the movie will have an all-star female cast including Kristen Wiig, Melissa McCarthy, Leslie Jones and Kate McKinnon.";
 
-api.parameters.content = "Last month director Paul Feig announced the movie will have an all-star female cast including Kristen Wiig, Melissa McCarthy, Leslie Jones and Kate McKinnon.";
+api.parameters.content = entities_linked_text_data;
 // this parameter is deprecated
 api.parameters.linked = true;
 api.parameters.genre = "social-media";
