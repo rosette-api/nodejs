@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: entities.js</title>
+    <title>JSDoc: Source: textEmbedding.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: entities.js</h1>
+    <h1 class="page-title">Source: textEmbedding.js</h1>
 
     
 
@@ -53,7 +53,7 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2014-2015 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function entities() {
+function textEmbedding() {
 
 };
 
@@ -64,18 +64,10 @@ function entities() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-entities.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+textEmbedding.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
     if (parameters.documentFile != null) {
-        if (parameters.loadParams().linked == true) {
-            console.warn("entities/linked endpoint has been combined with /entities. Do not specify the linked parameter.");
-            parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, protocol, serviceURL, "entities/linked", callback);
-        } else {
-            parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, protocol, serviceURL, "entities", callback);
-        }
-        
-
-    
+        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, protocol, serviceURL, "text-embedding", callback);
     } else {
 
     // validate parameters
@@ -85,23 +77,15 @@ entities.prototype.getResults = function(parameters, userKey, protocol, serviceU
             return callback(new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments"));
         } else {
             // configure URL
-            if (parameters.loadParams().linked == true) {
-                console.warn("entities/linked endpoint is deprecated and has been combined with entities. No need to specify linked parameter.");
-                var urlParts = URL.parse(serviceURL + "entities/linked");
-            } else {
-                urlParts = URL.parse(serviceURL + "entities");
-            }
-
-            
+            var urlParts = URL.parse(serviceURL + "text-embedding");
             var req = new rosetteRequest();
             req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
-            
         }
     }
 
 };
 
-module.exports = entities;
+module.exports = textEmbedding;
 </code></pre>
         </article>
     </section>
