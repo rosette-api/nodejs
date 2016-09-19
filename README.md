@@ -10,7 +10,7 @@ Install the module with: `npm install rosette-api`
 ## Docker ##
 A Docker image for running the examples against the compiled source library is available on Docker Hub.
 
-Command: `docker run -e API_KEY=api-key -v "path-to-local-csharp-dir:/source" rosetteapi/docker-nodejs`
+Command: `docker run -e API_KEY=api-key -v "<binding root directory>:/source" rosetteapi/docker-nodejs`
 
 Additional environment settings:
 `-e ALT_URL=<alternative URL>`
