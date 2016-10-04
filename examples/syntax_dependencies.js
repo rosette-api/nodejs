@@ -5,7 +5,7 @@ var ArgumentParser = require("argparse").ArgumentParser;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get the entities from a piece of text"
+  description: "Get the syntactic dependencies from a piece of text"
 });
 parser.addArgument(["--key"], {help: "Rosette API key", required: true});
 parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
