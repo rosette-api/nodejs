@@ -28,3 +28,4 @@ module.exports.tokens = require("./lib/tokens");
 
 module.exports.translatedName = require("./lib/nameTranslation");
 
+module.exports.syntax_dependencies = require("./lib/syntax_dependencies");
