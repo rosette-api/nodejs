@@ -14,7 +14,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "relationships";
 
-var relationships_text_data = "The Ghostbusters movie was filmed in Boston.";
+var relationships_text_data = "Bill Gates, Microsoft's former CEO, is a philanthropist.";
 var content = relationships_text_data;
 
 api.parameters.content = content;

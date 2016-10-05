@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 
 var api = new Api(args.key, args.url);
 var endpoint = "syntax_dependencies";
-var syntax_dependencies_data = "Sony Pictures is planning to shoot a good portion of the new \"Ghostbusters\" in Boston as well.";
+var syntax_dependencies_data = "Yoshinori Ohsumi, a Japanese cell biologist, was awarded the Nobel Prize in Physiology or Medicine on Monday.";
 
 api.parameters.content = syntax_dependencies_data;
 api.parameters.genre = "social-media";
