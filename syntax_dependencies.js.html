@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: nameTranslation.js</title>
+    <title>JSDoc: Source: syntax_dependencies.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: nameTranslation.js</h1>
+    <h1 class="page-title">Source: syntax_dependencies.js</h1>
 
     
 
@@ -53,7 +53,7 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2014-2015 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function nameTranslation() {
+function syntax_dependencies() {
 
 };
 
@@ -64,28 +64,32 @@ function nameTranslation() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-nameTranslation.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+syntax_dependencies.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
     if (parameters.documentFile != null) {
-        parameters.loadFile(parameters.documentFile, parameters, userKey, protocol, serviceURL, "name-translation", callback);
+        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, protocol, serviceURL, "syntax/dependencies", callback);
+    
     } else {
 
-        // validate parameters
-        if (parameters.loadParams().name == null) {
-            return callback(new RosetteException("badArgument", "Must name parameter", "bad arguments"));
-        } else if (parameters.loadParams().targetLanguage == null) {
-            return callback(new RosetteException("badArgument", "Must supply target language parameter", "bad arguments"));
+    // validate parameters
+        if (parameters.loadParams().content == null &amp;&amp; parameters.loadParams().contentUri == null) {
+            return callback(new RosetteException("badArgument", "Must supply one of Content or ContentUri", "bad arguments"));
+        } else if (parameters.loadParams().content != null &amp;&amp; parameters.loadParams().contentUri != null) {
+            return callback(new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments"));
         } else {
             // configure URL
-            var urlParts = URL.parse(serviceURL + "name-translation");
+            var urlParts = URL.parse(serviceURL + "syntax/dependencies");
+        }
+
+            
             var req = new rosetteRequest();
             req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
-        }
+            
     }
 
 };
 
-module.exports = nameTranslation;
+module.exports = syntax_dependencies;
 </code></pre>
         </article>
     </section>
