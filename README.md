@@ -53,7 +53,6 @@ api.rosette(endpoint, function(err, res){
 | targetScheme                        | name translation          | No |
 | options              | relationships        | No |
 | accuracyMode              | relationships        | Yes |
-| linked (deprecated)             | entities        | No |
 | linkEntities              | entities        | No |
 | explain              | sentiment        | No |
 | morphology             | morphology        | Yes |
