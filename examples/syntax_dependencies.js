@@ -16,7 +16,6 @@ var endpoint = "syntax_dependencies";
 var syntax_dependencies_data = "Yoshinori Ohsumi, a Japanese cell biologist, was awarded the Nobel Prize in Physiology or Medicine on Monday.";
 
 api.parameters.content = syntax_dependencies_data;
-api.parameters.genre = "social-media";
 api.rosette(endpoint, function(err, res){
 	if(err){
 		console.log(err);
