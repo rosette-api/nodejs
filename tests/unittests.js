@@ -8,6 +8,7 @@ var fs = require('fs');
 var Api = require("../lib/Api");
 var language = require("../lib/language");
 var relationships = require("../lib/relationships");
+var nameDeduplication = require("../lib/nameDeduplication");
 var nameSimilarity = require("../lib/nameSimilarity");
 var nameTranslation = require("../lib/nameTranslation");
 var sentiment = require("../lib/sentiment");
@@ -42,7 +43,7 @@ describe("Language Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the language endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Sample Content";
@@ -101,7 +102,7 @@ describe("Relationships Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the relationships endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Sample Content";
@@ -129,6 +130,57 @@ describe("Relationships Endpoint", function() {
 
 });
 
+describe("Name Deduplication Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/name-deduplication')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the name deduplication endpoint", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.parameters.names = [
+            {"text": "John Smith", "language": "eng", "entityType": "PERSON"},
+            {"text": "Johnathon Smith", "language": "eng", "entityType": "PERSON"},
+            {"text": "Fred Jones Smith", "language": "eng", "entityType": "PERSON"}
+        ];
+        api.parameters.threshold = 0.75;
+
+        api.rosette("nameDeduplication", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+    });
+
+    it("detects missing names parameter", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.rosette("nameSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+});
+
 describe("Name Similarity Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
@@ -149,7 +201,7 @@ describe("Name Similarity Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the name similarity endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         var name_similarity_data1 = "Michael Jackson";
@@ -202,7 +254,7 @@ describe("Name Translation Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the name translation endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.name = "Some Name";
@@ -265,7 +317,7 @@ describe("Sentiment Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the sentiment endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -324,7 +376,7 @@ describe("Categories Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the categories endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -383,7 +435,7 @@ describe("Entities Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the entities endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -442,7 +494,7 @@ describe("Morphology Endpoint (suite covers all features)", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the morphology endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -518,7 +570,7 @@ describe("Tokens Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the tokens endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -577,7 +629,7 @@ describe("Sentences Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the sentences endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -631,7 +683,7 @@ describe("Text Embedding Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the textEmbedding endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -690,7 +742,7 @@ describe("Syntactic Dependencies Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the syntactic dependencies endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
@@ -748,7 +800,7 @@ describe("Info Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the info endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
@@ -781,7 +833,7 @@ describe("Ping Endpoint", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully calls the ping endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
@@ -813,7 +865,7 @@ describe("Error 409 Incompatible Binding Check", function() {
         nock.cleanAll();
         done();
     });
-    
+
     it("successfully handles the error", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.rosette("info", function(err, res) {
