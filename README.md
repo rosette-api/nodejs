@@ -45,13 +45,13 @@ api.rosette(endpoint, function(err, res){
 | name2               | name similarity| Yes |
 | name    | name translation     | Yes |
 | names   | name deduplication   | Yes |
-| targetLanguage           | name translation, transliteration           | Yes |
+| targetLanguage           | name translation, transliteration (No)          | Yes |
 | entityType                 | name translation         | No |
 | sourceLanguageOfOrigin        | name translation | No |
 | sourceLanguageOfUse                         | name translation       | No |
-| sourceLanguage  | transliteration | Yes |
-| sourceScript                     | name translation, transliteration              | No, transliteraion Yes |
-| targetScript                     | name translation, transliteration                    | No, transliteraion Yes |
+| sourceLanguage  | transliteration | No |
+| sourceScript                     | name translation, transliteration              | No |
+| targetScript                     | name translation, transliteration                    | No |
 | targetScheme                        | name translation          | No |
 | options              | relationships        | No |
 | accuracyMode              | relationships        | Yes |

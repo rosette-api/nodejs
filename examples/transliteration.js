@@ -15,13 +15,8 @@ var api = new Api(args.key, args.url);
 var endpoint = "transliteration";
 
 var transliteration_data = "Bill Gates, Microsoft's former CEO, is a philanthropist.";
-var content = transliteration_data;
 
-api.parameters.content = content;
-api.parameters.targetLanguage = "eng";
-api.parameters.targetScript = "Latn";
-api.parameters.sourceLanguage = "eng";
-api.parameters.sourceScript = "Latn";
+api.parameters.content = transliteration_data;
 
 api.rosette(endpoint, function(err, res) {
     if (err) {

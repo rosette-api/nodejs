@@ -805,10 +805,6 @@ describe("Transliteration Endpoint", function() {
     it("successfully calls the transliteration endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
-        api.parameters.targetLanguage = "eng";
-        api.parameters.targetScript = "Latn";
-        api.parameters.sourceLanguage = "eng";
-        api.parameters.sourceScript = "Latn";
 
         api.rosette("transliteration", function(err, res) {
             chai.expect(err).to.be.null;
@@ -821,11 +817,6 @@ describe("Transliteration Endpoint", function() {
     it("detects content parameter is not defined", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
-        api.parameters.targetLanguage = "eng";
-        api.parameters.targetScript = "Latn";
-        api.parameters.sourceLanguage = "eng";
-        api.parameters.sourceScript = "Latn";
-
         api.rosette("transliteration", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
@@ -834,71 +825,6 @@ describe("Transliteration Endpoint", function() {
         });
     });
 
-    it("detects targetLanguage parameter is not defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-
-        api.parameters.content = "Sample Content";
-        api.parameters.targetScript = "Latn";
-        api.parameters.sourceLanguage = "eng";
-        api.parameters.sourceScript = "Latn";
-
-        api.rosette("transliteration", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            chai.expect(err.message).to.contain('badArgument');
-            done();
-        });
-    });
-
-    it("detects targetScript parameter is not defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-
-        api.parameters.content = "Sample Content";
-        api.parameters.targetLanguage = "eng";
-        api.parameters.sourceLanguage = "eng";
-        api.parameters.sourceScript = "Latn";
-
-        api.rosette("transliteration", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            chai.expect(err.message).to.contain('badArgument');
-            done();
-        });
-    });
-
-    it("detects sourceLanguage parameter is not defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-
-        api.parameters.content = "Sample Content";
-        api.parameters.targetLanguage = "eng";
-        api.parameters.targetScript = "Latn";
-        api.parameters.sourceScript = "Latn";
-
-        api.rosette("transliteration", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            chai.expect(err.message).to.contain('badArgument');
-            done();
-        });
-    });
-
-    it("detects sourceScript parameter is not defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
-
-        api.parameters.content = "Sample Content";
-        api.parameters.targetLanguage = "eng";
-        api.parameters.targetScript = "Latn";
-        api.parameters.sourceLanguage = "eng";
-
-        api.rosette("transliteration", function(err, res) {
-            chai.expect(err).to.not.be.null;
-            chai.expect(err.name).to.equal('RosetteException');
-            chai.expect(err.message).to.contain('badArgument');
-            done();
-        });
-    });
-
-});
 
 describe("Info Endpoint", function() {
     beforeEach(function(done) {
