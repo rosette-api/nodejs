@@ -79,7 +79,6 @@ describe("Language Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Relationships Endpoint", function() {
@@ -127,7 +126,6 @@ describe("Relationships Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Name Deduplication Endpoint", function() {
@@ -178,7 +176,6 @@ describe("Name Deduplication Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Name Similarity Endpoint", function() {
@@ -231,7 +228,6 @@ describe("Name Similarity Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Name Translation Endpoint", function() {
@@ -294,7 +290,6 @@ describe("Name Translation Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Sentiment Endpoint", function() {
@@ -353,7 +348,6 @@ describe("Sentiment Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Categories Endpoint", function() {
@@ -471,7 +465,6 @@ describe("Entities Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Morphology Endpoint (suite covers all features)", function() {
@@ -546,8 +539,6 @@ describe("Morphology Endpoint (suite covers all features)", function() {
             done();
         });
     });
-
-
 });
 
 describe("Tokens Endpoint", function() {
@@ -606,7 +597,6 @@ describe("Tokens Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Sentences Endpoint", function() {
@@ -665,7 +655,6 @@ describe("Sentences Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Text Embedding Endpoint", function() {
@@ -719,7 +708,6 @@ describe("Text Embedding Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Syntactic Dependencies Endpoint", function() {
@@ -778,7 +766,6 @@ describe("Syntactic Dependencies Endpoint", function() {
             done();
         });
     });
-
 });
 
 describe("Transliteration Endpoint", function() {
@@ -824,7 +811,7 @@ describe("Transliteration Endpoint", function() {
             done();
         });
     });
-
+});
 
 describe("Info Endpoint", function() {
     beforeEach(function(done) {
@@ -854,9 +841,7 @@ describe("Info Endpoint", function() {
             chai.expect(res.name).to.equal('Rosette API');
             done();
         });
-
     });
-
 });
 
 describe("Ping Endpoint", function() {
@@ -887,7 +872,6 @@ describe("Ping Endpoint", function() {
             chai.expect(res.name).to.equal('Rosette API');
             done();
         });
-
     });
 });
 
@@ -920,5 +904,4 @@ describe("Error 409 Incompatible Binding Check", function() {
             done();
         });
     });
-
 });
