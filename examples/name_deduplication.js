@@ -13,11 +13,11 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "nameDeduplication";
 
-api.parameters.names = [
-	{"text": "John Smith", "language": "eng", "entityType": "PERSON"},
-	{"text": "Johnathon Smith", "language": "eng", "entityType": "PERSON"},
-	{"text": "Fred Jones Smith", "language": "eng", "entityType": "PERSON"}
-];
+var name_dedupe_data = "John Smith,Johnathon Smith,Fred Jones";
+
+api.parameters.names = name_dedupe_data.split(",").map(function(name) {
+	return {"text": name, "language": "eng", "entityType": "PERSON"}
+});
 api.parameters.threshold = 0.75;
 
 api.rosette(endpoint, function(err, res){
