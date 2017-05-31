@@ -165,6 +165,22 @@ describe("Name Deduplication Endpoint", function() {
             done();
         });
     });
+    
+    it("successfully calls the name deduplication endpoint without threshold", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.parameters.names = [
+            {"text": "John Smith", "language": "eng", "entityType": "PERSON"},
+            {"text": "Johnathon Smith", "language": "eng", "entityType": "PERSON"},
+            {"text": "Fred Jones Smith", "language": "eng", "entityType": "PERSON"}
+        ];
+        
+        api.rosette("nameDeduplication", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+    });
 
     it("detects missing names parameter", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
