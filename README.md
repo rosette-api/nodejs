@@ -37,23 +37,24 @@ api.rosette(endpoint, function(err, res){
 ## API Parameters
 | Parameter                     | Endpoint                                            | Required
 | -------------                 |-------------                                        |-------------
-| content                    | categories, entities, language, morphology, relationships, sentences, sentiment, tokens            | Either content or contentUri required |
+| content                    | categories, entities, language, morphology, relationships, sentences, sentiment, tokens, transliteration            | Either content or contentUri required, transliteration requires content only |
 | contentUri                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens       | Either content or contentUri required |
 | language                          | categories, entities, language, morphology, relationships, sentences, sentiment, tokens, name similarity                    | No |
 | documentFile                      | categories, entities, language, morphology, relationships, sentences, sentiment, tokens                  | No |
 | name1                 | name similarity               | Yes |
 | name2               | name similarity| Yes |
 | name    | name translation     | Yes |
-| targetLanguage           | name translation           | Yes |
+| names   | name deduplication   | Yes |
+| targetLanguage           | name translation, transliteration (No)          | Yes |
 | entityType                 | name translation         | No |
 | sourceLanguageOfOrigin        | name translation | No |
 | sourceLanguageOfUse                         | name translation       | No |
-| sourceScript                     | name translation               | No |
-| targetScript                     | name translation                    | No |
+| sourceLanguage  | transliteration | No |
+| sourceScript                     | name translation, transliteration              | No |
+| targetScript                     | name translation, transliteration                    | No |
 | targetScheme                        | name translation          | No |
 | options              | relationships        | No |
 | accuracyMode              | relationships        | Yes |
-| linkEntities              | entities        | No |
 | explain              | sentiment        | No |
 | morphology             | morphology        | Yes |
 
