@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: info.js</title>
+    <title>JSDoc: Source: nameDeduplication.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: info.js</h1>
+    <h1 class="page-title">Source: nameDeduplication.js</h1>
 
     
 
@@ -53,7 +53,7 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2016-2017 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function info() {
+function nameDeduplication() {
 
 };
 
@@ -64,15 +64,25 @@ function info() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-info.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+nameDeduplication.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
-    // configure URL
-    var urlParts = URL.parse(serviceURL + "info");
-    var req = new rosetteRequest();
-    req.makeRequest('GET', userKey, protocol, urlParts, parameters, callback);
+    if (parameters.documentFile != null) {
+        return callback(new RosetteException("badArgument", "nameDeduplication does not support documentFile"));
+    } else {
+        // validate parameters
+        if (parameters.loadParams().names == null) {
+            return callback(new RosetteException("badArgument", "Must supply a list of names for deduplication"));
+        } else {
+            // configure URL
+            var urlParts = URL.parse(serviceURL + "name-deduplication");
+            var req = new rosetteRequest();
+            req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
+        }
+    }
+
 };
 
-module.exports = info;
+module.exports = nameDeduplication;
 </code></pre>
         </article>
     </section>
