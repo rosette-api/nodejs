@@ -61,5 +61,8 @@ api.rosette(endpoint, function(err, res){
 ## Additional Examples
 See [examples](examples).
 
+## API Documentation
+See [documentation](http://rosette-api.github.io/nodejs)
+
 ## Additional Information
 See [Rosette API site](https://developer.rosette.com/)
