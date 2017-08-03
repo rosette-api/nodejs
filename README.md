@@ -7,6 +7,18 @@ This is the Rosette API client binding for node.js.
 ## Getting Started
 Install the module with: `npm install rosette-api`
 
+If the version you are using is not [the latest from npm](https://www.npmjs.com/package/rosette-api) (or `npm show rosette-api@* version`),
+please check for its [**compatibilty with api.rosette.com**](https://developer.rosette.com/features-and-functions?javascript).
+If you have an on-premise version of Rosette API server, please contact support for
+binding compatibility with your installation.
+
+To check your installed version:
+
+- `npm list rosette-api` for local installation
+- `npm list -g rosette-api` for global installation
+
+https://www.npmjs.com/package/rosette-api
+
 ## Docker ##
 A Docker image for running the examples against the compiled source library is available on Docker Hub.
 
