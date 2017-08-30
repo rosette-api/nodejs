@@ -16,7 +16,7 @@ node {
         }
         stage("Run Examples") {
             withEnv(["API_KEY=${env.ROSETTE_API_KEY}", "ALT_URL=${env.BINDING_TEST_URL}"]) {
-                def examplesDir = ${SOURCEDIR} + '/examples'
+                def examplesDir = "${SOURCEDIR}" + '/examples'
                 sh "docker run --rm -e API_KEY=${API_KEY} -e ALT_URL=${ALT_URL} -v ${examplesDir}:/source ${TEST_CONTAINER}"
             }
         }
