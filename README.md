@@ -76,5 +76,8 @@ See [examples](examples).
 ## API Documentation
 See [documentation](http://rosette-api.github.io/nodejs)
 
+## Release Notes
+See [wiki](https://github.com/rosette-api/nodejs/wiki/Release-Notes)
+
 ## Additional Information
 See [Rosette API site](https://developer.rosette.com/)
