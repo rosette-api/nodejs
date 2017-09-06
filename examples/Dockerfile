@@ -7,8 +7,8 @@ RUN apt-get -y update && apt-get install -y git && apt-get install -y vim && apt
 ENV API_KEY api_key
 
 #set the working directory
-RUN mkdir /nodejs-dev
-WORKDIR /nodejs-dev
+RUN mkdir -p /nodejs-dev/examples
+WORKDIR /nodejs-dev/examples
 COPY runAll.sh runAll.sh
 RUN chmod 0755 runAll.sh
 
