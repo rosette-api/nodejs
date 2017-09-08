@@ -16,6 +16,7 @@ var categories = require("../lib/categories");
 var entities = require("../lib/entities");
 var morphology = require("../lib/morphology");
 var tokens = require("../lib/tokens");
+var topics = require("../lib/topics");
 var sentences = require("../lib/sentences");
 var info = require("../lib/info");
 var ping = require("../lib/ping");
@@ -165,7 +166,7 @@ describe("Name Deduplication Endpoint", function() {
             done();
         });
     });
-    
+
     it("successfully calls the name deduplication endpoint without threshold", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
@@ -174,7 +175,7 @@ describe("Name Deduplication Endpoint", function() {
             {"text": "Johnathon Smith", "language": "eng", "entityType": "PERSON"},
             {"text": "Fred Jones Smith", "language": "eng", "entityType": "PERSON"}
         ];
-        
+
         api.rosette("nameDeduplication", function(err, res) {
             chai.expect(err).to.be.null;
             chai.expect(res.name).to.equal('Rosette API');
@@ -921,3 +922,62 @@ describe("Error 409 Incompatible Binding Check", function() {
         });
     });
 });
+
+describe("Topics Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/topics')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the topics endpoint", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Some Content";
+
+        api.rosette("topics", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects content and contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Sample Content";
+        api.parameters.contentUri = "http://some.url.com";
+
+        api.rosette("topics", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects neither content nor contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.rosette("topics", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
