@@ -21,7 +21,7 @@ function checkAPI() {
     if [ ! -z $match ]; then
         echo -e "\nInvalid Rosette API Key"
         exit 1
-    fi  
+    fi
 }
 
 # add the trailing slash of the alt_url if necessary
@@ -41,7 +41,7 @@ function validateURL() {
     if [ "${match}" = "" ]; then
         echo -e "\n${ping_url} server not responding\n"
         exit 1
-    fi  
+    fi
 }
 
 function runExample() {
@@ -93,11 +93,13 @@ cp -r -n /source/. .
 #Run the examples
 if [ ! -z ${API_KEY} ]; then
     checkAPI
-    #Prerequisite
-    cd ./examples
+    npm install rosette-api
+    cp -r node_modules/rosette-api/lib ../lib
+    pushd ../lib
+    npm install multipart-stream
+    popd
     npm install argparse
     npm install temporary
-    npm install multipart-stream
     if [ ! -z ${FILENAME} ]; then
         runExample ${FILENAME}
     else
@@ -105,7 +107,7 @@ if [ ! -z ${API_KEY} ]; then
             runExample ${file}
         done
     fi
-else 
+else
     HELP
 fi
 
