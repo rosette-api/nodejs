@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: Api</title>
+    <title>JSDoc: Class: topics</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: Api</h1>
+    <h1 class="page-title">Class: topics</h1>
 
     
 
@@ -28,11 +28,7 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>Api<span class="signature">()</span><span class="type-signature"></span></h2>
-        
-            <div class="class-description">Node.js Client Binding API; representation of a Api server.
-Call instance methods upon this object to communicate with particular
-Api server endpoints.</div>
+        <h2><span class="attribs"><span class="type-signature"></span></span>topics<span class="signature">()</span><span class="type-signature"></span></h2>
         
     
 </header>
@@ -43,11 +39,9 @@ Api server endpoints.</div>
         
 
     
-    <h2>Constructor</h2>
-    
 
     
-    <h4 class="name" id="Api"><span class="type-signature"></span>new Api<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="topics"><span class="type-signature"></span>new topics<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
@@ -101,7 +95,7 @@ Api server endpoints.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Api.js.html">Api.js</a>, <a href="Api.js.html#line53">line 53</a>
+        <a href="topics.js.html">topics.js</a>, <a href="topics.js.html#line28">line 28</a>
     </li></ul></dd>
     
 
@@ -126,11 +120,6 @@ Api server endpoints.</div>
 
 
 
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>var api = new API(userKey, serviceUrl);</code></pre>
 
 
 
@@ -150,226 +139,6 @@ Api server endpoints.</div>
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="parameters"><span class="type-signature"></span>parameters<span class="type-signature"> :object</span></h4>
-
-
-
-
-<div class="description">
-    The Rosette API endpoint parameters
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Api.js.html">Api.js</a>, <a href="Api.js.html#line64">line 64</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="protocol"><span class="type-signature"></span>protocol<span class="type-signature"> :object</span></h4>
-
-
-
-
-<div class="description">
-    The HTTP(S) object
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">object</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Api.js.html">Api.js</a>, <a href="Api.js.html#line70">line 70</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="userKey"><span class="type-signature"></span>userKey<span class="type-signature"> :string</span></h4>
-
-
-
-
-<div class="description">
-    The Rosette API key used for authentication
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">string</span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Api.js.html">Api.js</a>, <a href="Api.js.html#line58">line 58</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -380,7 +149,7 @@ Api server endpoints.</div>
     
 
     
-    <h4 class="name" id="rosette"><span class="type-signature"></span>rosette<span class="signature">(endpoint)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getResults"><span class="type-signature"></span>getResults<span class="signature">(parameters, userKey, serviceURL, callback)</span><span class="type-signature"></span></h4>
     
 
     
@@ -388,7 +157,7 @@ Api server endpoints.</div>
 
 
 <div class="description">
-    Accepts a Rosette API endpoint name and forwards user parameters to the endpoint
+    Makes an HTTP request to the specified Rosette API endpoint and returns the result
 </div>
 
 
@@ -424,7 +193,7 @@ Api server endpoints.</div>
 
         <tr>
             
-                <td class="name"><code>endpoint</code></td>
+                <td class="name"><code>parameters</code></td>
             
 
             <td class="type">
@@ -440,7 +209,76 @@ Api server endpoints.</div>
 
             
 
-            <td class="description last">The Rosette API endpoint to be utilized</td>
+            <td class="description last">The Rosette API endpoint parameters</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>userKey</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The Rosette API user access key</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>serviceURL</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The base service URL to be used to access the Rosette API</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>callback</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Callback function to be exectuted after the function to which it is passed is complete</td>
         </tr>
 
     
@@ -481,7 +319,7 @@ Api server endpoints.</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="Api.js.html">Api.js</a>, <a href="Api.js.html#line99">line 99</a>
+        <a href="topics.js.html">topics.js</a>, <a href="topics.js.html#line39">line 39</a>
     </li></ul></dd>
     
 
