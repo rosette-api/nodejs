@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "morphology";
 
-var morphology_complete_data = "The quick brown fox jumped over the lazy dog. Yes he did.";
+var morphology_complete_data = "The quick brown fox jumped over the lazy dog. 👍🏾 Yes he did. B)";
 var content = morphology_complete_data;
 
 api.parameters.content = content;

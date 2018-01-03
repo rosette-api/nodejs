@@ -14,7 +14,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "transliteration";
 
-var transliteration_data = "Bill Gates, Microsoft's former CEO, is a philanthropist.";
+var transliteration_data = "ana r2ye7 el gam3a el sa3a 3 el 3asr";
 
 api.parameters.content = transliteration_data;
 
