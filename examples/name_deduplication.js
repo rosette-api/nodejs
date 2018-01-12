@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "nameDeduplication";
 
-var name_dedupe_data = "John Smith,Johnathon Smith,Fred Jones";
+var name_dedupe_data = "Alice Terry,Alice Thierry,Betty Grable,Betty Gable,Norma Shearer,Norm Shearer,Brigitte Helm,Bridget Helem,Judy Holliday,Julie Halliday";
 
 api.parameters.names = name_dedupe_data.split(",").map(function(name) {
 	return {"text": name, "language": "eng", "entityType": "PERSON"}
