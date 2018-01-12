@@ -23,6 +23,18 @@ var ping = require("../lib/ping");
 var syntax_dependencies = require("../lib/syntax_dependencies");
 var paramObj = require("../lib/parameters");
 var rosetteException = require("../lib/rosetteExceptions");
+var rosetteRequest = require("../lib/rosetteRequest.js");
+
+describe("User Agent", function() {
+    it("correctly constructs the User-Agent", function() {
+        var req = new rosetteRequest();
+        var testUserAgent = "rosetteapinode/" + req.bindingVersion() + "/" + process.version;
+
+        req.userAgent(function(err, res) {
+                chai.expect(res.name).to.equal(testUserAgent);
+        });
+    });
+});
 
 describe("Language Endpoint", function() {
     beforeEach(function(done) {
