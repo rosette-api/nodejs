@@ -1,0 +1,5 @@
+.git
+.grunt
+.travis.yml
+.eslintrc.json
+Jenkinsfile*
