@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rosette-api/nodejs.svg?branch=master)](https://travis-ci.org/rosette-api/nodejs)
+[![Build Status](https://travis-ci.org/rosette-api/nodejs.svg?branch=develop)](https://travis-ci.org/rosette-api/nodejs)
 
 # rosette-api
 
