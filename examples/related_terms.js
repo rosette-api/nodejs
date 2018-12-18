@@ -16,7 +16,7 @@ var endpoint = "relatedTerms";
 var data = "dog"
 var options = {"resultLanguages": ["spa", "deu", "jpn"]}
 
-api.parameters.content = embeddings_data;
+api.parameters.content = data;
 api.parameters.options = options;
 api.rosette(endpoint, function(err, res){
 	if(err){
