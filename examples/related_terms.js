@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 
 var api = new Api(args.key, args.url);
 var endpoint = "relatedTerms";
-var data = "dog"
+var data = "spy"
 var options = {"resultLanguages": ["spa", "deu", "jpn"]}
 
 api.parameters.content = data;
