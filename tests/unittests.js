@@ -686,12 +686,65 @@ describe("Sentences Endpoint", function() {
     });
 });
 
+describe("Related Terms Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/semantics/similar')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+        done()
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the textEmbedding endpoint", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Some Content";
+
+        api.rosette("relatedTerms", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects content and contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Sample Content";
+        api.parameters.contentUri = "http://some.url.com";
+
+        api.rosette("relatedTerms", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects neither content nor contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.rosette("relatedTerms", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
 describe("Text Embedding Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
-           .post('/rest/v1/text-embedding')
+           .post('/rest/v1/semantics/vector')
            .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
