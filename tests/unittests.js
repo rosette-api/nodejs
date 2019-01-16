@@ -18,6 +18,8 @@ var morphology = require("../lib/morphology");
 var tokens = require("../lib/tokens");
 var topics = require("../lib/topics");
 var sentences = require("../lib/sentences");
+var similarTerms = require("../lib/similarTerms");
+var semanticVectors = require("../lib/semanticVectors");
 var info = require("../lib/info");
 var ping = require("../lib/ping");
 var syntax_dependencies = require("../lib/syntax_dependencies");
@@ -686,7 +688,7 @@ describe("Sentences Endpoint", function() {
     });
 });
 
-describe("Related Terms Endpoint", function() {
+describe("Similar Terms Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
@@ -702,11 +704,11 @@ describe("Related Terms Endpoint", function() {
         done();
     });
 
-    it("successfully calls the textEmbedding endpoint", function(done) {
+    it("successfully calls the similarTerms endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
 
-        api.rosette("relatedTerms", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.be.null;
             chai.expect(res.name).to.equal('Rosette API');
             done();
@@ -719,7 +721,7 @@ describe("Related Terms Endpoint", function() {
         api.parameters.content = "Sample Content";
         api.parameters.contentUri = "http://some.url.com";
 
-        api.rosette("relatedTerms", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
@@ -730,7 +732,7 @@ describe("Related Terms Endpoint", function() {
     it("detects neither content nor contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
-        api.rosette("relatedTerms", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
@@ -739,7 +741,7 @@ describe("Related Terms Endpoint", function() {
     });
 });
 
-describe("Text Embedding Endpoint", function() {
+describe("Semantic Vectors Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
@@ -755,11 +757,11 @@ describe("Text Embedding Endpoint", function() {
         done();
     });
 
-    it("successfully calls the textEmbedding endpoint", function(done) {
+    it("successfully calls the semanticVectors endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.be.null;
             chai.expect(res.name).to.equal('Rosette API');
             done();
@@ -772,7 +774,7 @@ describe("Text Embedding Endpoint", function() {
         api.parameters.content = "Sample Content";
         api.parameters.contentUri = "http://some.url.com";
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
@@ -783,7 +785,7 @@ describe("Text Embedding Endpoint", function() {
     it("detects neither content nor contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');

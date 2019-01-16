@@ -5,14 +5,14 @@
 
  var parser = new ArgumentParser({
    addHelp: true,
-   description: "Get the terms related to an input in other languages"
+   description: "Get the terms similar to an input in other languages"
  });
  parser.addArgument(["--key"], {help: "Rosette API key", required: true});
  parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
  var args = parser.parseArgs();
 
  var api = new Api(args.key, args.url);
- var endpoint = "relatedTerms";
+ var endpoint = "similarTerms";
  var data = "spy"
  var options = {"resultLanguages": ["spa", "deu", "jpn"]}
 
