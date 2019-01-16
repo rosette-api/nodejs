@@ -18,6 +18,8 @@ var morphology = require("../lib/morphology");
 var tokens = require("../lib/tokens");
 var topics = require("../lib/topics");
 var sentences = require("../lib/sentences");
+var similarTerms = require("../lib/similarTerms");
+var semanticVectors = require("../lib/semanticVectors");
 var info = require("../lib/info");
 var ping = require("../lib/ping");
 var syntax_dependencies = require("../lib/syntax_dependencies");
@@ -686,15 +688,15 @@ describe("Sentences Endpoint", function() {
     });
 });
 
-describe("Text Embedding Endpoint", function() {
+describe("Similar Terms Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
         nock('https://api.rosette.com', {"encodedQueryParams": true })
-           .post('/rest/v1/text-embedding')
+           .post('/rest/v1/semantics/similar')
            .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
-        done();
+        done()
     });
 
     afterEach(function(done) {
@@ -702,11 +704,11 @@ describe("Text Embedding Endpoint", function() {
         done();
     });
 
-    it("successfully calls the textEmbedding endpoint", function(done) {
+    it("successfully calls the similarTerms endpoint", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
         api.parameters.content = "Some Content";
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.be.null;
             chai.expect(res.name).to.equal('Rosette API');
             done();
@@ -719,7 +721,7 @@ describe("Text Embedding Endpoint", function() {
         api.parameters.content = "Sample Content";
         api.parameters.contentUri = "http://some.url.com";
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
@@ -730,7 +732,60 @@ describe("Text Embedding Endpoint", function() {
     it("detects neither content nor contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
 
-        api.rosette("textEmbedding", function(err, res) {
+        api.rosette("similarTerms", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
+describe("Semantic Vectors Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+           .post('/rest/v1/semantics/vector')
+           .query({"clientVersion": "1.1"})
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the semanticVectors endpoint", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Some Content";
+
+        api.rosette("semanticVectors", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects content and contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        api.parameters.content = "Sample Content";
+        api.parameters.contentUri = "http://some.url.com";
+
+        api.rosette("semanticVectors", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects neither content nor contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
