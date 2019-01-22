@@ -13,9 +13,9 @@ var args = parser.parseArgs();
 
 var api = new Api(args.key, args.url);
 var endpoint = "textEmbedding";
-var embeddings_data = "Cambridge, Massachusetts"
+var semantic_vectors_data = "Cambridge, Massachusetts"
 
-api.parameters.content = embeddings_data;
+api.parameters.content = semantic_vectors_data;
 api.rosette(endpoint, function(err, res){
 	if(err){
 		console.log(err);
