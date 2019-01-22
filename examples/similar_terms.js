@@ -13,10 +13,10 @@
 
  var api = new Api(args.key, args.url);
  var endpoint = "similarTerms";
- var data = "spy"
+ var similar_terms_data = "spy"
  var options = {"resultLanguages": ["spa", "deu", "jpn"]}
 
- api.parameters.content = data;
+ api.parameters.content = similar_terms_data;
  api.parameters.options = options;
  api.rosette(endpoint, function(err, res){
     if(err){
