@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "1.9.1-devel",
+  "version": "1.12.1",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
