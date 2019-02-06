@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: tokens.js</title>
+    <title>JSDoc: Source: semanticVectors.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: tokens.js</h1>
+    <h1 class="page-title">Source: semanticVectors.js</h1>
 
     
 
@@ -53,7 +53,7 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2016-2018 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function tokens() {
+function semanticVectors() {
 
 };
 
@@ -64,10 +64,10 @@ function tokens() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-tokens.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+semanticVectors.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
     if (parameters.documentFile != null) {
-        parameters.loadFile(parameters.documentFile, parameters, userKey, protocol, serviceURL, "tokens", callback);
+        parameters.loadFile(parameters.loadParams().documentFile, parameters, userKey, protocol, serviceURL, "semantics/vector", callback);
     } else {
         // validate parameters
         if (!parameters.loadParams().content &amp;&amp; !parameters.loadParams().contentUri) {
@@ -76,14 +76,14 @@ tokens.prototype.getResults = function(parameters, userKey, protocol, serviceURL
             return callback(new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments"));
         } else {
             // configure URL
-            var urlParts = URL.parse(serviceURL + "tokens");
+            var urlParts = URL.parse(serviceURL + "semantics/vector");
             var req = new rosetteRequest();
             req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
         }
     }
 };
 
-module.exports = tokens;
+module.exports = semanticVectors;
 </code></pre>
         </article>
     </section>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: tokens.js</title>
+    <title>JSDoc: Source: similarTerms.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: tokens.js</h1>
+    <h1 class="page-title">Source: similarTerms.js</h1>
 
     
 
@@ -29,7 +29,7 @@
             <pre class="prettyprint source linenums"><code>/**
  * Rosette API.
  *
- * @copyright 2016-2018 Basis Technology Corporation.
+ * @copyright 2018 Basis Technology Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -43,17 +43,17 @@
 
 var URL = require("url");
 
-var rosetteConstants = require("./rosetteConstants");
+var RosetteConstants = require("./rosetteConstants");
 var RosetteException = require("./rosetteExceptions");
 var rosetteRequest = require("./rosetteRequest");
 
 /**
  * @class
  *
- * @copyright 2016-2018 Basis Technology Corporation.
+ * @copyright 2018 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function tokens() {
+function similarTerms() {
 
 };
 
@@ -64,27 +64,26 @@ function tokens() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-tokens.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+similarTerms.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
     if (parameters.documentFile != null) {
-        parameters.loadFile(parameters.documentFile, parameters, userKey, protocol, serviceURL, "tokens", callback);
+        parameters.loadFile(parameters.documentFile, parameters, userKey, protocol, serviceURL, "semantics/similar", callback);
     } else {
         // validate parameters
         if (!parameters.loadParams().content &amp;&amp; !parameters.loadParams().contentUri) {
-            return callback(new RosetteException("badArgument", "Must supply one of Content or ContentUri", "bad arguments"));
-        } else if (parameters.loadParams().content &amp;&amp; parameters.loadParams().contentUri) {
-            return callback(new RosetteException("badArgument", "Cannot supply both Content and ContentUri", "bad arguments"));
+            return callback(new RosetteException("badArgument", "Must supply one of content or contentUri", "bad arguments"));
+        } else if (parameters.loadParams().content != null &amp;&amp; parameters.loadParams().contentUri != null) {
+            return callback(new RosetteException("badArgument", "Cannot supply content and contentUri", "bad arguments"));
         } else {
             // configure URL
-            var urlParts = URL.parse(serviceURL + "tokens");
+            var urlParts = URL.parse(serviceURL + "semantics/similar");
             var req = new rosetteRequest();
             req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
         }
     }
 };
 
-module.exports = tokens;
-</code></pre>
+module.exports = similarTerms;</code></pre>
         </article>
     </section>
 

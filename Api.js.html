@@ -29,7 +29,7 @@
             <pre class="prettyprint source linenums"><code>/**
  * Rosette API.
  *
- * @copyright 2016-2017 Basis Technology Corporation.
+ * @copyright 2016-2018 Basis Technology Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -54,18 +54,20 @@ var entities = require("./entities");
 var info = require("./info");
 var language = require("./language");
 var matchedName = require("./nameSimilarity");
-var nameDeduplication = require("./nameDeduplication");
 var morphology = require("./morphology");
+var nameDeduplication = require("./nameDeduplication");
 var ping = require("./ping");
 var relationships = require("./relationships");
+var semanticVectors = require("./semanticVectors");
 var sentences = require("./sentences");
 var sentiment = require("./sentiment");
-var textEmbedding = require("./textEmbedding");
-var translatedName = require("./nameTranslation");
-var tokens = require("./tokens");
+var similarTerms = require("./similarTerms");
 var syntax_dependencies = require("./syntax_dependencies");
-var transliteration = require("./transliteration");
+var textEmbedding = require("./textEmbedding");
+var tokens = require("./tokens");
 var topics = require("./topics");
+var translatedName = require("./nameTranslation");
+var transliteration = require("./transliteration");
 
 /**
  * @class
@@ -75,7 +77,7 @@ var topics = require("./topics");
  * Api server endpoints.
  *
  * @example var api = new API(userKey, serviceUrl);
- * @copyright 2016-2017 Basis Technology Corporation.
+ * @copyright 2016-2018 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
 function Api(userKey, serviceURL) {
@@ -130,7 +132,7 @@ Api.prototype.rosette = function(endpoint, callback) {
     endpoint = require("./" + endpoint);
     var e = new endpoint();
 
-            // send parameters to the specified endpoint
+    // send parameters to the specified endpoint
     e.getResults(api.parameters, api.userKey, api.protocol, api.serviceURL, function(err, res) {
         if (err) {
             return callback(err);
@@ -151,13 +153,13 @@ module.exports = Api;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameDeduplication.html">nameDeduplication</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="rosetteRequest.html">rosetteRequest</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="syntax_dependencies.html">syntax_dependencies</a></li><li><a href="textEmbedding.html">textEmbedding</a></li><li><a href="tokens.html">tokens</a></li><li><a href="topics.html">topics</a></li><li><a href="transliteration.html">transliteration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Api.html">Api</a></li><li><a href="categories.html">categories</a></li><li><a href="entities.html">entities</a></li><li><a href="info.html">info</a></li><li><a href="language.html">language</a></li><li><a href="morphology.html">morphology</a></li><li><a href="nameDeduplication.html">nameDeduplication</a></li><li><a href="nameSimilarity.html">nameSimilarity</a></li><li><a href="nameTranslation.html">nameTranslation</a></li><li><a href="parameters.html">parameters</a></li><li><a href="ping.html">ping</a></li><li><a href="relationships.html">relationships</a></li><li><a href="rosetteRequest.html">rosetteRequest</a></li><li><a href="semanticVectors.html">semanticVectors</a></li><li><a href="sentences.html">sentences</a></li><li><a href="sentiment.html">sentiment</a></li><li><a href="similarTerms.html">similarTerms</a></li><li><a href="syntax_dependencies.html">syntax_dependencies</a></li><li><a href="textEmbedding.html">textEmbedding</a></li><li><a href="tokens.html">tokens</a></li><li><a href="topics.html">topics</a></li><li><a href="transliteration.html">transliteration</a></li></ul><h3>Global</h3><ul><li><a href="global.html#BINDING_VERSION">BINDING_VERSION</a></li><li><a href="global.html#dataFormat">dataFormat</a></li><li><a href="global.html#morphologyOutput">morphologyOutput</a></li><li><a href="global.html#RosetteException">RosetteException</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Jan 17 2018 19:24:51 GMT+0000 (UTC)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Wed Feb 06 2019 22:52:33 GMT+0000 (Coordinated Universal Time)
 </footer>
 
 <script> prettyPrint(); </script>
