@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "categories";
 
-var categories_url_data = "http://www.onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
+var categories_url_data = "https://onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
 api.parameters.contentUri = categories_url_data;
 
 api.rosette(endpoint, function(err, res){

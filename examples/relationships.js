@@ -18,7 +18,6 @@ var relationships_text_data = "FLIR Systems is headquartered in Oregon and produ
 var content = relationships_text_data;
 
 api.parameters.content = content;
-api.parameters.options = { "accuracyMode": "PRECISION" };
 
 api.rosette(endpoint, function(err, res) {
     if (err) {
