@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/rosette-api/nodejs.svg?branch=develop)](https://travis-ci.org/rosette-api/nodejs)
+[![Build Status](https://travis-ci.org/rosette-api/nodejs.svg?branch=develop)](https://travis-ci.org/rosette-api/nodejs) [![npm version](https://badge.fury.io/js/rosette-api.svg)](https://badge.fury.io/js/rosette-api)
 
 # rosette-api
 
