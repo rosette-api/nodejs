@@ -34,7 +34,6 @@ in the [examples](https://github.com/rosette-api/nodejs/tree/develop/examples) d
 - [Rosette Platform API](https://developer.rosette.com/features-and-functions)
 - [Binding Release Notes](https://github.com/rosette-api/nodejs/wiki/Release-Notes)
 - [Rosette Platform Release Notes](https://support.rosette.com/hc/en-us/articles/360018354971-Release-Notes)
-- [Binding/Rosette Platform Compatibility](https://developer.rosette.com/features-and-functions?nodejs#)
 - [Support](https://support.rosette.com)
 - [Binding License: Apache 2.0](https://github.com/rosette-api/nodejs/blob/develop/LICENSE.txt)
 
