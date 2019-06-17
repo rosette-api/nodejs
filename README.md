@@ -22,7 +22,7 @@ comparing the similarity of names, categorizing and adding linguistic tags to te
 `npm install rosette-api`
 
 #### Examples
-View small example programs for each Rosette endpoint in the [examples](examples) directory.
+View small example programs for each Rosette endpoint in the [examples](https://github.com/rosette-api/nodejs/tree/develop/examples) directory.
 
 #### Documentation & Support
 - [Binding API](https://rosette-api.github.io/nodejs/)
@@ -31,7 +31,7 @@ View small example programs for each Rosette endpoint in the [examples](examples
 - [Rosette Platform Release Notes](https://support.rosette.com/hc/en-us/articles/360018354971-Release-Notes)
 - [Binding/Rosette Platform Compatibility](https://developer.rosette.com/features-and-functions?javascript#)
 - [Support](https://support.rosette.com)
-- [Binding License: Apache 2.0](LICENSE.txt)
+- [Binding License: Apache 2.0](https://github.com/rosette-api/nodejs/blob/develop/LICENSE.txt)
 
 ## Binding Developer Information
-If you are modifying the binding code, please refer to the [developer README](DEVELOPER.md) file.
+If you are modifying the binding code, please refer to the [developer README](https://github.com/rosette-api/nodejs/blob/develop/DEVELOPER.md) file.
