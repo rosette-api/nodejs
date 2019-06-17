@@ -12,10 +12,23 @@
     "url": "git://github.com/rosette-api/nodejs.git"
   },
   "keywords": [
-    "rosette",
-    "basis",
+    "categorization",
+    "entity extraction",
+    "language detection",
+    "lemmatization",
+    "morphology",
+    "name deduplication",
+    "name similarity",
+    "name translation",
+    "natural language processing",
     "nlp",
-    "text analytics"
+    "relationship extraction",
+    "semantic similarity",
+    "sentiment analysis",
+    "syntactic dependencies",
+    "text analytics",
+    "tokenization",
+    "transliteration"
   ],
   "author": {
     "name": "Basis Technology Corp",
@@ -23,8 +36,7 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=0.12.0",
-    "iojs": "*"
+    "node": ">=8.0.0"
   },
   "bugs": {
     "url": "https://github.com/rosette-api/nodejs/issues"
