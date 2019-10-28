@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 var chai = require('chai');
 var mocha = require('mocha');
@@ -6,6 +6,7 @@ var nock = require('nock');
 var fs = require('fs');
 
 var Api = require("../lib/Api");
+var addressSimilarity = require("../lib/addressSimilarity");
 var language = require("../lib/language");
 var relationships = require("../lib/relationships");
 var nameDeduplication = require("../lib/nameDeduplication");
@@ -138,6 +139,55 @@ describe("Relationships Endpoint", function() {
         api.rosette("relationships", function(err, res) {
             chai.expect(err).to.be.null;
             chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+    });
+});
+
+describe("Address Similarity Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+            .post('/rest/v1/info')
+            .query({"clientVersion": "1.14.3"})
+            .reply(200, JSON.parse(mockResponse));
+
+        nock('https://api.rosette.com', {"encodedQueryParams": true })
+            .post('/rest/v1/address-similarity')
+            .query({"clientVersion": "1.14.3"})
+            .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the address similarity endpoint", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.parameters.address1 = {"city": "cambridge", "state": "ma"};
+        api.parameters.address2 = {"city": "Cambridge", "road": "1 Kendall sq."};
+
+        api.rosette("addressSimilarity", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects missing name parameter", function(done) {
+        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+
+        api.parameters.address1 = {"city": "cambridge", "state": "ma"};
+
+        api.rosette("addressSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
             done();
         });
     });
@@ -1047,4 +1097,3 @@ describe("Topics Endpoint", function() {
         });
     });
 });
-

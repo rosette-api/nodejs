@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "1.12.2",
+  "version": "1.14.3",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
@@ -12,6 +12,7 @@
     "url": "git://github.com/rosette-api/nodejs.git"
   },
   "keywords": [
+    "address similarity",
     "categorization",
     "entity extraction",
     "language detection",
