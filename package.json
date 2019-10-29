@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "1.12.2",
+  "version": "1.14.3",
   "description": "Rosette API Node.js client SDK",
   "main": "index",
   "directories": {
@@ -12,6 +12,7 @@
     "url": "git://github.com/rosette-api/nodejs.git"
   },
   "keywords": [
+    "address similarity",
     "categorization",
     "entity extraction",
     "language detection",
@@ -46,10 +47,10 @@
     "argparse": "^1.0.6",
     "chai": "^3.5.0",
     "eslint": "^6.0.1",
-    "grunt": "^0.4.5",
+    "grunt": "^1.0.4",
     "grunt-contrib-clean": "^1.0.0",
-    "grunt-contrib-watch": "^0.6.1",
-    "grunt-gh-pages": "^1.0.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-gh-pages": "^3.1.0",
     "grunt-jsdoc": "^1.1.0",
     "grunt-jslint": "^1.1.14",
     "grunt-mocha-test": "^0.12.7",
