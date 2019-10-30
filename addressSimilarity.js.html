@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: ping.js</title>
+    <title>JSDoc: Source: addressSimilarity.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: ping.js</h1>
+    <h1 class="page-title">Source: addressSimilarity.js</h1>
 
     
 
@@ -29,7 +29,7 @@
             <pre class="prettyprint source linenums"><code>/**
  * Rosette API.
  *
- * @copyright 2016-2018 Basis Technology Corporation.
+ * @copyright 2019 Basis Technology Corporation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance
  * with the License. You may obtain a copy of the License at
@@ -53,7 +53,7 @@ var rosetteRequest = require("./rosetteRequest");
  * @copyright 2016-2018 Basis Technology Corporation.
  * @license http://www.apache.org/licenses/LICENSE-2.0
  */
-function ping() {
+function addressSimilarity() {
 
 };
 
@@ -64,15 +64,24 @@ function ping() {
  * @param {string} serviceURL - The base service URL to be used to access the Rosette API
  * @param {function} callback - Callback function to be exectuted after the function to which it is passed is complete
  */
-ping.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
+addressSimilarity.prototype.getResults = function(parameters, userKey, protocol, serviceURL, callback) {
 
-    // configure URL
-    var urlParts = URL.parse(serviceURL + "ping");
-    var req = new rosetteRequest();
-    req.makeRequest('GET', userKey, protocol, urlParts, parameters, callback);
+    if (parameters.documentFile != null) {
+        return callback(new RosetteException("badArgument", "Address similarity does not support documentFile", "bad arguments"));
+    } else {
+        // validate parameters
+        if (!parameters.loadParams().address1 || !parameters.loadParams().address2) {
+            return callback(new RosetteException("badArgument", "Must supply both address1 and address2 parameters to be matched."));
+        } else {
+            // configure URL
+            var urlParts = URL.parse(serviceURL + "address-similarity");
+            var req = new rosetteRequest();
+            req.makeRequest('POST', userKey, protocol, urlParts, parameters, callback);
+        }
+    }
 };
 
-module.exports = ping;
+module.exports = addressSimilarity;
 </code></pre>
         </article>
     </section>
