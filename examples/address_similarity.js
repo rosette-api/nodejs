@@ -14,7 +14,7 @@ var api = new Api(args.key, args.url);
 var endpoint = "addressSimilarity";
 
 api.parameters.address1 = {"houseNumber": "1600", "road": "Pennsylvania Ave NW", "city": "Washington", "state": "DC", "postCode": "20500"}
-api.parameters.address2 = {"houseNumber": "160", "road": "Pennsilvana Avenue", "city": "Washington", "state": "D.C.", "postCode": "20500"}
+api.parameters.address2 = "160 Pennsilvana Avenue, Washington, D.C., 20500"
 
 api.rosette(endpoint, function(err, res){
   if(err){
