@@ -13,13 +13,13 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "categories";
 
-var categories_url_data = "https://onlocationvacations.com/2015/03/05/the-new-ghostbusters-movie-begins-filming-in-boston-in-june/";
+var categories_url_data = "https://onlocationvacations.com/2018/02/06/downton-abbey-exhibition-extended-april-2-nyc/";
 api.parameters.contentUri = categories_url_data;
 
 api.rosette(endpoint, function(err, res){
-	if(err){
-		console.log(err);
-	} else {
-		console.log(JSON.stringify(res, null, 2));
-	}
+  if(err){
+    console.log(err);
+  } else {
+    console.log(JSON.stringify(res, null, 2));
+  }
 });
