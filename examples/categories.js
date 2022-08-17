@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "categories";
 
-var categories_url_data = "https://onlocationvacations.com/2018/02/06/downton-abbey-exhibition-extended-april-2-nyc/";
+var categories_url_data = "https://www.rosette.com/about/";
 api.parameters.contentUri = categories_url_data;
 
 api.rosette(endpoint, function(err, res){
