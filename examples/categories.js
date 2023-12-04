@@ -13,7 +13,7 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "categories";
 
-var categories_url_data = "https://www.rosette.com/about/";
+var categories_url_data = "https://www.babelstreet.com/rosette/";
 api.parameters.contentUri = categories_url_data;
 
 api.rosette(endpoint, function(err, res){
