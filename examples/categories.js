@@ -13,8 +13,8 @@ var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "categories";
 
-var categories_url_data = "https://www.babelstreet.com/rosette/";
-api.parameters.contentUri = categories_url_data;
+var categories_text_data = "If you are a fan of the British television series Downton Abbey and you are planning to be in New York anytime before April 2nd, there is a perfect stop for you while in town.";
+api.parameters.content = categories_text_data;
 
 api.rosette(endpoint, function(err, res){
   if(err){
