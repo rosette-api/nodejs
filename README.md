@@ -1,8 +1,7 @@
-<a href="https://www.babelstreet.com/rosette><img src="https://s3.amazonaws.com/styleguide.basistech.com/logos/rosette-logo.png" width="181" height="47" /></a>
+<a href="https://www.babelstreet.com/rosette"><img src="https://s3.amazonaws.com/styleguide.basistech.com/logos/rosette-logo.png" width="181" height="47" /></a>
 
 ---
 
-[![Build Status](https://travis-ci.org/rosette-api/nodejs.svg?branch=develop)](https://travis-ci.org/rosette-api/nodejs)
 [![npm version](https://badge.fury.io/js/rosette-api.svg)](https://badge.fury.io/js/rosette-api)
 ![node engine](https://img.shields.io/node/v/rosette-api.svg)
 
