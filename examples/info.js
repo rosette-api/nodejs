@@ -5,10 +5,10 @@ var ArgumentParser = require("argparse").ArgumentParser;
 
 var parser = new ArgumentParser({
   addHelp: true,
-  description: "Get information about Rosette API"
+  description: "Get information about the Analytics API"
 });
-parser.addArgument(["--key"], {help: "Rosette API key", required: true});
-parser.addArgument(["--url"], {help: "Rosette API alt-url", required: false});
+parser.addArgument(["--key"], {help: "Analytics API key", required: true});
+parser.addArgument(["--url"], {help: "Analytics API alt-url", required: false});
 var args = parser.parseArgs();
 var api = new Api(args.key, args.url);
 var endpoint = "info";
