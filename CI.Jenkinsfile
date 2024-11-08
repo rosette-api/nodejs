@@ -23,7 +23,9 @@ node ("docker-light") {
 
                 nodeVersions.each { version ->
                     if (version == "23") {
+                        // unzip needed to avoid symlink not supported error that fails the build. https://github.com/newtmitch/docker-sonar-scanner/issues/35
                         sonarExec="cd /root/ && \
+                                       apk add --no-cache unzip && \
                                        wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-4.8.1.3023-linux.zip && \
                                        unzip -q sonar-scanner-cli-4.8.1.3023-linux.zip && \
                                        cd /source && \
