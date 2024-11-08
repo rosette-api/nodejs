@@ -14,7 +14,7 @@ node ("docker-light") {
                     --pull always \
                     --volume ${sourceDir}:/source \
                     node:${version}-alpine \
-                    sh -c \"cd /source && npm install -g npm && npm install grunt-cli -g && npx grunt\""
+                    sh -c \"cd /source && npm install && npx grunt\""
             }
         }
     }
