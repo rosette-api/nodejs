@@ -1,7 +1,7 @@
 {
   "name": "rosette-api",
   "version": "1.14.4",
-  "description": "Rosette API Node.js client SDK",
+  "description": "Babel Street Analytics API Node.js client SDK",
   "main": "index",
   "directories": {
     "example": "examples"
@@ -32,8 +32,8 @@
     "transliteration"
   ],
   "author": {
-    "name": "Basis Technology Corp",
-    "email": "rosette_api@basistech.com"
+    "name": "Analytics by Babel Street",
+    "email": "helpdesk@babelstreet.com"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -42,7 +42,7 @@
   "bugs": {
     "url": "https://github.com/rosette-api/nodejs/issues"
   },
-  "homepage": "https://developer.rosette.com",
+  "homepage": "https://developer.babelstreet.com",
   "devDependencies": {
     "argparse": "^2.0.1",
     "chai": "^5.1.2",
