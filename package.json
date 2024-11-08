@@ -54,8 +54,10 @@
     "grunt-jsdoc": "^2.4.1",
     "grunt-jslint": "^1.1.15",
     "grunt-mocha-test": "^0.13.3",
+    "grunt-simple-nyc": "^3.0.1",
     "mocha": "^10.8.2",
     "nock": "^13.5.5",
+    "nyc": "^17.1.0",
     "temporary": "1.1.0"
   },
   "dependencies": {
