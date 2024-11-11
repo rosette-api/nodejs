@@ -5,12 +5,12 @@ var ArgumentParser = require("argparse").ArgumentParser;
 var tmp = require("temporary");
 
 var parser = new ArgumentParser({
-  addHelp: true,
+  add_help: true,
   description: "Get the sentiment of the text in a local file"
 });
-parser.addArgument(["--key"], {help: "Analytics API key", required: true});
-parser.addArgument(["--url"], {help: "Analytics API alt-url", required: false});
-var args = parser.parseArgs();
+parser.add_argument("--key", {help: "Analytics API key", required: true});
+parser.add_argument("--url", {help: "Analytics API alt-url", required: false});
+var args = parser.parse_args();
 
 var file = new tmp.File();
 var sentiment_file_data = "<html><head><title>New Ghostbusters Film</title></head><body><p>Original Ghostbuster Dan Aykroyd, who also co-wrote the 1984 Ghostbusters film, couldn’t be more pleased with the new all-female Ghostbusters cast, telling The Hollywood Reporter, “The Aykroyd family is delighted by this inheritance of the Ghostbusters torch by these most magnificent women in comedy.”</p></body></html>";
