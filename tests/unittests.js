@@ -589,6 +589,18 @@ describe("Entities Endpoint", function() {
             done();
         });
     });
+
+    it("successfully calls entities with documentFile", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.parameters.documentFile = "tests/test.txt";
+
+        api.rosette("entities", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+    });
 });
 
 describe("Events Endpoint", function() {
