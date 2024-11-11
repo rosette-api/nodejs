@@ -301,6 +301,67 @@ describe("Name Similarity Endpoint", function() {
     });
 });
 
+describe("Record Similarity Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/record-similarity')
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the record similarity endpoint", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        var records = [];
+        var fields = {};
+
+        api.parameters.records = records;
+        api.parameters.fields = fields;
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects missing records parameter", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects missing fields parameter", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        var records = [];
+        api.parameters.records = records;
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
 describe("Name Translation Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
