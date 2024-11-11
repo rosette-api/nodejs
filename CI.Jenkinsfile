@@ -11,9 +11,9 @@ node ("docker-light") {
         stage("Build And Test") {
 
             withSonarQubeEnv {
-                mySonarOpts="-Dsonar.login=${env.SONAR_AUTH_TOKEN} -Dsonar.host.url=${env.SONAR_HOST_URL} -D"
+                mySonarOpts="-Dsonar.login=${env.SONAR_AUTH_TOKEN} -Dsonar.host.url=${env.SONAR_HOST_URL}"
                 if("${env.CHANGE_ID}" != "null"){
-                        mySonarOpts = "$mySonarOpts -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.BRANCH_NAME}"
+                     mySonarOpts = "$mySonarOpts -Dsonar.pullrequest.key=${env.CHANGE_ID} -Dsonar.pullrequest.branch=${env.BRANCH_NAME}"
                 } else {
                     mySonarOpts = "$mySonarOpts -Dsonar.branch.name=${env.BRANCH_NAME}"
                 }
