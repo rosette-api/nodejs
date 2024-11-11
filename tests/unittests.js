@@ -530,6 +530,62 @@ describe("Entities Endpoint", function() {
     });
 });
 
+describe("Events Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/events')
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the events endpoint", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        api.parameters.content = "Some Content";
+
+        api.rosette("events", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects content and contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        api.parameters.content = "Sample Content";
+        api.parameters.contentUri = "http://some.url.com";
+
+        api.rosette("events", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects neither content nor contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.rosette("events", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
 describe("Morphology Endpoint (suite covers all features)", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
