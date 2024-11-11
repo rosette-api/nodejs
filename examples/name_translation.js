@@ -18,6 +18,7 @@ api.parameters.name = translated_name_data;
 api.parameters.entityType = "PERSON";
 api.parameters.targetLanguage = "eng";
 api.parameters.targetScript = "Latn";
+api.parameters.maximumResults = 3;
 
 api.rosette(endpoint, function(err, res){
 	if(err){
