@@ -73,7 +73,7 @@ describe("Language Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("language", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -456,7 +456,7 @@ describe("Sentiment Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("sentiment", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -512,7 +512,7 @@ describe("Categories Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("categories", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -569,7 +569,7 @@ describe("Entities Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("entities", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -637,7 +637,7 @@ describe("Events Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("events", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -694,7 +694,7 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
         api.parameters.morphology = 'complete';
 
         api.rosette("morphology", function(err, res) {
@@ -765,7 +765,7 @@ describe("Tokens Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("tokens", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -821,7 +821,7 @@ describe("Sentences Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("sentences", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -873,7 +873,7 @@ describe("Similar Terms Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -925,7 +925,7 @@ describe("Semantic Vectors Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -981,7 +981,7 @@ describe("Syntactic Dependencies Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("syntax_dependencies", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -1170,7 +1170,7 @@ describe("Topics Endpoint", function() {
     it("detects content and contentUri are defined", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("topics", function(err, res) {
             chai.expect(err).to.not.be.null;
