@@ -33,7 +33,7 @@
   ],
   "author": {
     "name": "Analytics by Babel Street",
-    "email": "helpdesk@babelstreet.com"
+    "email": "analyticssupport@babelstreet.com"
   },
   "license": "Apache-2.0",
   "engines": {
@@ -44,9 +44,11 @@
   },
   "homepage": "https://developer.babelstreet.com",
   "devDependencies": {
+    "@eslint/js": "^9.15.0",
     "argparse": "^2.0.1",
     "chai": "^4.5.0",
-    "eslint": "^9.14.0",
+    "eslint": "^9.15.0",
+    "globals": "^15.12.0",
     "grunt": "^1.6.1",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-watch": "^1.1.0",
