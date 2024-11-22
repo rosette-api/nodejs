@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "1.14.4",
+  "version": "1.31.0",
   "description": "Babel Street Analytics API Node.js client SDK",
   "main": "index",
   "directories": {
