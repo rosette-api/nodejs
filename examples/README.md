@@ -1,10 +1,10 @@
 ## Endpoint Examples
-Each example file demonstrates one of the capabilities of the Rosette Platform.
+Each example file demonstrates one of the capabilities of the Babel Street Analytics Platform.
 
 Here are some methods for running the examples. Each example will also accept an optional `--url` parameter for
 overriding the default URL.
 
-A note on prerequisites. Rosette API only supports TLS 1.2 so ensure your toolchain also supports it.
+A note on prerequisites. Analytics API only supports TLS 1.2 so ensure your toolchain also supports it.
 
 #### Docker/Latest Release
 ```

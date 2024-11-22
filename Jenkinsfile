@@ -11,20 +11,21 @@ node ("docker-light") {
             echo "${env.ALT_URL}"
             def useUrl = ("${env.ALT_URL}" == "null") ? "${env.BINDING_TEST_URL}" : "${env.ALT_URL}"
             withEnv(["API_KEY=${env.ROSETTE_API_KEY}", "ALT_URL=${useUrl}"]) {
-                sh "docker run --rm -e API_KEY=${API_KEY} -e ALT_URL=${ALT_URL} -v ${SOURCEDIR}:/source rosetteapi/docker-nodejs"
+                sh "docker run --rm -e API_KEY=${API_KEY} -e ALT_URL=${ALT_URL} -v ${SOURCEDIR}:/source rosette/docker-nodejs"
             }
         }
-        slack(true)
+        postToTeams(true)
     } catch (e) {
         currentBuild.result = "FAILED"
-        slack(false)
+        postToTeams(false)
         throw e
     }
 }
 
-def slack(boolean success) {
+def postToTeams(boolean success) {
+    def webhookUrl = "${env.TEAMS_PNC_JENKINS_WEBHOOK_URL}"
     def color = success ? "#00FF00" : "#FF0000"
     def status = success ? "SUCCESSFUL" : "FAILED"
-    def message = status + ": Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})"
-    slackSend(color: color, channel: "#rapid", message: message)
+    def message = "*" + status + ":* '${env.JOB_NAME}' - [${env.BUILD_NUMBER}] - ${env.BUILD_URL}"
+    office365ConnectorSend(webhookUrl: webhookUrl, color: color, message: message, status: status)
 }

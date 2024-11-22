@@ -31,7 +31,7 @@ var rosetteRequest = require("../lib/rosetteRequest.js");
 describe("User Agent", function() {
     it("correctly constructs the User-Agent", function() {
         var req = new rosetteRequest();
-        var testUserAgent = "rosetteapinode/" + req.bindingVersion() + "/" + process.version;
+        var testUserAgent = "Babel-Street-Analytics-API-Node/" + req.bindingVersion() + "/" + process.version;
 
         req.userAgent(function(err, res) {
                 chai.expect(res.name).to.equal(testUserAgent);
@@ -43,14 +43,12 @@ describe("Language Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/language')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -61,7 +59,7 @@ describe("Language Endpoint", function() {
     });
 
     it("successfully calls the language endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
 
         api.rosette("language", function(err, res) {
@@ -73,9 +71,9 @@ describe("Language Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("language", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -86,7 +84,7 @@ describe("Language Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("language", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -101,14 +99,12 @@ describe("Relationships Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/relationships')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -119,7 +115,7 @@ describe("Relationships Endpoint", function() {
     });
 
     it("successfully calls the relationships endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
 
         api.rosette("relationships", function(err, res) {
@@ -131,7 +127,7 @@ describe("Relationships Endpoint", function() {
     });
 
     it("detects correct accuracy mode", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
         var option = { accuracyMode: "PRECISION" };
         api.parameters.options = JSON.stringify(option);
@@ -148,14 +144,12 @@ describe("Address Similarity Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
             .post('/rest/v1/info')
-            .query({"clientVersion": "1.14.3"})
             .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
             .post('/rest/v1/address-similarity')
-            .query({"clientVersion": "1.14.3"})
             .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -166,7 +160,7 @@ describe("Address Similarity Endpoint", function() {
     });
 
     it("successfully calls the address similarity endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.parameters.address1 = {"city": "cambridge", "state": "ma"};
         api.parameters.address2 = {"city": "Cambridge", "road": "1 Kendall sq."};
@@ -180,7 +174,7 @@ describe("Address Similarity Endpoint", function() {
     });
 
     it("detects missing name parameter", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.parameters.address1 = {"city": "cambridge", "state": "ma"};
 
@@ -197,14 +191,12 @@ describe("Name Deduplication Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-deduplication')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -215,7 +207,7 @@ describe("Name Deduplication Endpoint", function() {
     });
 
     it("successfully calls the name deduplication endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.parameters.names = [
             {"text": "John Smith", "language": "eng", "entityType": "PERSON"},
@@ -232,7 +224,7 @@ describe("Name Deduplication Endpoint", function() {
     });
 
     it("successfully calls the name deduplication endpoint without threshold", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.parameters.names = [
             {"text": "John Smith", "language": "eng", "entityType": "PERSON"},
@@ -248,7 +240,7 @@ describe("Name Deduplication Endpoint", function() {
     });
 
     it("detects missing names parameter", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("nameSimilarity", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -263,14 +255,12 @@ describe("Name Similarity Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-similarity')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -281,7 +271,7 @@ describe("Name Similarity Endpoint", function() {
     });
 
     it("successfully calls the name similarity endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         var name_similarity_data1 = "Michael Jackson";
         var name_similarity_data2 = "迈克尔·杰克逊";
 
@@ -297,7 +287,7 @@ describe("Name Similarity Endpoint", function() {
     });
 
     it("detects missing name parameter", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         var name_similarity_data1 = "Michael Jackson";
 
         api.parameters.name1 = {"text": name_similarity_data1, "language": "eng", "entityType": "PERSON"};
@@ -311,18 +301,77 @@ describe("Name Similarity Endpoint", function() {
     });
 });
 
+describe("Record Similarity Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/record-similarity')
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the record similarity endpoint", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        var records = [];
+        var fields = {};
+
+        api.parameters.records = records;
+        api.parameters.fields = fields;
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects missing records parameter", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects missing fields parameter", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        var records = [];
+        api.parameters.records = records;
+
+        api.rosette("recordSimilarity", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+});
+
 describe("Name Translation Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/name-translation')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -333,7 +382,7 @@ describe("Name Translation Endpoint", function() {
     });
 
     it("successfully calls the name translation endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.name = "Some Name";
         api.parameters.targetLanguage = "zho";
 
@@ -346,7 +395,7 @@ describe("Name Translation Endpoint", function() {
     });
 
     it("detects missing name parameter", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.name = null;
         api.parameters.targetLanguage = null;
 
@@ -360,7 +409,7 @@ describe("Name Translation Endpoint", function() {
     });
 
     it("detects missing targetLanguage parameter", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.name = "Some Name";
 
         api.rosette("nameTranslation", function(err, res) {
@@ -377,14 +426,12 @@ describe("Sentiment Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentiment')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -395,7 +442,7 @@ describe("Sentiment Endpoint", function() {
     });
 
     it("successfully calls the sentiment endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("sentiment", function(err, res) {
@@ -407,9 +454,9 @@ describe("Sentiment Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("sentiment", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -420,7 +467,7 @@ describe("Sentiment Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("sentiment", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -435,14 +482,12 @@ describe("Categories Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/categories')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -453,7 +498,7 @@ describe("Categories Endpoint", function() {
     });
 
     it("successfully calls the categories endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("categories", function(err, res) {
@@ -465,9 +510,9 @@ describe("Categories Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("categories", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -478,7 +523,7 @@ describe("Categories Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("categories", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -494,14 +539,12 @@ describe("Entities Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/entities')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -512,7 +555,7 @@ describe("Entities Endpoint", function() {
     });
 
     it("successfully calls the entities endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("entities", function(err, res) {
@@ -524,9 +567,9 @@ describe("Entities Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("entities", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -537,9 +580,77 @@ describe("Entities Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("entities", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("successfully calls entities with documentFile", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.parameters.documentFile = "tests/test.txt";
+
+        api.rosette("entities", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+    });
+});
+
+describe("Events Endpoint", function() {
+    beforeEach(function(done) {
+        var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/info')
+           .reply(200, JSON.parse(mockResponse));
+
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+           .post('/rest/v1/events')
+           .reply(200, JSON.parse(mockResponse));
+        done();
+    });
+
+    afterEach(function(done) {
+        nock.cleanAll();
+        done();
+    });
+
+    it("successfully calls the events endpoint", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        api.parameters.content = "Some Content";
+
+        api.rosette("events", function(err, res) {
+            chai.expect(err).to.be.null;
+            chai.expect(res.name).to.equal('Rosette API');
+            done();
+        });
+
+    });
+
+    it("detects content and contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        api.parameters.content = "Sample Content";
+        api.parameters.contentUri = "http://example.com";
+
+        api.rosette("events", function(err, res) {
+            chai.expect(err).to.not.be.null;
+            chai.expect(err.name).to.equal('RosetteException');
+            chai.expect(err.message).to.contain('badArgument');
+            done();
+        });
+    });
+
+    it("detects neither content nor contentUri are defined", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+
+        api.rosette("events", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
             chai.expect(err.message).to.contain('badArgument');
@@ -552,14 +663,12 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/morphology/complete')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -570,7 +679,7 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     });
 
     it("successfully calls the morphology endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
         api.parameters.morphology = 'complete';
 
@@ -583,9 +692,9 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
         api.parameters.morphology = 'complete';
 
         api.rosette("morphology", function(err, res) {
@@ -597,7 +706,7 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.morphology = 'complete';
 
         api.rosette("morphology", function(err, res) {
@@ -609,7 +718,7 @@ describe("Morphology Endpoint (suite covers all features)", function() {
     });
 
     it("detects morphology feature is defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
 
         api.rosette("morphology", function(err, res) {
@@ -626,14 +735,12 @@ describe("Tokens Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/tokens')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -644,7 +751,7 @@ describe("Tokens Endpoint", function() {
     });
 
     it("successfully calls the tokens endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("tokens", function(err, res) {
@@ -656,9 +763,9 @@ describe("Tokens Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("tokens", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -669,7 +776,7 @@ describe("Tokens Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("tokens", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -684,14 +791,12 @@ describe("Sentences Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/sentences')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -702,7 +807,7 @@ describe("Sentences Endpoint", function() {
     });
 
     it("successfully calls the sentences endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("sentences", function(err, res) {
@@ -714,9 +819,9 @@ describe("Sentences Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("sentences", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -727,7 +832,7 @@ describe("Sentences Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("sentences", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -742,9 +847,8 @@ describe("Similar Terms Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/semantics/similar')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done()
     });
@@ -755,7 +859,7 @@ describe("Similar Terms Endpoint", function() {
     });
 
     it("successfully calls the similarTerms endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("similarTerms", function(err, res) {
@@ -767,9 +871,9 @@ describe("Similar Terms Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -780,7 +884,7 @@ describe("Similar Terms Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("similarTerms", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -795,9 +899,8 @@ describe("Semantic Vectors Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/semantics/vector')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -808,7 +911,7 @@ describe("Semantic Vectors Endpoint", function() {
     });
 
     it("successfully calls the semanticVectors endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("semanticVectors", function(err, res) {
@@ -820,9 +923,9 @@ describe("Semantic Vectors Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -833,7 +936,7 @@ describe("Semantic Vectors Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("semanticVectors", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -848,14 +951,12 @@ describe("Syntactic Dependencies Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/syntax/dependencies')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -866,7 +967,7 @@ describe("Syntactic Dependencies Endpoint", function() {
     });
 
     it("successfully calls the syntactic dependencies endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("syntax_dependencies", function(err, res) {
@@ -878,9 +979,9 @@ describe("Syntactic Dependencies Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("syntax_dependencies", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -891,7 +992,7 @@ describe("Syntactic Dependencies Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("syntax_dependencies", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -906,14 +1007,12 @@ describe("Transliteration Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/transliteration')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -924,7 +1023,7 @@ describe("Transliteration Endpoint", function() {
     });
 
     it("successfully calls the transliteration endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("transliteration", function(err, res) {
@@ -936,7 +1035,7 @@ describe("Transliteration Endpoint", function() {
     });
 
     it("detects content parameter is not defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("transliteration", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -951,12 +1050,11 @@ describe("Info Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com')
+        nock('https://analytics.babelstreet.com')
            .get('/rest/v1/info')
            .reply(200, JSON.parse(mockResponse));
         done();
@@ -968,7 +1066,7 @@ describe("Info Endpoint", function() {
     });
 
     it("successfully calls the info endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("info", function(err, res) {
             chai.expect(err).to.be.null;
@@ -982,12 +1080,11 @@ describe("Ping Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com')
+        nock('https://analytics.babelstreet.com')
            .get('/rest/v1/ping')
            .reply(200, JSON.parse(mockResponse));
         done();
@@ -999,7 +1096,7 @@ describe("Ping Endpoint", function() {
     });
 
     it("successfully calls the ping endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("ping", function(err, res) {
             chai.expect(err).to.be.null;
@@ -1013,12 +1110,11 @@ describe("Error 409 Incompatible Binding Check", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'code': 'incompatibleBindingVersion', 'message': 'some message'});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(409, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com')
+        nock('https://analytics.babelstreet.com')
            .get('/rest/v1/info')
            .reply(409, JSON.parse(mockResponse));
         done();
@@ -1030,7 +1126,7 @@ describe("Error 409 Incompatible Binding Check", function() {
     });
 
     it("successfully handles the error", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.rosette("info", function(err, res) {
             chai.expect(err).to.not.be.null;
             chai.expect(err.name).to.equal('RosetteException');
@@ -1044,14 +1140,12 @@ describe("Topics Endpoint", function() {
     beforeEach(function(done) {
         var mockResponse = JSON.stringify({'name': 'Rosette API', 'versionChecked': true});
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/info')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
 
-        nock('https://api.rosette.com', {"encodedQueryParams": true })
+        nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
            .post('/rest/v1/topics')
-           .query({"clientVersion": "1.1"})
            .reply(200, JSON.parse(mockResponse));
         done();
     });
@@ -1062,7 +1156,7 @@ describe("Topics Endpoint", function() {
     });
 
     it("successfully calls the topics endpoint", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Some Content";
 
         api.rosette("topics", function(err, res) {
@@ -1074,9 +1168,9 @@ describe("Topics Endpoint", function() {
     });
 
     it("detects content and contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
         api.parameters.content = "Sample Content";
-        api.parameters.contentUri = "http://some.url.com";
+        api.parameters.contentUri = "http://example.com";
 
         api.rosette("topics", function(err, res) {
             chai.expect(err).to.not.be.null;
@@ -1087,7 +1181,7 @@ describe("Topics Endpoint", function() {
     });
 
     it("detects neither content nor contentUri are defined", function(done) {
-        var api = new Api('123456789', 'https://api.rosette.com/rest/v1');
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.rosette("topics", function(err, res) {
             chai.expect(err).to.not.be.null;

@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         }
       }
     },
-     mochaTest: {
+    mochaTest: {
       test: {
         options: {
           reporter: 'spec',
@@ -32,6 +32,17 @@ module.exports = function(grunt) {
           clearRequireCache: false // Optionally clear the require cache before running tests (defaults to false)
         },
         src: ['tests/**/*.js']
+      }
+    },
+    nyc: {
+      cover: {
+        options: {
+          include: ['lib/**/*.js'],
+          reporter: ['html', 'lcov'],
+          reportDir: 'coverage'
+        },
+        cmd: false,
+        args: ['grunt', 'mochaTest']
       }
     },
     'gh-pages': {
@@ -54,14 +65,16 @@ module.exports = function(grunt) {
 
   // These plugins provide necessary tasks.
   grunt.loadNpmTasks("grunt-contrib-clean");
-  grunt.loadNpmTasks("grunt-contrib-watch");;
+  grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks("grunt-jsdoc");
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-gh-pages');
+  grunt.loadNpmTasks('grunt-simple-nyc');
 
   // Task definitions.
   // run `grunt <task>` in command line and it will run the sequence in brackets
-  grunt.registerTask("default", ["clean","jsdoc", "test"]);
+  grunt.registerTask("default", ["clean","jsdoc", "nyc:cover"]);
   grunt.registerTask("doc", ["jsdoc", "gh-pages"]);
   grunt.registerTask("test", ["mochaTest"]);
+  grunt.registerTask("coverage", ["nyc:cover"]);
 };
