@@ -7,10 +7,12 @@ export default [
   {
     languageOptions: {
       globals: globals.node
-    },
-    rules: {
-      'no-unused-vars': 'off' // TODO:  Remove during ESM migration
     }
   },
   pluginJs.configs.recommended,
+  {
+    rules: {
+      'no-unused-vars': 'warn' // TODO:  Remove during ESM migration
+    }
+  }
 ];
