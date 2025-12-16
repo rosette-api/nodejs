@@ -28,6 +28,18 @@ var fields = {
     "dob2": {
         "type": "rni_date",
         "weight": 0.1
+    },
+    "jobTitle": {
+        "type": "rni_string",
+        "weight": 0.2
+    },
+    "age": {
+        "type": "rni_number",
+        "weight": 0.4
+    },
+    "isRetired": {
+        "type": "rni_boolean",
+        "weight": 0.05
     }
 }
 var records = {
@@ -45,7 +57,8 @@ var records = {
             "dob2": {
                 "date": "04161993",
                 "format": "MMddyyyy"
-            }
+            },
+            "jobTitle": "software engineer"
         },
         {
             "dob": {
@@ -53,7 +66,9 @@ var records = {
             },
             "primaryName": {
                 "text": "Evan R"
-            }
+            },
+            "age": 47,
+            "isRetired": false
         }
     ],
     "right": [
@@ -64,7 +79,9 @@ var records = {
             "primaryName": {
                 "text": "Seth R",
                 "language": "eng"
-            }
+            },
+            "jobTitle": "manager",
+            "isRetired": true
         },
         {
             "primaryName": "Ivan R",
@@ -77,7 +94,9 @@ var records = {
             },
             "dob2": {
                 "date": "1993/04/16"
-            }
+            },
+            "age": 72,
+            "isRetired": true
         }
     ]
 }
@@ -85,7 +104,8 @@ var properties = {
     "parameters": {
         "rightBoostTokens": 1,
         "staticBoostValue": 5
-    }
+    },
+    "includeExplainInfo": true
 }
 
 api.parameters.records = records;
