@@ -10,7 +10,7 @@ A note on prerequisites. Analytics API only supports TLS 1.2 so ensure your tool
 ```
 git clone git@github.com:rosette-api/nodejs.git
 cd nodejs/examples
-docker run -it --entrypoint sh -v $(pwd):/examples node:12-alpine
+docker run -it --entrypoint sh -v $(pwd):/examples node:22-alpine
 cd /examples
 npm install rosette-api argparse
 sed -i s',require("../lib/Api"),require("rosette-api"),' ping.js
@@ -21,7 +21,7 @@ node ping.js --key $API_KEY
 ```
 git clone git@github.com:rosette-api/nodejs.git
 cd nodejs
-docker run -it --entrypoint sh -v $(pwd):/source node:12-alpine
+docker run -it --entrypoint sh -v $(pwd):/source node:22-alpine
 cd /source
 npm install
 cd examples

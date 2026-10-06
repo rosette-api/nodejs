@@ -1,6 +1,6 @@
 node ("docker-light") {
     def sourceDir = pwd()
-    def nodeVersions = ["18", "20", "22", "23"]
+    def nodeVersions = ["22", "24", "26"]
     try {
         stage("Clean up") {
             step([$class: 'WsCleanup'])
@@ -22,7 +22,7 @@ node ("docker-light") {
                 }
 
                 nodeVersions.each { version ->
-                    if (version == "23") {
+                    if (version == "24") {
                         sonarScannerVersion="6.2.1.4610-linux-x64"
                         sonarExec="cd /root/ && \
                                    wget -q https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${sonarScannerVersion}.zip && \
