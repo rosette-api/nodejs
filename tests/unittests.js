@@ -336,6 +336,34 @@ describe("Record Similarity Endpoint", function() {
 
     });
 
+    it("sends comparisonMethod to the record similarity endpoint", function(done) {
+        var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
+        api.parameters.records = [];
+        api.parameters.fields = {};
+        api.parameters.comparisonMethod = "n_to_m";
+
+        // Replace the permissive setup mock with an exact request-body expectation.
+        nock.cleanAll();
+        var scope = nock('https://analytics.babelstreet.com', {"encodedQueryParams": true })
+            .post('/rest/v1/record-similarity', {
+                records: [],
+                fields: {},
+                comparisonMethod: "n_to_m"
+            })
+            .reply(200, {'name': 'Rosette API', 'versionChecked': true});
+
+        api.rosette("recordSimilarity", function(err, res) {
+            try {
+                chai.expect(err).to.be.null;
+                chai.expect(res.name).to.equal('Rosette API');
+                chai.expect(scope.isDone()).to.be.true;
+                done();
+            } catch (error) {
+                done(error);
+            }
+        });
+    });
+
     it("detects missing records parameter", function(done) {
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
@@ -591,14 +619,45 @@ describe("Entities Endpoint", function() {
     });
 
     it("successfully calls entities with documentFile", function(done) {
+        nock.cleanAll();
+        nock('https://analytics.babelstreet.com')
+            .post('/rest/v1/info')
+            .reply(200, {name: 'Rosette API', versionChecked: true});
+
+        var uploadBody;
+        var scope = nock('https://analytics.babelstreet.com')
+            .post('/rest/v1/entities')
+            .reply(200, function(uri, body) {
+                uploadBody = body;
+                return {name: 'Rosette API', versionChecked: true};
+            });
         var api = new Api('123456789', 'https://analytics.babelstreet.com/rest/v1');
 
         api.parameters.documentFile = "tests/test.txt";
 
         api.rosette("entities", function(err, res) {
-            chai.expect(err).to.be.null;
-            chai.expect(res.name).to.equal('Rosette API');
-            done();
+            try {
+                chai.expect(err).to.be.null;
+                chai.expect(res.name).to.equal('Rosette API');
+                chai.expect(scope.isDone()).to.be.true;
+                chai.expect(uploadBody).to.be.a('string');
+                var match = /^--([^\r\n]+)\r\n/.exec(uploadBody);
+                chai.expect(match).to.not.be.null;
+                var boundary = match[1];
+                var expectedBody = `--${boundary}\r\n` +
+                    'Content-Type: application/json\r\n' +
+                    'Content-Disposition: mixed; name="request"\r\n\r\n' +
+                    JSON.stringify(api.parameters.loadParams()) +
+                    `\r\n--${boundary}\r\n` +
+                    'Content-Type: text/plain\r\n' +
+                    'Content-Disposition: mixed; name="content"; filename="test.txt"\r\n\r\n' +
+                    fs.readFileSync(api.parameters.documentFile, 'utf8') +
+                    `\r\n--${boundary}--`;
+                chai.expect(uploadBody).to.equal(expectedBody);
+                done();
+            } catch (error) {
+                done(error);
+            }
         });
     });
 });

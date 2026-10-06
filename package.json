@@ -1,6 +1,6 @@
 {
   "name": "rosette-api",
-  "version": "1.31.0",
+  "version": "1.39.0",
   "description": "Babel Street Analytics API Node.js client SDK",
   "main": "index",
   "directories": {
@@ -37,7 +37,7 @@
   },
   "license": "Apache-2.0",
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "bugs": {
     "url": "https://github.com/rosette-api/nodejs/issues"
@@ -61,6 +61,14 @@
     "nock": "^13.5.5",
     "nyc": "^17.1.0",
     "temporary": "1.1.0"
+  },
+  "overrides": {
+    "uuid": "^11.1.1",
+    "serialize-javascript": "^7.0.4",
+    "minimatch": "^3.1.3",
+    "js-yaml": "^3.15.0",
+    "cross-spawn": "^6.0.6",
+    "jsdoc": "^4.0.0"
   },
   "dependencies": {
     "multipart-stream": "^2.0.1"
